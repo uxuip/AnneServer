@@ -1,0 +1,491 @@
+L 07/02/2021 - 00:00:17: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/l4d2/left4dead2/addons/sourcemod/logs/L20210702.log") (Version "1.10.0.6495")
+L 07/02/2021 - 00:00:17: [optional/l4d2_skill_detect.smx] Clear: 9 freed 5 from 8: time: -1.00 / 0.50 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:00:42: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 3: time: -1.00 / 0.91 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:00:45: [optional/l4d2_skill_detect.smx] Charge carry start: 10 - 9 -- time: 175.58
+L 07/02/2021 - 00:00:48: [optional/l4d2_skill_detect.smx] Clear: 1 freed 9 from 10: time: 0.61 / 2.58 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:00:50: [optional/l4d2_skill_detect.smx] Checking charge victim: 10 - 9 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:01:24: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:01:39: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 1.77 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:02:15: [optional/l4d2_skill_detect.smx] Clear: 4 freed 4 from 6: time: -1.00 / 0.00 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:02:34: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 7: time: 0.58 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:02:35: [optional/l4d2_skill_detect.smx] Charge carry start: 10 - 1 -- time: 282.04
+L 07/02/2021 - 00:02:37: [optional/l4d2_skill_detect.smx] Clear: 9 freed 1 from 10: time: 0.89 / 2.86 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:02:38: [optional/l4d2_skill_detect.smx] Checking charge victim: 10 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:03:05: [optional/l4d2_skill_detect.smx] Clear: 1 freed 9 from 2: time: -1.00 / 2.58 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:03:14: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 10: time: 1.60 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:03:30: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:03:42: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 6: time: 1.16 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:04:42: [optional/l4d2_skill_detect.smx] Clear: 9 freed 4 from 10: time: -1.00 / 0.66 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:04:43: [optional/l4d2_skill_detect.smx] Clear: 9 freed 5 from 8: time: 1.08 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:05:01: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 6: time: 0.64 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:05:03: [optional/l4d2_skill_detect.smx] Charge carry start: 8 - 5 -- time: 430.35
+L 07/02/2021 - 00:05:04: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 8: time: 0.00 / 0.98 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:05:07: [optional/l4d2_skill_detect.smx] Checking charge victim: 8 - 5 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:05:24: [optional/l4d2_skill_detect.smx] Clear: 1 freed 9 from 8: time: -1.00 / 0.56 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:05:27: [optional/l4d2_skill_detect.smx] Charge carry start: 6 - 9 -- time: 453.95
+L 07/02/2021 - 00:05:31: [optional/l4d2_skill_detect.smx] Checking charge victim: 6 - 4 - flags: 0 (alive? 1)
+L 07/02/2021 - 00:05:31: [optional/l4d2_skill_detect.smx] Checking charge victim: 6 - 9 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:05:45: [optional/l4d2_skill_detect.smx] Charge carry start: 8 - 4 -- time: 472.59
+L 07/02/2021 - 00:05:48: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 8: time: 1.55 / 2.54 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:05:49: [optional/l4d2_skill_detect.smx] Checking charge victim: 8 - 4 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:05:53: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 10: time: 2.05 / 4.25 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:06:42: [optional/l4d2_skill_detect.smx] Clear: 4 freed 5 from 2: time: 4.55 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:06:45: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 8: time: 2.73 / 3.84 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:07:07: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 8: time: 4.02 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:07:26: [optional/l4d2_skill_detect.smx] Charge carry start: 6 - 5 -- time: 573.20
+L 07/02/2021 - 00:07:30: [optional/l4d2_skill_detect.smx] Checking charge victim: 6 - 5 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:07:30: [optional/l4d2_skill_detect.smx] Clear: 9 freed 5 from 8: time: 1.11 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:07:36: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 7: time: -1.00 / 1.38 -- class: smoker (with shove? 1)
+L 07/02/2021 - 00:07:57: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 7: time: 0.96 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:07:59: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 8: time: 1.32 / -1.00 -- class: hunter (with shove? 1)
+L 07/02/2021 - 00:08:05: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 2: time: 0.07 / 4.05 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:08:21: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 6: time: 1.21 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:08:44: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 6: time: 0.84 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:09:27: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 852, harrassed: 1 (full health: 1000 / drawthresh: 500 / oneshot 0)
+L 07/02/2021 - 00:09:35: [optional/l4d2_skill_detect.smx] Clear: 9 freed 1 from 6: time: 0.54 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:10:03: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 8: time: 0.53 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:10:09: [optional/l4d2_skill_detect.smx] Clear: 9 freed 9 from 6: time: -1.00 / 0.61 -- class: smoker (with shove? 1)
+L 07/02/2021 - 00:10:25: -------- Mapchange to c5m3_cemetery --------
+L 07/02/2021 - 00:10:28: [optional/servercleanup.smx] Deleted file "addons/sourcemod/logs/L20210630.log"
+L 07/02/2021 - 00:10:28: [optional/servercleanup.smx] Deleted file "addons/sourcemod/logs/errors_20210701.log"
+L 07/02/2021 - 00:10:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:11:14: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 2: time: 0.93 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:11:16: [optional/l4d2_skill_detect.smx] Clear: 9 freed 4 from 7: time: 0.88 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:11:19: [optional/l4d2_skill_detect.smx] Clear: 9 freed 4 from 3: time: -1.00 / 1.24 -- class: smoker (with shove? 1)
+L 07/02/2021 - 00:11:38: [optional/l4d2_skill_detect.smx] Clear: 9 freed 4 from 8: time: 1.14 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:11:43: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 6: time: 1.98 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:12:04: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 2: time: 0.06 / 1.58 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:12:05: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 6: time: 1.87 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:12:09: [optional/l4d2_skill_detect.smx] Clear: 9 freed 5 from 7: time: 3.12 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:12:28: [optional/l4d2_skill_detect.smx] Clear: 9 freed 4 from 2: time: 1.92 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:12:29: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 0.69 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:12:30: [optional/l4d2_skill_detect.smx] Clear: 9 freed 4 from 7: time: 0.35 / 123.25 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:12:45: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 910, harrassed: 0 (full health: 1000 / drawthresh: 500 / oneshot 1)
+L 07/02/2021 - 00:12:56: [optional/l4d2_skill_detect.smx] Clear: 4 freed 5 from 2: time: 0.66 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:13:05: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 3: time: -1.00 / 0.77 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:13:34: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 6: time: 1.86 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:13:35: [optional/l4d2_skill_detect.smx] Clear: 9 freed 9 from 2: time: -1.00 / 0.00 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:13:44: [optional/l4d2_skill_detect.smx] Clear: 5 freed 9 from 2: time: 0.66 / 4.74 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:14:08: [optional/l4d2_skill_detect.smx] calarm trigger: caller 1147 / activator 1147 / delay: 0.00
+L 07/02/2021 - 00:14:09: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 6: time: -1.00 / 2.36 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:14:13: [optional/l4d2_skill_detect.smx] Clear: 9 freed 1 from 7: time: 1.11 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:14:15: [optional/l4d2_skill_detect.smx] Clear: 4 freed 5 from 8: time: 6.05 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:14:20: [optional/l4d2_skill_detect.smx] calarm trigger: caller 1179 / activator 1179 / delay: 0.00
+L 07/02/2021 - 00:14:23: [optional/l4d2_skill_detect.smx] calarm trigger: caller 1195 / activator 1195 / delay: 0.00
+L 07/02/2021 - 00:14:36: [optional/l4d2_skill_detect.smx] Clear: 1 freed 9 from 2: time: -1.00 / 2.57 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:15:10: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 7: time: 1.25 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:15:25: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 7: time: 0.61 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:15:37: [optional/l4d2_skill_detect.smx] Clear: 4 freed 5 from 10: time: 1.60 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:15:50: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 3: time: 1.14 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:15:54: [optional/l4d2_skill_detect.smx] Clear: 9 freed 5 from 7: time: 1.97 / 3.22 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:16:24: [optional/l4d2_skill_detect.smx] Clear: 9 freed 1 from 7: time: 1.07 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:16:57: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 8: time: 2.97 / 4.98 -- class: smoker (with shove? 1)
+L 07/02/2021 - 00:17:08: [optional/l4d2_skill_detect.smx] Clear: 9 freed 5 from 7: time: 3.60 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:18:06: -------- Mapchange to c5m4_quarter --------
+L 07/02/2021 - 00:18:10: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:19:03: [optional/l4d2_skill_detect.smx] Clear: 9 freed 5 from 6: time: 0.92 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:19:19: [optional/l4d2_skill_detect.smx] Clear: 9 freed 1 from 7: time: 0.73 / 70.43 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:20:15: [optional/l4d2_skill_detect.smx] Clear: 9 freed 9 from 3: time: -1.00 / 0.04 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:20:48: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 8: time: 1.75 / 158.83 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:20:53: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 3.70 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:21:02: [optional/l4d2_skill_detect.smx] Clear: 9 freed 4 from 8: time: 1.44 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:21:43: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 2: time: 0.88 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:21:50: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 2: time: -1.00 / 1.94 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:21:52: [optional/l4d2_skill_detect.smx] Clear: 5 freed 9 from 3: time: 1.02 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:22:02: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 6: time: 3.25 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:22:17: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 1 -- time: 248.42
+L 07/02/2021 - 00:22:19: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 7: time: 0.41 / 1.63 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:22:21: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:22:45: [optional/l4d2_skill_detect.smx] Clear: 4 freed 9 from 6: time: 0.91 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:23:18: [optional/l4d2_skill_detect.smx] Clear: 9 freed 5 from 6: time: -1.00 / 0.61 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:23:29: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 1 -- time: 320.52
+L 07/02/2021 - 00:23:33: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:23:33: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 4 - flags: 0 (alive? 1)
+L 07/02/2021 - 00:23:34: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 3: time: 1.67 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:23:41: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 8: time: 1.26 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:23:44: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 2: time: -1.00 / 2.26 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:23:57: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 2: time: -1.00 / 1.55 -- class: smoker (with shove? 0)
+L 07/02/2021 - 00:24:01: [optional/l4d2_skill_detect.smx] Clear: 9 freed 1 from 6: time: 1.47 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 00:24:02: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 8: time: 1.41 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 00:24:23: [optional/l4d2_skill_detect.smx] Clear: 9 freed 4 from 6: time: -1.00 / 1.41 -- class: smoker (with shove? 1)
+L 07/02/2021 - 00:24:25: [optional/l4d2_skill_detect.smx] Charge carry start: 2 - 9 -- time: 375.82
+L 07/02/2021 - 00:24:28: [optional/l4d2_skill_detect.smx] Clear: 5 freed 9 from 2: time: 1.21 / 3.02 -- class: charger (with shove? 0)
+L 07/02/2021 - 00:24:29: [optional/l4d2_skill_detect.smx] Checking charge victim: 2 - 9 - flags: 1 (alive? 1)
+L 07/02/2021 - 00:25:02: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:29:03: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/l4d2/left4dead2/addons/sourcemod/logs/L20210702.log") (Version "1.10.0.6495")
+L 07/02/2021 - 00:29:03: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 00:29:05: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:45:16: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 00:45:18: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:47:03: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 00:47:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:48:21: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 940, harrassed: 1 (full health: 1000 / drawthresh: 500 / oneshot 0)
+L 07/02/2021 - 00:48:58: -------- Mapchange to c5m2_park --------
+L 07/02/2021 - 00:49:01: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:51:51: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 00:53:37: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/l4d2/left4dead2/addons/sourcemod/logs/L20210702.log") (Version "1.10.0.6495")
+L 07/02/2021 - 00:53:37: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 00:53:39: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 01:07:02: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 01:07:05: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 01:07:51: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 9: time: 0.97 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 01:08:16: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 9: time: 0.28 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:08:41: [optional/l4d2_skill_detect.smx] Clear: 3 freed 4 from 7: time: 2.72 / -1.00 -- class: hunter (with shove? 1)
+L 07/02/2021 - 01:08:42: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 8: time: 2.77 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:09:04: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 5: time: 0.50 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:09:06: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 9: time: 1.75 / -1.00 -- class: hunter (with shove? 1)
+L 07/02/2021 - 01:09:10: [optional/l4d2_skill_detect.smx] Clear: 2 freed 4 from 9: time: 1.12 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:09:27: [optional/l4d2_skill_detect.smx] Clear: 3 freed 3 from 6: time: -1.00 / 0.38 -- class: smoker (with shove? 1)
+L 07/02/2021 - 01:10:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 01:10:47: [optional/l4d2_skill_detect.smx] Clear: 6 freed 2 from 9: time: 1.47 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:10:50: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 3 -- time: 226.62
+L 07/02/2021 - 01:10:51: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 7: time: 0.25 / 1.60 -- class: charger (with shove? 0)
+L 07/02/2021 - 01:10:53: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 3 - flags: 1 (alive? 1)
+L 07/02/2021 - 01:10:56: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 6 - flags: 0 (alive? 1)
+L 07/02/2021 - 01:10:59: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 8: time: 1.25 / 3.97 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:11:04: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 917, harrassed: 0 (full health: 1000 / drawthresh: 500 / oneshot 1)
+L 07/02/2021 - 01:11:19: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 10: time: 2.50 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:11:47: [optional/l4d2_skill_detect.smx] Clear: 3 freed 1 from 6: time: 0.86 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:12:00: [optional/l4d2_skill_detect.smx] Clear: 3 freed 1 from 6: time: 0.65 / 1.93 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:12:10: [optional/l4d2_skill_detect.smx] Charge carry start: 9 - 3 -- time: 306.82
+L 07/02/2021 - 01:12:13: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 9: time: 1.66 / 3.33 -- class: charger (with shove? 0)
+L 07/02/2021 - 01:12:14: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 3 - flags: 1 (alive? 1)
+L 07/02/2021 - 01:12:31: [optional/l4d2_skill_detect.smx] Clear: 3 freed 1 from 6: time: 0.72 / 7.72 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:13:08: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 01:14:56: [optional/l4d2_skill_detect.smx] Clear: 3 freed 1 from 9: time: 0.97 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:14:58: [optional/l4d2_skill_detect.smx] Clear: 3 freed 2 from 5: time: 1.47 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:15:11: [optional/l4d2_skill_detect.smx] Witch Crown Check: Failed: bungled: 1 / crowntype: 0 (entity: 378)
+L 07/02/2021 - 01:15:11: [optional/l4d2_skill_detect.smx] Witch Crown Check: Further details: attacker: Min, attacker dmg: 272, teamless dmg: 0
+L 07/02/2021 - 01:15:19: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 8: time: 1.01 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 01:15:21: [optional/l4d2_skill_detect.smx] Clear: 3 freed 4 from 9: time: 2.02 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:15:24: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 6: time: 1.09 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:15:47: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 7: time: -1.00 / 1.88 -- class: smoker (with shove? 1)
+L 07/02/2021 - 01:16:13: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 2 -- time: 549.39
+L 07/02/2021 - 01:16:16: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 2 - flags: 1 (alive? 1)
+L 07/02/2021 - 01:16:22: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 10: time: -1.00 / 2.40 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:16:37: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 11: time: 1.13 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:16:46: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 7: time: -1.00 / 4.48 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:17:08: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 6: time: 0.77 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 01:17:24: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 7: time: -1.00 / 1.36 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:17:51: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 7: time: 0.94 / 647.04 -- class: charger (with shove? 0)
+L 07/02/2021 - 01:17:52: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 9: time: 0.73 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:18:06: -------- Mapchange to c5m2_park --------
+L 07/02/2021 - 01:18:09: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 01:19:03: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 8: time: 1.03 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:19:22: [optional/l4d2_skill_detect.smx] Clear: 3 freed 1 from 7: time: 0.54 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 01:19:23: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 9: time: 2.62 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:19:46: [optional/l4d2_skill_detect.smx] Clear: 3 freed 1 from 4: time: -1.00 / 2.04 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:20:14: [optional/l4d2_skill_detect.smx] Clear: 3 freed 2 from 4: time: -1.00 / 3.56 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:20:17: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 7: time: 1.36 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:20:37: [optional/l4d2_skill_detect.smx] Clear: 3 freed 5 from 11: time: -1.00 / 2.71 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:20:47: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 7: time: 0.93 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 01:21:04: [optional/l4d2_skill_detect.smx] Clear: 4 freed 3 from 6: time: 0.35 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:21:07: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 7: time: 0.80 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:22:47: [optional/l4d2_skill_detect.smx] Clear: 3 freed 5 from 6: time: 0.64 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:23:33: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 6: time: 0.36 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:24:08: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 2: time: -1.00 / 1.86 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:25:15: [optional/l4d2_skill_detect.smx] Clear: 4 freed 5 from 6: time: 0.32 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:25:30: [optional/l4d2_skill_detect.smx] Witch Crown Check: Failed: bungled: 0 / crowntype: 0 (entity: 157)
+L 07/02/2021 - 01:25:30: [optional/l4d2_skill_detect.smx] Witch Crown Check: Further details: attacker: 阿驴, attacker dmg: 188, teamless dmg: 0
+L 07/02/2021 - 01:26:00: [optional/l4d2_skill_detect.smx] Charge carry start: 9 - 5 -- time: 473.11
+L 07/02/2021 - 01:26:03: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 5 - flags: 1 (alive? 1)
+L 07/02/2021 - 01:26:03: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 4 - flags: 0 (alive? 1)
+L 07/02/2021 - 01:26:10: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 9: time: 8.62 / 9.79 -- class: charger (with shove? 0)
+L 07/02/2021 - 01:26:11: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 6: time: 5.57 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:26:25: [optional/l4d2_skill_detect.smx] Clear: 1 freed 1 from 6: time: -1.00 / 0.91 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:26:33: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 8: time: 0.57 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:26:52: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 9: time: 0.84 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:27:09: -------- Mapchange to c5m3_cemetery --------
+L 07/02/2021 - 01:27:12: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 01:27:51: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 7: time: 1.18 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 01:27:52: [optional/l4d2_skill_detect.smx] Clear: 6 freed 3 from 8: time: 3.22 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:28:00: [optional/l4d2_skill_detect.smx] Charge carry start: 2 - 6 -- time: 50.21
+L 07/02/2021 - 01:28:05: [optional/l4d2_skill_detect.smx] Checking charge victim: 2 - 6 - flags: 1 (alive? 1)
+L 07/02/2021 - 01:28:17: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 9: time: 0.35 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:28:42: [optional/l4d2_skill_detect.smx] Charge carry start: 9 - 6 -- time: 91.86
+L 07/02/2021 - 01:28:45: [optional/l4d2_skill_detect.smx] Clear: 3 freed 6 from 9: time: 1.67 / 3.28 -- class: charger (with shove? 0)
+L 07/02/2021 - 01:28:46: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 6 - flags: 1 (alive? 1)
+L 07/02/2021 - 01:29:05: [optional/l4d2_skill_detect.smx] Clear: 1 freed 6 from 8: time: 1.56 / 114.50 -- class: charger (with shove? 0)
+L 07/02/2021 - 01:30:06: [optional/l4d2_skill_detect.smx] Clear: 3 freed 4 from 11: time: 1.46 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 01:30:14: [optional/l4d2_skill_detect.smx] Clear: 3 freed 4 from 10: time: 1.21 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:30:21: [optional/l4d2_skill_detect.smx] Clear: 5 freed 4 from 2: time: 0.68 / 2.52 -- class: smoker (with shove? 1)
+L 07/02/2021 - 01:30:54: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 2: time: 0.07 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:31:08: [optional/l4d2_skill_detect.smx] Clear: 3 freed 4 from 9: time: 2.05 / 2.07 -- class: smoker (with shove? 0)
+L 07/02/2021 - 01:31:10: [optional/l4d2_skill_detect.smx] Clear: 3 freed 4 from 7: time: 0.52 / 239.26 -- class: charger (with shove? 0)
+L 07/02/2021 - 01:31:14: [optional/l4d2_skill_detect.smx] Clear: 3 freed 7 from 8: time: 1.33 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:31:36: [optional/l4d2_skill_detect.smx] Clear: 1 freed 7 from 6: time: 0.91 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:31:52: [optional/l4d2_skill_detect.smx] Clear: 1 freed 7 from 4: time: -1.00 / 1.02 -- class: smoker (with shove? 1)
+L 07/02/2021 - 01:32:31: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 7: time: 0.54 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:32:59: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 1 -- time: 348.28
+L 07/02/2021 - 01:33:00: [optional/l4d2_skill_detect.smx] Clear: 3 freed 1 from 7: time: 0.00 / 0.96 -- class: charger (with shove? 0)
+L 07/02/2021 - 01:33:03: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 01:33:09: [optional/l4d2_skill_detect.smx] Clear: 3 freed 1 from 9: time: 1.19 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:33:11: [optional/l4d2_skill_detect.smx] Clear: 1 freed 1 from 10: time: -1.00 / 0.89 -- class: smoker (with shove? 1)
+L 07/02/2021 - 01:33:20: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 8: time: 2.05 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 01:33:37: [optional/l4d2_skill_detect.smx] calarm trigger: caller 1131 / activator 1131 / delay: 0.00
+L 07/02/2021 - 01:33:44: [optional/l4d2_skill_detect.smx] calarm trigger: caller 1099 / activator 1099 / delay: 0.00
+L 07/02/2021 - 01:33:53: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 01:35:42: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/l4d2/left4dead2/addons/sourcemod/logs/L20210702.log") (Version "1.10.0.6495")
+L 07/02/2021 - 01:35:42: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 01:35:44: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 02:04:39: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 02:04:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 02:05:21: -------- Mapchange to c2m1_highway --------
+L 07/02/2021 - 02:05:24: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 02:05:55: -------- Mapchange to c2m1_highway --------
+L 07/02/2021 - 02:05:58: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 02:18:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 02:19:07: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/l4d2/left4dead2/addons/sourcemod/logs/L20210702.log") (Version "1.10.0.6495")
+L 07/02/2021 - 02:19:07: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 02:19:10: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 08:56:12: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 08:56:16: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 08:57:11: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 08:57:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 08:58:42: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 08:58:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 08:59:57: [optional/l4d2_skill_detect.smx] Clear: 4 freed 3 from 5: time: 1.09 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 08:59:57: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 6: time: 2.89 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:00:09: [optional/l4d2_skill_detect.smx] Charge carry start: 9 - 1 -- time: 86.11
+L 07/02/2021 - 09:00:13: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:00:13: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 9: time: 2.52 / 4.20 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:00:22: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 910, harrassed: 1 (full health: 1000 / drawthresh: 500 / oneshot 0)
+L 07/02/2021 - 09:00:38: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 7: time: 1.88 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:00:40: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 10: time: 3.25 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:01:05: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 9: time: 5.18 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:01:25: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 4 -- time: 161.36
+L 07/02/2021 - 09:01:28: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 4 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:01:28: [optional/l4d2_skill_detect.smx] Clear: 1 freed 4 from 7: time: 2.27 / 3.55 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:01:55: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 9: time: -1.00 / 0.89 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:02:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:03:12: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 9: time: 0.33 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:03:15: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 7: time: 0.98 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:03:39: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 6: time: 2.37 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:03:57: [optional/l4d2_skill_detect.smx] Clear: 5 freed 5 from 6: time: -1.00 / 0.00 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:04:26: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 7: time: 3.45 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:05:05: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:05:26: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 4: time: 0.79 / 0.79 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:05:43: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 1 -- time: 419.39
+L 07/02/2021 - 09:05:43: [optional/l4d2_skill_detect.smx] Clear: 1 freed 1 from 7: time: 0.00 / 0.00 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:05:46: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:05:46: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 9: time: 1.44 / 3.80 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:05:52: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 4: time: 10.67 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:06:07: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 3: time: -1.00 / 2.35 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:06:08: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 5 -- time: 444.25
+L 07/02/2021 - 09:06:10: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 7: time: 0.35 / 1.86 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:06:12: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 5 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:06:19: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 935, harrassed: 1 (full health: 1000 / drawthresh: 500 / oneshot 0)
+L 07/02/2021 - 09:06:31: [optional/l4d2_skill_detect.smx] Charge carry start: 10 - 8 -- time: 467.47
+L 07/02/2021 - 09:06:33: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 9: time: 2.44 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:06:34: [optional/l4d2_skill_detect.smx] Checking charge victim: 10 - 8 - flags: 1 (alive? 0)
+L 07/02/2021 - 09:06:35: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 7: time: 2.33 / 5.51 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:06:37: [optional/l4d2_skill_detect.smx] Clear: 2 freed 11 from 10: time: 4.79 / 5.54 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:06:40: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 5.40 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:06:57: [optional/l4d2_skill_detect.smx] Clear: 1 freed 11 from 3: time: -1.00 / 1.76 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:07:01: [optional/l4d2_skill_detect.smx] Charge carry start: 9 - 11 -- time: 497.12
+L 07/02/2021 - 09:07:04: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 11 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:07:09: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 7: time: 0.77 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:07:22: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 11: time: -1.00 / 0.96 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:07:56: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:08:14: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 9: time: 1.10 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:08:15: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 4: time: 0.82 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:08:34: [optional/l4d2_skill_detect.smx] Clear: 2 freed 5 from 4: time: -1.00 / 1.57 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:08:38: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 9: time: 1.60 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:08:42: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 3: time: 7.10 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:08:59: [optional/l4d2_skill_detect.smx] Clear: 2 freed 5 from 6: time: -1.00 / 1.30 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:09:01: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 10: time: 0.74 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:09:08: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 946, harrassed: 1 (full health: 1000 / drawthresh: 500 / oneshot 0)
+L 07/02/2021 - 09:09:14: [optional/l4d2_skill_detect.smx] Clear: 2 freed 5 from 9: time: 1.23 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:09:25: [optional/l4d2_skill_detect.smx] Charge carry start: 6 - 2 -- time: 640.70
+L 07/02/2021 - 09:09:28: [optional/l4d2_skill_detect.smx] Checking charge victim: 6 - 2 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:09:30: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 6: time: 3.49 / 4.69 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:10:03: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:10:21: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 7: time: 0.63 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:10:32: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 967, harrassed: 1 (full health: 1000 / drawthresh: 500 / oneshot 0)
+L 07/02/2021 - 09:10:42: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 6: time: 1.13 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:10:44: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 7: time: 0.75 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:11:08: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 7: time: -1.00 / 0.25 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:11:31: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 9: time: 0.87 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:11:34: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 6: time: 1.00 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:11:58: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 4: time: 1.36 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:12:06: [optional/l4d2_skill_detect.smx] Charge carry start: 10 - 8 -- time: 801.64
+L 07/02/2021 - 09:12:09: [optional/l4d2_skill_detect.smx] Checking charge victim: 10 - 8 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:12:10: [optional/l4d2_skill_detect.smx] Clear: 5 freed 8 from 10: time: 2.86 / 3.64 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:12:19: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 3: time: -1.00 / 0.90 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:12:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:12:55: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 9: time: 0.60 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:13:00: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 7: time: 1.22 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:13:15: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 815, harrassed: 1 (full health: 1000 / drawthresh: 500 / oneshot 0)
+L 07/02/2021 - 09:13:21: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 3: time: 1.55 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:13:23: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 7: time: 2.66 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:13:31: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 6: time: 1.17 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:13:43: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 6: time: 0.89 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:13:50: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 9: time: 0.91 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:14:08: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 4: time: -1.00 / 1.45 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:14:32: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 10: time: 2.41 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:14:40: [optional/l4d2_skill_detect.smx] Clear: 2 freed 8 from 4: time: 1.98 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:14:56: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 7: time: 11.73 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:15:03: [optional/l4d2_skill_detect.smx] Charge carry start: 10 - 1 -- time: 978.54
+L 07/02/2021 - 09:15:06: [optional/l4d2_skill_detect.smx] Checking charge victim: 10 - 1 - flags: 1 (alive? 0)
+L 07/02/2021 - 09:15:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:15:30: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 7: time: 1.70 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:15:55: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 3: time: 1.78 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:15:58: [optional/l4d2_skill_detect.smx] Charge carry start: 10 - 8 -- time: 1033.48
+L 07/02/2021 - 09:15:58: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 0.95 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:16:03: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 10: time: 1.47 / 4.18 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:16:03: [optional/l4d2_skill_detect.smx] Checking charge victim: 10 - 8 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:16:20: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 9: time: 0.67 / 1054.78 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:16:21: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 4: time: 0.92 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:16:24: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 7: time: 7.13 / 9.11 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:16:39: [optional/l4d2_skill_detect.smx] Witch Crown Check: Failed: bungled: 1 / crowntype: 1 (entity: 248)
+L 07/02/2021 - 09:16:39: [optional/l4d2_skill_detect.smx] Witch Crown Check: Further details: attacker: RookieGarfied, attacker dmg: 338, teamless dmg: 0
+L 07/02/2021 - 09:16:45: [optional/l4d2_skill_detect.smx] Clear: 5 freed 8 from 3: time: 0.69 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:17:33: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 1.06 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:17:52: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:18:11: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 7: time: 0.39 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:18:19: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 9: time: -1.00 / 1.51 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:18:39: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 3: time: 2.29 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:18:41: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 7: time: 0.57 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:18:58: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 3: time: 1.20 / 1.93 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:18:59: [optional/l4d2_skill_detect.smx] Clear: 2 freed 8 from 9: time: 0.69 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:19:05: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 7: time: 2.19 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:19:18: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 918, harrassed: 0 (full health: 1000 / drawthresh: 500 / oneshot 1)
+L 07/02/2021 - 09:19:24: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 7: time: -1.00 / 2.70 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:19:29: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 6: time: 0.18 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:19:51: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 0.22 / 3.44 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:20:27: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 6: time: 8.46 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:20:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:20:57: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 6: time: 1.00 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:21:10: [optional/l4d2_skill_detect.smx] Witch Crown Check: crown shot: 927, harrassed: 1 (full health: 1000 / drawthresh: 500 / oneshot 0)
+L 07/02/2021 - 09:21:15: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 3: time: -1.00 / 0.29 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:21:16: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 9: time: 1.09 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:21:19: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 4: time: 0.85 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:21:30: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 3: time: -1.00 / 1.84 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:21:40: [optional/l4d2_skill_detect.smx] Clear: 2 freed 5 from 9: time: 0.94 / 2.63 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:21:44: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 2.76 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:22:00: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 7: time: 5.21 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:22:23: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 0.47 / 2.86 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:22:42: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 9: time: 1.46 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:22:57: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 9: time: 0.79 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:23:04: [optional/l4d2_skill_detect.smx] Clear: 2 freed 8 from 3: time: 2.28 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:23:08: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 4: time: 13.00 / 15.70 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:23:22: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 3: time: 4.63 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:23:26: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 4: time: 6.58 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:24:07: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 3: time: -1.00 / 0.78 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:24:14: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 9: time: 1.31 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:24:31: [optional/l4d2_skill_detect.smx] Charge carry start: 9 - 1 -- time: 1545.27
+L 07/02/2021 - 09:24:33: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 9: time: 1.30 / 2.05 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:24:34: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:24:37: [optional/l4d2_skill_detect.smx] Clear: 5 freed 8 from 3: time: 1.21 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:24:44: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 6: time: 7.51 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:24:59: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 3: time: 0.70 / 2.94 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:25:33: [optional/l4d2_skill_detect.smx] calarm trigger: caller 525 / activator 525 / delay: 0.00
+L 07/02/2021 - 09:25:54: -------- Mapchange to c5m2_park --------
+L 07/02/2021 - 09:25:57: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:26:49: [optional/l4d2_skill_detect.smx] Clear: 1 freed 1 from 4: time: 0.00 / -1.00 -- class: jockey (with shove? 1)
+L 07/02/2021 - 09:26:52: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 6: time: 0.93 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:26:58: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 1 -- time: 62.65
+L 07/02/2021 - 09:26:58: [optional/l4d2_skill_detect.smx] Clear: 1 freed 1 from 7: time: 0.00 / 0.00 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:27:00: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:27:14: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 4: time: 0.73 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:27:16: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 6: time: 0.90 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:28:12: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 4: time: 1.59 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:28:34: [optional/l4d2_skill_detect.smx] Clear: 5 freed 8 from 6: time: 1.12 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:28:41: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 4: time: 4.30 / 8.16 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:28:59: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 3: time: -1.00 / 3.15 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:29:05: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 6: time: 1.54 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:29:20: [optional/l4d2_skill_detect.smx] Charge carry start: 9 - 1 -- time: 204.72
+L 07/02/2021 - 09:29:22: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 9: time: 1.27 / 2.24 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:29:23: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:29:42: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 3: time: 0.05 / 1.60 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:29:47: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 9: time: 1.50 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:29:49: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 4: time: 5.55 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:29:52: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 7: time: 4.80 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:30:13: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 3: time: -1.00 / 4.12 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:30:14: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 4: time: 1.33 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:30:59: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 3: time: 0.88 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:31:03: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 4: time: 0.47 / 2.58 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:31:08: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 6: time: 1.02 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:31:26: [optional/l4d2_skill_detect.smx] Clear: 2 freed 5 from 3: time: 0.29 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:31:28: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 4: time: 0.94 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:31:34: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 6: time: 0.83 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:32:04: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:32:24: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 4: time: 0.91 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:33:20: [optional/l4d2_skill_detect.smx] Clear: 2 freed 8 from 4: time: 1.91 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:33:28: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 6: time: 11.63 / -1.00 -- class: hunter (with shove? 1)
+L 07/02/2021 - 09:33:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:34:22: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 4: time: 0.98 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:34:28: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 4: time: 1.13 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:34:32: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 9: time: -1.00 / 1.76 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:34:34: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 6: time: 2.23 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:34:56: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 6: time: 1.23 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:35:02: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 10: time: 3.03 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:35:23: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 7: time: 1.13 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:35:42: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 4: time: 1.36 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:35:47: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 6: time: -1.00 / 1.97 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:35:48: [optional/l4d2_skill_detect.smx] Charge carry start: 10 - 1 -- time: 591.59
+L 07/02/2021 - 09:35:51: [optional/l4d2_skill_detect.smx] Checking charge victim: 10 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:35:57: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 10: time: 7.25 / 8.40 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:36:23: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:36:46: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 3: time: 0.58 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:36:51: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 4: time: 1.09 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:36:54: [optional/l4d2_skill_detect.smx] Clear: 2 freed 8 from 7: time: 1.33 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:37:11: [optional/l4d2_skill_detect.smx] Clear: 8 freed 5 from 6: time: 2.05 / -1.00 -- class: hunter (with shove? 1)
+L 07/02/2021 - 09:37:13: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 6: time: 1.38 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:37:15: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 9: time: 6.68 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:37:33: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 3: time: 0.77 / 0.78 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:37:38: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 9: time: 1.77 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:38:29: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 9: time: 4.19 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:38:30: [optional/l4d2_skill_detect.smx] Clear: 5 freed 8 from 3: time: 0.79 / 7.10 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:38:35: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 4: time: 10.84 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:39:10: [optional/l4d2_skill_detect.smx] Charge carry start: 9 - 5 -- time: 792.39
+L 07/02/2021 - 09:39:14: [optional/l4d2_skill_detect.smx] Checking charge victim: 9 - 5 - flags: 1 (alive? 0)
+L 07/02/2021 - 09:39:21: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:39:47: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 7: time: 6.42 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:40:02: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 4: time: 1.32 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:40:03: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 1 -- time: 845.72
+L 07/02/2021 - 09:40:06: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:40:27: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 4: time: -1.00 / 1.28 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:40:28: [optional/l4d2_skill_detect.smx] Charge carry start: 10 - 2 -- time: 870.32
+L 07/02/2021 - 09:40:29: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 10: time: 0.25 / 1.42 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:40:31: [optional/l4d2_skill_detect.smx] Checking charge victim: 10 - 2 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:40:36: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 7: time: 1.52 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:40:37: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 6: time: 1.49 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:40:55: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 4: time: 2.45 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:40:57: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 1 -- time: 899.51
+L 07/02/2021 - 09:40:59: [optional/l4d2_skill_detect.smx] Clear: 8 freed 1 from 7: time: 0.85 / 2.33 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:41:01: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:41:07: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 6: time: 1.03 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:41:22: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 6: time: 1.55 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:41:38: [optional/l4d2_skill_detect.smx] Clear: 5 freed 1 from 4: time: -1.00 / 2.70 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:41:42: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 5 -- time: 944.27
+L 07/02/2021 - 09:41:43: [optional/l4d2_skill_detect.smx] Clear: 2 freed 8 from 6: time: 0.53 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:41:45: [optional/l4d2_skill_detect.smx] Clear: 2 freed 5 from 7: time: 1.09 / 3.10 -- class: charger (with shove? 0)
+L 07/02/2021 - 09:41:46: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 5 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:42:09: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 3: time: 1.28 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:42:10: [optional/l4d2_skill_detect.smx] Clear: 5 freed 8 from 10: time: 0.58 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:42:13: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 4: time: 0.64 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:43:24: [optional/l4d2_skill_detect.smx] Clear: 2 freed 5 from 3: time: 2.61 / -1.00 -- class: jockey (with shove? 1)
+L 07/02/2021 - 09:43:48: [optional/l4d2_skill_detect.smx] Clear: 1 freed 2 from 6: time: 0.90 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:43:51: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 7: time: 1.38 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:43:55: [optional/l4d2_skill_detect.smx] Clear: 2 freed 1 from 3: time: 1.53 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:44:41: [optional/l4d2_skill_detect.smx] Clear: 5 freed 8 from 4: time: 1.31 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:45:03: [optional/l4d2_skill_detect.smx] Clear: 8 freed 2 from 4: time: 1.69 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:45:08: [optional/l4d2_skill_detect.smx] Clear: 1 freed 8 from 9: time: 0.61 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:45:43: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:47:22: [optional/l4d2_skill_detect.smx] Clear: 2 freed 5 from 9: time: 0.00 / 1.01 -- class: smoker (with shove? 1)
+L 07/02/2021 - 09:47:42: [optional/l4d2_skill_detect.smx] Clear: 1 freed 5 from 8: time: -1.00 / 1.91 -- class: smoker (with shove? 0)
+L 07/02/2021 - 09:47:46: [optional/l4d2_skill_detect.smx] Clear: 5 freed 6 from 9: time: 1.61 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:48:12: [optional/l4d2_skill_detect.smx] Clear: 5 freed 2 from 8: time: 1.93 / -1.00 -- class: hunter (with shove? 0)
+L 07/02/2021 - 09:48:14: [optional/l4d2_skill_detect.smx] Clear: 5 freed 6 from 4: time: 1.78 / -1.00 -- class: jockey (with shove? 0)
+L 07/02/2021 - 09:48:40: [optional/l4d2_skill_detect.smx] Charge carry start: 4 - 1 -- time: 1360.79
+L 07/02/2021 - 09:48:44: [optional/l4d2_skill_detect.smx] Checking charge victim: 4 - 1 - flags: 1 (alive? 1)
+L 07/02/2021 - 09:48:59: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:49:43: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/l4d2/left4dead2/addons/sourcemod/logs/L20210702.log") (Version "1.10.0.6495")
+L 07/02/2021 - 09:49:43: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 09:49:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:51:04: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 09:51:07: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 07/02/2021 - 09:52:18: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/l4d2/left4dead2/addons/sourcemod/logs/L20210702.log") (Version "1.10.0.6495")
+L 07/02/2021 - 09:52:18: -------- Mapchange to c5m1_waterfront --------
+L 07/02/2021 - 09:52:21: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
