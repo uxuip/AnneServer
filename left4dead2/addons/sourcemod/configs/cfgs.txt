@@ -183,17 +183,6 @@
 			"message" "关闭回血"
 		}
 	}
-	"属性效果"
-	{
-		"sm_cvar RPGMode 1"
-		{
-			"message" "开启属性效果"
-		}
-		"sm_cvar RPGMode 0"
-		{
-			"message" "关闭属性效果"
-		}
-	}
 	"武器配置"
 	{
 		"exec vote/weapon/AnneHappy.cfg"
