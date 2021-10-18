@@ -21,6 +21,13 @@
 			"name" "单人装B模式"
 		}
 	}
+	"WitchParty模式"
+	{
+		"WitchParty"
+		{
+			"name" "WitchParty模式"
+		}
+	}
 	"纯净写实模式"
 	{
 		"realism"

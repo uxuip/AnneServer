@@ -167,6 +167,10 @@
 		{
 			"message" "单人装B模式"
 		}
+		"sm_fm WitchParty"
+		{
+			"message" "WitchParty模式"
+		}
 		"sm_fm realism"
 		{
 			"message" "纯净写实模式"
