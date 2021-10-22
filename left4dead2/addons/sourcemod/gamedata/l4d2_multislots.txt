@@ -39,20 +39,6 @@
 					}
 				}
 			}
-			"CTerrorPlayer::TakeOverBot"
-			{
-				"signature"	"CTerrorPlayer::TakeOverBot"
-				"callconv"	"thiscall"
-				"return"	"void"
-				"this"	"entity"
-				"arguments"
-				{
-					"a1"
-					{
-						"type"	"bool"
-					}
-				}
-			}
 			"CTerrorPlayer::GiveDefaultItems"
 			{
 				"signature"	"CTerrorPlayer::GiveDefaultItems"
@@ -106,12 +92,6 @@
 				"library"	"server"
 				"linux"	"@_ZN11SurvivorBot17SetHumanSpectatorEP13CTerrorPlayer"
 				"windows"	"\x2A\x2A\x2A\x2A\x2A\x2A\x83\xBE\x2A\x2A\x2A\x2A\x2A\x7E\x2A\x32\x2A\x5E\x5D\xC2\x2A\x2A\x8B\x0D"
-			}
-			"CTerrorPlayer::TakeOverBot"
-			{
-				"library"	"server"
-				"linux"	"@_ZN13CTerrorPlayer11TakeOverBotEb"
-				"windows"	"\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\xA1\x2A\x2A\x2A\x2A\x33\x2A\x89\x2A\x2A\x53\x56\x8D"
 			}
 			"CBasePlayer::SetModel"
 			{
