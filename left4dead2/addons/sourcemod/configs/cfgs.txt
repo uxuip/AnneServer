@@ -176,29 +176,7 @@
 			"message" "纯净写实模式"
 		}
 	}
-	"多人运动"
-	{
-		"exec vote/players/4.cfg"
-		{
-			"message" "4人运动"
-		}
-		"exec vote/players/5.cfg"
-		{
-			"message" "5人运动"
-		}
-		"exec vote/players/6.cfg"
-		{
-			"message" "6人运动"
-		}
-		"exec vote/players/7.cfg"
-		{
-			"message" "7人运动"
-		}
-		"exec vote/players/8.cfg"
-		{
-			"message" "8人运动"
-		}
-	}
+
 	"开关回血"
 	{
 		"sm_cvar ReturnBlood 1"
