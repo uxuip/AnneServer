@@ -1,1 +1,1 @@
-http://111.67.204.59/aliyun/serverip.php
+http://119.91.138.228/serverip.php
