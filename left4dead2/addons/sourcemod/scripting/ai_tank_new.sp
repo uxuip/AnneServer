@@ -50,11 +50,11 @@ public Plugin myinfo =
 }
 
 // ConVars
-ConVar g_hTankBhop, g_hTankThrow, g_hTankThrowDist, g_hTankTarget, g_hTankBhopSpeed, g_hTreeDetect, g_hTreeNewTarget, g_hTankAirAngles, g_hTankAttackRange, g_hVsBossFlowBuffer, g_hTankThrowForce, g_hTankBhopHitWllDistance,g_hDebugMod;
+ConVar g_hTankBhop, g_hTankThrow, g_hTankThrowDist, g_hTankTarget, g_hTankBhopSpeed, g_hTreeDetect, g_hTreeNewTarget, g_hTankAirAngles, g_hTankAttackRange, g_hVsBossFlowBuffer, g_hTankThrowForce, g_hTankBhopHitWllDistance;
 // Ints
 int g_iTankTarget, g_iTankThrowDist, g_iTreeDetect, g_iTreePlayer[MAXPLAYERS + 1] = -1, g_iTreeNewTarget;
 // Bools
-bool g_bTankBhop, g_bTankThrow,g_bCanTankAttack[MAXPLAYERS + 1] = true, g_bDebugMod;
+bool g_bTankBhop, g_bTankThrow,g_bCanTankAttack[MAXPLAYERS + 1] = true;
 // Floats
 float g_fTankBhopSpeed, g_fTankAirAngles, g_fTankAttackRange,g_fRunTopSpeed[MAXPLAYERS + 1], g_fTreePlayerOriginPos[3],  g_fTankBhopHitWallDistance;
 
@@ -79,8 +79,7 @@ public void OnPluginStart()
 	g_hTreeDetect = CreateConVar("ai_Tank_TreeDetect", "1", "生还者与Tank进行秦王绕柱时进行的操作：0=关闭此项，1=切换目标，2=将Tank传送至绕树的生还者后", FCVAR_NOTIFY, true, 0.0, true, 2.0);
 	g_hTreeNewTarget = CreateConVar("ai_Tank_TreeNewTargetDistance", "300", "Tank记录绕树生还者并选择新目标后，距离新目标多近重置绕树目标记录", FCVAR_NOTIFY, true, 0.0);
 	g_hTankAirAngles = CreateConVar("ai_TankAirAngles", "60.0", "Tank在空中的速度向量与到生还者的方向向量夹角大于这个值停止连跳", FCVAR_NOTIFY, true, 0.0, true, 90.0);
-	g_hTankBhopHitWllDistance = CreateConVar("ai_TankBhopHitWallDistance", "100.0", "Tank视角前这个距离内有障碍物，Tank将会停止连跳", FCVAR_NOTIFY, true, 0.0);
-	g_hDebugMod = CreateConVar("ai_TankDebugMod", "0", "是否开启调试输出", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	g_hTankBhopHitWllDistance = CreateConVar("ai_TankBhopHitWallDistance", "150.0", "Tank视角前这个距离内有障碍物，Tank将会停止连跳", FCVAR_NOTIFY, true, 0.0);
 	g_hTankAttackRange = FindConVar("tank_attack_range");
 	g_hVsBossFlowBuffer = FindConVar("versus_boss_buffer");
 	g_hTankThrowForce = FindConVar("z_tank_throw_force");
@@ -100,7 +99,6 @@ public void OnPluginStart()
 	g_hTankAttackRange.AddChangeHook(ConVarChanged_Cvars);
 	g_hVsBossFlowBuffer.AddChangeHook(ConVarChanged_Cvars);
 	g_hTankThrowForce.AddChangeHook(ConVarChanged_Cvars);
-	g_hDebugMod.AddChangeHook(ConVarChanged_Cvars);
 	// GetConVar
 	GetCvars();
 	// Debug
@@ -137,7 +135,6 @@ void GetCvars()
 	g_fTankAirAngles = g_hTankAirAngles.FloatValue;
 	g_fTankAttackRange = g_hTankAttackRange.FloatValue;
 	g_fTankBhopHitWallDistance = g_hTankBhopHitWllDistance.FloatValue;
-	g_bDebugMod = g_hDebugMod.BoolValue;
 }
 
 // **************
@@ -149,14 +146,14 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 	{
 		float fTankPos[3];
 		GetClientAbsOrigin(tank, fTankPos);
-		int iSurvivorDistance, iTarget, iFlags, iNearestTarget;
-		iSurvivorDistance = GetSurvivorDistance(fTankPos);	iTarget = GetClientAimTarget(tank, true);	iNearestTarget = GetClosestSurvivor(fTankPos);
+		int iSurvivorDistance, iTarget, iFlags;
+		iSurvivorDistance = GetSurvivorDistance(fTankPos);	iTarget = GetClientAimTarget(tank, true);	//iNearestTarget = GetClosestSurvivor(fTankPos);
 		// 获取坦克状态，速度
 		iFlags = GetEntityFlags(tank);
 		float fSpeed[3], fCurrentSpeed, fAngles[3];
 		GetEntPropVector(tank, Prop_Data, "m_vecVelocity", fSpeed);
 		fCurrentSpeed = SquareRoot(Pow(fSpeed[0], 2.0) + Pow(fSpeed[1], 2.0));
-		bool bHasSight = view_as<bool>(GetEntProp(tank, Prop_Send, "m_hasVisibleThreats"));
+		//bool bHasSight = view_as<bool>(GetEntProp(tank, Prop_Send, "m_hasVisibleThreats"));
 		// 是否允许投掷石块？
 		if (g_bTankThrow)
 		{
@@ -174,19 +171,11 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 			// 连跳操作
 			if (g_bTankBhop)
 			{
-				// 有目标时，锁定视野
-				if (bHasSight)
-				{
-					float TargetAngles[3] = 0.0;
-					ComputeAimAngles(tank, iTarget, TargetAngles, AimChest);
-					TargetAngles[2] = 0.0;
-					TeleportEntity(tank, NULL_VECTOR, TargetAngles, NULL_VECTOR);
-				}
 				// 计算坦克与目标之间的距离
 				float fBuffer[3], fTargetPos[3];
 				GetClientAbsOrigin(iTarget, fTargetPos);
-				fBuffer = UpdatePosition(tank, iTarget, g_fTankBhopSpeed);
-				if (g_fTankAttackRange+50 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
+				fBuffer = UpdatePosition(tank, g_fTankBhopSpeed);
+				if (g_fTankAttackRange+40 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
 				{
 					if (iFlags & FL_ONGROUND)
 					{
@@ -219,10 +208,6 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 								MakeVectorFromPoints(fTankPos, fTargetPos, fTankPos);
 								NormalizeVector(fTankPos, fTankPos);
 								// 计算距离
-								if (g_bDebugMod)
-								{
-									PrintToChatAll("\x05【提示】：有目标时速度与视角的角度：\x04%.2f", RadToDeg(ArcCosine(GetVectorDotProduct(fAngles, fTankPos))));
-								}
 								if (RadToDeg(ArcCosine(GetVectorDotProduct(fAngles, fTankPos))) < g_fTankAirAngles)
 								{
 									return Plugin_Continue;
@@ -232,7 +217,7 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 								MakeVectorFromPoints(fDirection[0], fDirection[1], fNewVelocity);
 								//向量归一化
 								NormalizeVector(fNewVelocity,fNewVelocity);
-								//把向量方向放大150倍增加初速度
+								//把原来速度的90%加回去
 								ScaleVector(fNewVelocity,fCurrentSpeed*0.9);
 								TeleportEntity(tank, NULL_VECTOR, fAnglesPost, fNewVelocity);
 								//TeleportEntity(tank, NULL_VECTOR, fAnglesPost, NULL_VECTOR);
@@ -242,21 +227,11 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 			}
 		}
 		else
-		{
-			
-			float fTankEyeAngles[3], fForwardVec[3];
-			GetClientEyeAngles(tank, fTankEyeAngles);
-			GetAngleVectors(fTankEyeAngles, fForwardVec, NULL_VECTOR, NULL_VECTOR);
-			ScaleVector(fForwardVec, g_fTankBhopSpeed);
-			NormalizeVector(fForwardVec, fForwardVec);
-			// 不允许消耗时或允许消耗且在消耗位置时，锁定视野，不影响逃跑时的路线
-			if (iNearestTarget > 0)
-			{
-				float fNewTargetAngles[3] = 0.0;
-				ComputeAimAngles(tank, iNearestTarget, fNewTargetAngles, AimEye);
-				fNewTargetAngles[2] = 0.0;
-				TeleportEntity(tank, NULL_VECTOR, fNewTargetAngles, NULL_VECTOR);
-			}
+		{			
+			int iNewTarget = GetClosestSurvivor(fTankPos);
+			ComputeAimAngles(tank, iNewTarget, fAngles, AimChest);
+			fAngles[2] = 0.0;
+			TeleportEntity(tank, NULL_VECTOR, fAngles, NULL_VECTOR);
 		}
 		// 着火时，自动灭火
 		if (GetEntProp(tank, Prop_Data, "m_fFlags") & FL_ONFIRE)
@@ -473,8 +448,7 @@ bool BhopWillHitWall(int client, float fDistance)
 	GetClientEyePosition(client, fTankEyePos);
 	GetClientEyeAngles(client, fTankEyeAngles);
 	bool bHit = false;
-	Handle hTrace;
-	hTrace = TR_TraceRayFilterEx(fTankEyePos, fTankEyeAngles, MASK_SOLID, RayType_Infinite, traceFilter, client);
+	Handle hTrace = TR_TraceRayFilterEx(fTankEyePos, fTankEyeAngles, MASK_SOLID, RayType_Infinite, traceFilter, client);
 	if (TR_DidHit(hTrace))
 	{
 		float fHitPos[3], fCollisonDistance;
@@ -552,11 +526,17 @@ bool bHasLeftRoundPoint(float originPos[3], float nowPos[3], int radius)
 }
 
 // 计算加速后的向量
-float UpdatePosition(int tank, int target, float fForce)
+float UpdatePosition(int tank, float fForce)
 {
-	float fBuffer[3], fTankPos[3], fTargetPos[3];
-	GetClientAbsOrigin(tank, fTankPos);	GetClientAbsOrigin(target, fTargetPos);
-	SubtractVectors(fTargetPos, fTankPos, fBuffer);
+	// float fBuffer[3], fTankPos[3], fTargetPos[3];
+	// GetClientAbsOrigin(tank, fTankPos);	GetClientAbsOrigin(target, fTargetPos);
+	// SubtractVectors(fTargetPos, fTankPos, fBuffer);
+	// FloatAbs(fBuffer[0]);
+	// FloatAbs(fBuffer[1]);
+	// fBuffer[2] = 0.0;
+	float fEyeAngles[3] = {0.0}, fBuffer[3] = {0.0};
+	GetClientEyeAngles(tank, fEyeAngles);
+	GetAngleVectors(fEyeAngles, fBuffer, NULL_VECTOR, NULL_VECTOR);
 	NormalizeVector(fBuffer, fBuffer);
 	ScaleVector(fBuffer, fForce);
 	return fBuffer;

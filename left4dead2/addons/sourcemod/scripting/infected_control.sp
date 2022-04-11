@@ -227,7 +227,7 @@ public void OnGameFrame()
 				}
 				else
 				{
-					dist = 250.0 + g_fSpawnDistanceMax;
+					dist = 300.0 + g_fSpawnDistanceMax;
 					fMaxs[2] = fSurvivorPos[2] + g_fSpawnDistanceMax;
 				}
 				fMins[0] = fSurvivorPos[0] - g_fSpawnDistanceMax;
@@ -496,7 +496,7 @@ public Action SpawnFirstInfected(Handle timer)
 		}
 		if (g_bTeleportSi)
 		{
-			g_hTeleHandle = CreateTimer(0.5, Timer_PositionSi, _, TIMER_REPEAT);
+			g_hTeleHandle = CreateTimer(0.1, Timer_PositionSi, _, TIMER_REPEAT);
 		}
 	}
 	return Plugin_Continue;
@@ -545,7 +545,7 @@ public Action SpawnNewInfected(Handle timer)
 				}
 			}
 		}
-		g_fSpawnDistanceMax = 250.0;
+		g_fSpawnDistanceMax = 350.0;
 		ResetInfectedNumber();
 
 		g_iSpawnMaxCount += 1;
@@ -637,7 +637,7 @@ bool PlayerVisibleTo(float spawnpos[3])
 			g_iSurvivors[g_iSurvivorNum] = i;
 			g_iSurvivorNum++;
 			GetClientEyePosition(i, pos);
-			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 200.0)
+			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 300.0)
 			{
 				return true;
 			}
@@ -768,7 +768,7 @@ bool CanBeTeleport(int client)
 	}
 }
 
-//2秒内以0.5s检测一次，5次没被看到，就可以传送了
+//3秒内以0.1s检测一次，29次没被看到，就可以传送了
 public Action Timer_PositionSi(Handle timer)
 {
 	for (int client = 1; client <= MaxClients; client++)
@@ -778,7 +778,7 @@ public Action Timer_PositionSi(Handle timer)
 			GetClientEyePosition(client, fSelfPos);
 			if (!PlayerVisibleTo(fSelfPos))
 			{
-				if (g_iTeleCount[client] > 5)
+				if (g_iTeleCount[client] > 29)
 				{
 					Debug_Print("%N开始传送",client);
 					if (!PlayerVisibleTo(fSelfPos) && !IsPinningSomeone(client))
@@ -802,7 +802,7 @@ bool IsSpitter(int client)
 {
 	if (IsInfectedBot(client) && IsPlayerAlive(client) && GetEntProp(client, Prop_Send, "m_zombieClass") == ZC_SPITTER)
 	{
-		g_iTeleCount[client] = 6;//给予spitter立即传送的权限
+		g_iTeleCount[client] = 30;//给予spitter立即传送的权限
 		return true;
 	}
 	else

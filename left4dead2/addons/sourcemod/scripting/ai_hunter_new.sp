@@ -51,7 +51,7 @@ public void OnPluginStart()
 	g_hHunterAimOffset = CreateConVar("ai_HunterAimOffset", "360", "目标与Hunter处在这一角度范围内，Hunter将不会直扑", FCVAR_NOTIFY, true, 0.0);
 	g_hWallPounceDistance = CreateConVar("ai_HunterWallDetectDistance", "60", "在这个范围内，Hunter突袭时将会优先检测是否有墙体", FCVAR_NOTIFY);
 	g_hHunterTarget = CreateConVar("ai_HunterTarget", "3", "Hunter目标选择：1=自然目标选择，2=最近目标，3=手持非霰弹枪的生还者", FCVAR_NOTIFY, true, 1.0, true, 2.0);
-	g_hShotGunCheckRange = CreateConVar("ai_HunterShotGunCheckRange", "250.0", "目标选择为3时，Hunter在大于这个距离时允许进行目标枪械检测", FCVAR_NOTIFY, true, 0.0);
+	g_hShotGunCheckRange = CreateConVar("ai_HunterShotGunCheckRange", "300.0", "目标选择为3时，Hunter在大于这个距离时允许进行目标枪械检测", FCVAR_NOTIFY, true, 0.0);
 	// HookEvents
 	HookEvent("player_spawn", evt_PlayerSpawn);
 	HookEvent("ability_use", evt_AbilityUse);
@@ -138,9 +138,10 @@ public Action OnPlayerRunCmd(int hunter, int& buttons, int& impulse, float vel[3
 				}
 			}
 		}
+		//Hunter在梯子上允许跳开梯子
 		if (GetEntityMoveType(hunter) & MOVETYPE_LADDER)
 		{
-			buttons &= ~IN_JUMP;
+			//buttons &= ~IN_JUMP;
 			buttons &= ~IN_DUCK;
 		}
 	}
@@ -284,7 +285,6 @@ public Action Hunter_OnPounce(int hunter)
 	float fLungeVector[3];
 	int iEntLunge = GetEntPropEnt(hunter, Prop_Send, "m_customAbility");
 	GetEntPropVector(iEntLunge, Prop_Send, "m_queuedLunge", fLungeVector);
-	/*
 	// 如果周围有墙体，则优先选择弹墙
 	float fHunterPos[3], fHunterAngles[3];
 	GetClientAbsOrigin(hunter, fHunterPos);
@@ -306,22 +306,21 @@ public Action Hunter_OnPounce(int hunter)
 	}
 	else
 	{
-		*/
-	float fDistance = NearestSurvivorDistance(hunter);
-	if (IsTargetWatchingAttacker(hunter, g_iHunterAimOffset) && fDistance > g_fStraightPounceDistance)
-	{
-		float fPounceAngle = GaussianRNG(float(g_iPounceAngleMean), float(g_iPounceAngleStd));
-		AngleLunge(iEntLunge, fPounceAngle);
-		LimitLungeVerticality(iEntLunge);
-		return Plugin_Changed;
+		float fDistance = NearestSurvivorDistance(hunter);
+		if (IsTargetWatchingAttacker(hunter, g_iHunterAimOffset) && fDistance > g_fStraightPounceDistance)
+		{
+			float fPounceAngle = GaussianRNG(float(g_iPounceAngleMean), float(g_iPounceAngleStd));
+			AngleLunge(iEntLunge, fPounceAngle);
+			LimitLungeVerticality(iEntLunge);
+			return Plugin_Changed;
+		}
 	}
-	//}
 	return Plugin_Continue;
 }
 
 bool TracerayFilter(int impactEntity, int contentMask, int rayOriginEntity)
 {
-	return view_as<bool>(impactEntity != rayOriginEntity);
+	return impactEntity > MaxClients&&view_as<bool>(impactEntity != rayOriginEntity);
 }
 
 void AngleLunge(int LungeEntity, float turnAngle)
