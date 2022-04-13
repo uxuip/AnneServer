@@ -301,7 +301,7 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 				float fBuffer[3], fTargetPos[3];
 				GetClientAbsOrigin(iTarget, fTargetPos);
 				fBuffer = UpdatePosition(tank, g_fTankBhopSpeed);
-				if (g_fTankAttackRange < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
+				if (g_fTankAttackRange+50 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
 				{
 					if (iFlags & FL_ONGROUND)
 					{
@@ -343,8 +343,8 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 								// 重新设置速度方向
 								float fNewVelocity[3];
 								MakeVectorFromPoints(fDirection[0], fDirection[1], fNewVelocity);
-								//NormalizeVector(fNewVelocity,fNewVelocity);
-								//ScaleVector(fNewVelocity,fCurrentSpeed);
+								NormalizeVector(fNewVelocity,fNewVelocity);
+								ScaleVector(fNewVelocity,fCurrentSpeed);
 								TeleportEntity(tank, NULL_VECTOR, fAnglesPost, fNewVelocity);
 							}
 						}
