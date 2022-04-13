@@ -64,5 +64,7 @@ Spitter优先吐被控的人，其次时人密度最大的地方，且用l4d_inf
 #### Charger
 
 由原版的300血冲锋改为350，倒霉的人就用刀砍不死了，目标由l4d_target_overide选择。
+有了这些增强，原来那个aichargerboomer插件也可以删除了
 
-有了这些增强，那个原来chargerboomer增强也可以删除了
+## 结语
+如果由发现*Bug*希望能够提交issue，有好的想法实现了可以pull request到项目，好的想法会合并到分支里。如果发现源码的错误也希望提出并pull request，长久的维护离不开大家的努力~
