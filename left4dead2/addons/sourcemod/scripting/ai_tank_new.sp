@@ -1267,6 +1267,8 @@ bool traceFilter(int entity, int mask, int self)
 // 计算角度
 void ComputeAimAngles(int client, int target, float angles[3], AimType type = AimEye)
 {
+	if(client<0||client>MaxClients||target<0||target>MaxClients)
+		return;
 	float selfpos[3], targetpos[3], lookat[3];
 	GetClientEyePosition(client, selfpos);
 	switch (type)
