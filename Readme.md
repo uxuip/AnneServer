@@ -11,9 +11,9 @@
 
 ### 新增插件介绍
 
-#### l4d_TankStuckTeleport.smx
+#### l4d2_Anne_stuck_tank_teleport.smx
 
-顾名思义，这个插件就是用来检测tank有没有被卡住的插件，当被卡住时，传送到生还者路程前200-300单位的距离，当有求生跑男时，tank也会触发传送惩罚。
+原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本，一定时间内坦克移动半径没超过15个单位触发传送，会传送到距离生还者超过300单位且看不到的地方。当有生还者超过tank距离2000个单位，直接传送到生还者头上（求生跑男是吧，叫你跑Xd）。
 
 #### AI_HardSI_new.smx
 
@@ -67,4 +67,5 @@ Spitter优先吐被控的人，其次时人密度最大的地方，且用l4d_inf
 有了这些增强，原来那个aichargerboomer插件也可以删除了
 
 ## 结语
+
 如果由发现*Bug*希望能够提交issue，有好的想法实现了可以pull request到项目，好的想法会合并到分支里。如果发现源码的错误也希望提出并pull request，长久的维护离不开大家的努力~
