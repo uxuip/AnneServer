@@ -739,6 +739,10 @@ public Action OnTankRunCmd(int client, int &buttons, float vel[3], float angles[
 	}
 	return Plugin_Continue;
 }
+bool traceFilter(int entity, int mask, int self)
+{
+	return entity != self;
+}
 
 public Action OnSpitterRunCmd(int client, int &buttons, float vel[3], float angles[3])
 {
@@ -907,7 +911,7 @@ bool IsIncapped(int client)
 // 计算角度
 void ComputeAimAngles(int client, int target, float angles[3], AimType type = AimEye)
 {
-	if(client<0&&client>MaxClients||target<0&&target>MaxClients)
+	if(client<0||client>MaxClients||target<0||target>MaxClients)
 		return;
 	float selfpos[3], targetpos[3], lookat[3];
 	GetClientEyePosition(client, selfpos);
@@ -987,7 +991,3 @@ bool IsPinned(int client)
 	return bIsPinned;
 }
 
-bool traceFilter(int entity, int mask, int self)
-{
-	return entity != self;
-}
