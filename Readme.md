@@ -11,7 +11,7 @@
 
 ### 新增插件介绍
 
-#### l4d2_Anne_stuck_tank_teleport.smx
+#### l4d2_Anne_stuck_tank_teleport.smx(你可以选装）
 
 原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本，一定时间内坦克移动半径没超过15个单位触发传送，会传送到距离生还者超过300单位且看不到的地方。当有生还者超过tank距离2000个单位，直接传送到生还者头上（求生跑男是吧，叫你跑Xd）。
 
