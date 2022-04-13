@@ -136,7 +136,7 @@ public Action OnPlayerRunCmd(int spitter, int &buttons, int &impulse, float vel[
 								float fNewVelocity[3];
 								MakeVectorFromPoints(fDirection[0], fDirection[1], fNewVelocity);
 								NormalizeVector(fNewVelocity,fNewVelocity);
-								ScaleVector(fNewVelocity,fCurrentSpeed*0.9);
+								ScaleVector(fNewVelocity,fCurrentSpeed);
 								TeleportEntity(spitter, NULL_VECTOR, fAnglesPost, fNewVelocity);
 							}
 						}

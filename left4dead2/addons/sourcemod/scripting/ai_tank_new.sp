@@ -175,7 +175,7 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 				float fBuffer[3], fTargetPos[3];
 				GetClientAbsOrigin(iTarget, fTargetPos);
 				fBuffer = UpdatePosition(tank, g_fTankBhopSpeed);
-				if (g_fTankAttackRange+40 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
+				if (g_fTankAttackRange+50 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
 				{
 					if (iFlags & FL_ONGROUND)
 					{
@@ -217,8 +217,8 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 								MakeVectorFromPoints(fDirection[0], fDirection[1], fNewVelocity);
 								//向量归一化
 								NormalizeVector(fNewVelocity,fNewVelocity);
-								//把原来速度的90%加回去
-								ScaleVector(fNewVelocity,fCurrentSpeed*0.9);
+								//把原来速度的加回去
+								ScaleVector(fNewVelocity,fCurrentSpeed);
 								TeleportEntity(tank, NULL_VECTOR, fAnglesPost, fNewVelocity);
 								//TeleportEntity(tank, NULL_VECTOR, fAnglesPost, NULL_VECTOR);
 							}
@@ -226,6 +226,7 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 				}
 			}
 		}
+		/*由l4d_target_overide选择目标
 		else
 		{			
 			int iNewTarget = GetClosestSurvivor(fTankPos);
@@ -233,6 +234,7 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 			fAngles[2] = 0.0;
 			TeleportEntity(tank, NULL_VECTOR, fAngles, NULL_VECTOR);
 		}
+		*/
 		// 着火时，自动灭火
 		if (GetEntProp(tank, Prop_Data, "m_fFlags") & FL_ONFIRE)
 		{
@@ -616,8 +618,8 @@ bool DontFall(int client, const float fVelocity[3])
 	{
 		// 将hTrace的中止位置保存于vEnd中
 		TR_GetEndPosition(vEnd, hTrace);
-		// 如果下一帧的理论位置（高位）z坐标减去射线终止位置的z坐标（低位）大于120，则判定会坠落，返回false
-		if (vEndPos[2] - vEnd[2] > 120.0)
+		// 如果下一帧的理论位置（高位）z坐标减去射线终止位置的z坐标（低位）大于150，则判定会坠落，返回false
+		if (vEndPos[2] - vEnd[2] > 150.0)
 		{
 			delete hTrace;
 			return false;
@@ -875,6 +877,5 @@ public Action L4D2_OnSelectTankAttack(int client, int &sequence)
 	}
 	return Plugin_Continue;
 }
-
 
 

@@ -156,7 +156,7 @@ public Action OnPlayerRunCmd(int boomer, int &buttons, int &impulse, float vel[3
 							float fNewVelocity[3];
 							MakeVectorFromPoints(fDirection[0], fDirection[1], fNewVelocity);
 							NormalizeVector(fNewVelocity, fNewVelocity);
-							ScaleVector(fNewVelocity,fCurrentSpeed*0.9);
+							ScaleVector(fNewVelocity,fCurrentSpeed);
 							TeleportEntity(boomer, NULL_VECTOR, fAnglesPost, fNewVelocity);
 						}
 					}

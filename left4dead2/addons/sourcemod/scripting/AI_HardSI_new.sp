@@ -98,6 +98,23 @@ void ConVarChanged_Cvars(ConVar convar, const char[] oldValue, const char[] newV
 // *********************
 //		   事件
 // *********************
+//特感激进进攻
+public Action L4D_OnFirstSurvivorLeftSafeArea(int firstSurvivor) 
+{
+	CreateTimer( 0.3, Timer_ForceInfectedAssault, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE );
+}
+
+public Action Timer_ForceInfectedAssault( Handle timer) 
+{
+	BypassAndExecuteCommand("nb_assault");
+}
+public int BypassAndExecuteCommand(char []strCommand)
+{
+	int flags = GetCommandFlags(strCommand);
+	SetCommandFlags(strCommand, flags & ~ FCVAR_CHEAT);
+	FakeClientCommand(GetRandomSurvivor(), "%s", strCommand);
+	SetCommandFlags(strCommand, flags);
+}
 public void OnMapStart()
 {
 	CreateTimer(1.0, Timer_MapStartMoveSpeed, _, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
@@ -338,7 +355,7 @@ public Action OnJockeyRunCmd(int client, int &buttons, float vel[3], float angle
 		{
 			if (angles[2] == 0.0)
 			{
-				angles[0] = GetRandomFloat(-30.0, -10.0);
+				angles[0] = GetRandomFloat(-10.0, -10.0);
 				TeleportEntity(client, NULL_VECTOR, angles, NULL_VECTOR);
 			}
 			buttons |= IN_ATTACK;
@@ -760,9 +777,12 @@ public Action OnSpitterRunCmd(int client, int &buttons, float vel[3], float angl
 // *********************
 bool IsValidSurvivor(int client)
 {
-	if (client && client <= MaxClients && IsClientInGame(client) && GetClientTeam(client) == TEAM_SURVIVOR)
+	if (client>0 && client <= MaxClients)
 	{
+		if(IsClientInGame(client) && GetClientTeam(client) == TEAM_SURVIVOR)
 		return true;
+		else
+		return false;
 	}
 	else
 	{

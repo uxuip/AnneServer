@@ -159,8 +159,8 @@ public void OnPluginStart()
 	g_hCvarNonAngryTime = CreateConVar(		"l4d_TankAntiStuck_non_angry_time",			"45",		"Automatic tank teleport if he is not angry within specified time (in sec.) after spawn (0 - to disable)", CVAR_FLAGS );
 	
 	g_hCvarTankDistanceMax = CreateConVar(	"l4d_TankAntiStuck_tank_distance_max",		"1000",		"Maximum distance allowed between tank and the nearest player (after been angered). Otherwise, it will be teleported (0 - to disable)", CVAR_FLAGS );
-	g_hCvarHeadHeightMax = CreateConVar(	"l4d_TankAntiStuck_head_height_max",		"150",		"Distance under the head of player, tank will be instantly teleported to, by default, when tank failed to unstuck wasting all attempts to free using smooth teleport", CVAR_FLAGS );
-	g_hCvarHeadHeightMin = CreateConVar(	"l4d_TankAntiStuck_head_height_min",		"80",		"Distance under the head of player, tank will be instantly teleported to, if plugin failed to find more appropriate location", CVAR_FLAGS );
+	g_hCvarHeadHeightMax = CreateConVar(	"l4d_TankAntiStuck_head_height_max",		"300",		"Distance under the head of player, tank will be instantly teleported to, by default, when tank failed to unstuck wasting all attempts to free using smooth teleport", CVAR_FLAGS );
+	g_hCvarHeadHeightMin = CreateConVar(	"l4d_TankAntiStuck_head_height_min",		"200",		"Distance under the head of player, tank will be instantly teleported to, if plugin failed to find more appropriate location", CVAR_FLAGS );
 	g_hCvarStuckInterval = CreateConVar(	"l4d_TankAntiStuck_check_interval",			"3",		"Time intervals (in sec.) tank stuck should be checked", CVAR_FLAGS );
 	g_hCvarNonStuckRadius = CreateConVar(	"l4d_TankAntiStuck_non_stuck_radius",		"15",		"Maximum radius where tank is cosidered non-stucked when not moved during X sec. (see l4d_TankAntiStuck_check_interval ConVar)", CVAR_FLAGS );
 	g_hCvarInstTeleDist = CreateConVar(		"l4d_TankAntiStuck_inst_tele_dist",			"50",		"Distance for instant type of teleport", CVAR_FLAGS );
@@ -606,7 +606,7 @@ public Action Timer_CheckRusher(Handle timer) {
 						if (g_iRushTimes[i] >= g_hCvarRusherCheckTimes.IntValue) {
 
 							TeleportToSurvivorInPlace(tank, i);
-							PrintToChatAll("\x03%N \x04is punished for rush.", i);
+							PrintToChatAll("\x03%N \x04 因为当求生跑男，Tank开始传送惩罚.", i);
 							
 							g_iRushTimes[i] = 0;
 						}
@@ -726,7 +726,7 @@ public Action Timer_CheckAngry(Handle timer, int UserId)
 		if (IsAngry(client) || g_bAngry[client]) {
 		
 			#if (DEBUG)
-				PrintToChatAll("%N became angry!", client);
+				PrintToChatAll("%N 变得愤怒，即将开始传送!", client);
 			#endif
 			
 			g_bAtLeastOneTankAngry = true;

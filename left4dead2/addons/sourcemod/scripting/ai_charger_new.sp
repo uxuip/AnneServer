@@ -119,13 +119,7 @@ public Action OnPlayerRunCmd(int charger, int &buttons, int &impulse, float vel[
 		{
 			if (IsSurvivor(iTarget))
 			{
-				if (bHasSight)
-				{
-					// 锁定视野
-					ComputeAimAngles(charger, iTarget, fTargetAngles, AimChest);
-					fTargetAngles[2] = 0.0;
-					TeleportEntity(charger, NULL_VECTOR, fTargetAngles, NULL_VECTOR);
-				}
+
 				// 其他操作
 				float fBuffer[3], fTargetPos[3];
 				GetClientAbsOrigin(iTarget, fTargetPos);
@@ -134,12 +128,20 @@ public Action OnPlayerRunCmd(int charger, int &buttons, int &impulse, float vel[
 				{
 					if (iFlags & FL_ONGROUND)
 					{
+						if (bHasSight)
+						{
+							// 锁定视野
+							ComputeAimAngles(charger, iTarget, fTargetAngles, AimChest);
+							fTargetAngles[2] = 0.0;
+							TeleportEntity(charger, NULL_VECTOR, fTargetAngles, NULL_VECTOR);
+						}
 						buttons |= IN_JUMP;
 						buttons |= IN_DUCK;
 						if ((buttons & IN_FORWARD) || (buttons & IN_BACK) || (buttons & IN_MOVELEFT) || (buttons & IN_MOVERIGHT))
 						{
 							ClientPush(charger, fBuffer);
 						}
+										
 					}
 					else if (iFlags == FL_JUMPING)
 					{
@@ -170,7 +172,7 @@ public Action OnPlayerRunCmd(int charger, int &buttons, int &impulse, float vel[
 							float fNewVelocity[3];
 							MakeVectorFromPoints(fDirection[0], fDirection[1], fNewVelocity);
 							NormalizeVector(fNewVelocity,fNewVelocity);
-							ScaleVector(fNewVelocity,fCurrentSpeed*0.9);
+							ScaleVector(fNewVelocity,fCurrentSpeed);
 							TeleportEntity(charger, NULL_VECTOR, fAnglesPost, fNewVelocity);
 						}
 					}
@@ -194,6 +196,15 @@ public Action OnPlayerRunCmd(int charger, int &buttons, int &impulse, float vel[
 		{
 			if (iFlags & FL_ONGROUND)
 			{
+				//地方锁定视野
+				if (bHasSight)
+				{
+					// 锁定视野
+					ComputeAimAngles(charger, iTarget, fTargetAngles, AimChest);
+					fTargetAngles[2] = 0.0;
+					TeleportEntity(charger, NULL_VECTOR, fTargetAngles, NULL_VECTOR);
+				}
+				//设置牛连跳上限
 				if (fLeftGroundMaxSpeed[charger] != -1.0)
 				{
 					float fCurVelVec[3];
@@ -562,6 +573,8 @@ bool IsVisible(int client, int target)
 
 void ComputeAimAngles(int client, int target, float angles[3], AimType type = AimEye)
 {
+	if(client<0&&client>MaxClients||target<0&&target>MaxClients)
+		return;
 	float selfpos[3], targetpos[3], lookat[3];
 	GetClientEyePosition(client, selfpos);
 	switch (type)

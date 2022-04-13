@@ -227,7 +227,7 @@ public void OnGameFrame()
 				}
 				else
 				{
-					dist = 250.0 + g_fSpawnDistanceMax;
+					dist = 350.0 + g_fSpawnDistanceMax;
 					fMaxs[2] = fSurvivorPos[2] + g_fSpawnDistanceMax;
 				}
 				fMins[0] = fSurvivorPos[0] - g_fSpawnDistanceMax;
@@ -637,7 +637,7 @@ bool PlayerVisibleTo(float spawnpos[3])
 			g_iSurvivors[g_iSurvivorNum] = i;
 			g_iSurvivorNum++;
 			GetClientEyePosition(i, pos);
-			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 200.0)
+			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 300.0)
 			{
 				return true;
 			}
@@ -993,6 +993,7 @@ public bool SpitterSpawn(){
 int IsBotTypeNeeded()
 {
 	//ResetInfectedNumber();
+	return 6;
 	if(SpitterSpawn())
 	{
 		if ((iSpitterLimit < GetConVarInt(FindConVar("z_spitter_limit"))))
