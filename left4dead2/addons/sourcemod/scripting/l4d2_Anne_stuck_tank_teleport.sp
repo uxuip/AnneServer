@@ -9,7 +9,7 @@
 #define TEAM_INFECTED 3
 #define CVAR_FLAGS		FCVAR_NOTIFY
 
-#define PLUGIN_VERSION "1.0"
+#define PLUGIN_VERSION "1.1"
 ConVar 	g_hCvarEnable;
 ConVar 	g_hCvarStuckInterval;
 ConVar 	g_hCvarNonStuckRadius;
@@ -47,7 +47,7 @@ public void OnPluginStart()
 	g_hCvarNonStuckRadius = CreateConVar(	"l4d2_Anne_stuck_tank_teleport_non_stuck_radius",		"15",		"Maximum radius where tank is cosidered non-stucked when not moved during X (9) sec. (see l4d2_Anne_stuck_tank_teleport_check_interval ConVar)", CVAR_FLAGS );
 	g_hCvarRusherPunish = CreateConVar(		"l4d2_Anne_stuck_tank_teleport_rusher_punish",			"1",		"Punish the player who rush too far from the nearest tank by teleporting tank to him? (0 - No / 1 - Yes)", CVAR_FLAGS );
 	g_hCvarRusherDist = CreateConVar(		"l4d2_Anne_stuck_tank_teleport_rusher_dist",			"2000",		"Maximum distance to the nearest tank considered as rusher", CVAR_FLAGS );
-	g_hCvarRusherCheckTimes = CreateConVar(	"l4d2_Anne_stuck_tank_teleport_rusher_check_times",		"2",		"Number of checks before finally considering player as rusher", CVAR_FLAGS );
+	g_hCvarRusherCheckTimes = CreateConVar(	"l4d2_Anne_stuck_tank_teleport_rusher_check_times",		"3",		"Number of checks before finally considering player as rusher", CVAR_FLAGS );
 	g_hCvarRusherCheckInterv = CreateConVar("l4d2_Anne_stuck_tank_teleport_rusher_check_interval",	"5",		"Interval (in sec.) between each check for rusher", CVAR_FLAGS );	
 	g_hCvarRusherMinPlayers = CreateConVar(	"l4d_TankAntiStuck_rusher_minplayers",		"2",		"Minimum living players allowed for 'Rusher player' rule to work", CVAR_FLAGS );
 	HookEvent("tank_spawn",       		Event_TankSpawn,  	EventHookMode_Post);
@@ -382,6 +382,7 @@ public Action Timer_CheckRusher(Handle timer) {
 	if (g_iTanksCount == 1)
 		return Plugin_Continue;
 	
+	
 	for (i = 1; i <= MaxClients; i++)
 	{
 		if (IsClientInGame(i) && GetClientTeam(i) == 2 && !IsFakeClient(i) && IsPlayerAlive(i))
@@ -396,10 +397,10 @@ public Action Timer_CheckRusher(Handle timer) {
 					GetClientAbsOrigin(tank, postank);
 				
 					distance = GetVectorDistance(pos, postank, false);
-					
+					//增加限制条件，tank的路程图不能在生还者前面，否则会碰到刷tank后生还者距离过远，直接传送到生还者附近
 					if (distance > g_hCvarRusherDist.FloatValue) {
 						
-						if (g_iRushTimes[i] >= g_hCvarRusherCheckTimes.IntValue) {
+						if (g_iRushTimes[i] >= g_hCvarRusherCheckTimes.IntValue && L4D2Direct_GetFlowDistance(tank)<L4D2_GetFurthestSurvivorFlow()) {
 
 							TeleportToSurvivorInPlace(tank, i);
 							PrintToChatAll("\x03%N \x04 因为当求生跑男，Tank开始传送惩罚.", i);
