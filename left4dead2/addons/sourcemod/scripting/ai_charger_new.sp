@@ -23,9 +23,9 @@ public Plugin myinfo =
 }
 
 // ConVars
-ConVar g_hChargerBhop, g_hChargerBhopSpeed, g_hChargerTarget, g_hStartChargeDistance, g_hChargerAimOffset, g_hHealthStartCharge, g_hChargerAirAngles;
+ConVar g_hChargerBhop, g_hChargerBhopSpeed, g_hChargerTarget, g_hStartChargeDistance, g_hChargerAimOffset, g_hHealthStartCharge, g_hChargerAirAngles,g_hChargerCoolTime;
 // Ints
-int g_iChargerTarget, g_iStartChargeDistance, g_iChargerAimOffset, g_iHealthStartCharge, g_iValidSurvivor = 0;
+int g_iChargerTarget, g_iStartChargeDistance, g_iChargerAimOffset, g_iHealthStartCharge, g_iValidSurvivor = 0,g_iChargerCoolTime;
 // Bools
 bool g_bChargerBhop, g_bShouldCharge[MAXPLAYERS + 1];
 // Floats
@@ -39,6 +39,7 @@ float g_fChargerBhopSpeed, g_fChargerAirAngles;
 public void OnPluginStart()
 {
 	// CreateConVar
+	g_hChargerCoolTime= CreateConVar("ai_ChargerCoolTime", "12", "Charger多少秒之后才能再次冲锋", FCVAR_NOTIFY, true, 0.0, true, 1.0);
 	g_hChargerBhop = CreateConVar("ai_ChargerBhop", "1", "是否开启Charger连跳", FCVAR_NOTIFY, true, 0.0, true, 1.0);
 	g_hChargerBhopSpeed = CreateConVar("ai_ChargerBhopSpeed", "80.0", "Charger连跳的速度", FCVAR_NOTIFY, true, 0.0);
 	g_hChargerTarget = CreateConVar("ai_ChargerTarget", "1", "Charger目标选择：1=自然目标选择，2=优先撞人多处，3=优先取最近目标", FCVAR_NOTIFY, true, 1.0, true, 2.0);
@@ -50,6 +51,7 @@ public void OnPluginStart()
 	HookEvent("player_spawn", evt_PlayerSpawn);
 	HookEvent("charger_charge_start", evt_ChargerChargeStart);
 	// AddChangeHook
+	g_hChargerCoolTime.AddChangeHook(ConVarChanged_Cvars);
 	g_hChargerBhop.AddChangeHook(ConVarChanged_Cvars);
 	g_hChargerBhopSpeed.AddChangeHook(ConVarChanged_Cvars);
 	g_hChargerTarget.AddChangeHook(ConVarChanged_Cvars);
@@ -68,6 +70,7 @@ void ConVarChanged_Cvars(ConVar convar, const char[] oldValue, const char[] newV
 
 void GetCvars()
 {
+	g_iChargerCoolTime=g_hChargerCoolTime.IntValue;
 	g_bChargerBhop = g_hChargerBhop.BoolValue;
 	g_fChargerBhopSpeed = g_hChargerBhopSpeed.FloatValue;
 	g_iChargerTarget = g_hChargerTarget.IntValue;
@@ -473,9 +476,13 @@ public void evt_ChargerChargeStart(Event event, const char[] name, bool dontBroa
 			}
 			ChargerPridiction(client, iTarget);
 		}
+		g_bShouldCharge[client]=false;
+		CreateTimer(g_iChargerCoolTime,ChargerEnable,client,TIMER_FLAG_NO_MAPCHANGE);
 	}
 }
-
+public Action ChargerEnable(Handle timer,int client) {
+	g_bShouldCharge[client]=true;
+}
 void ChargerPridiction(int charger, int survivor)
 {
 	if (IsAiCharger(charger) && IsSurvivor(survivor))
