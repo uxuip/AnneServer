@@ -53,7 +53,7 @@ public Plugin myinfo =
 // ConVars
 ConVar g_hTankBhop, g_hTankThrow, g_hTankThrowDist, g_hTankTarget, g_hTankBhopSpeed, g_hTreeDetect, g_hTreeNewTarget, g_hTankAirAngles, g_hTankAttackRange, g_hTankConsumeFindPositionCount
 , g_hTankConsumeHeight, g_hTankConsumLimit, g_hTankConsumeNewPositionDistance, g_hTankConsumeRaidus, g_hTankAttackVomitedNum, g_hVomitCanInstantAttack, g_hVomitAttackInterval, g_hTeleportForwardPercent
-, g_hVsBossFlowBuffer, g_hTankConsumeLimitNum, g_hTankThrowForce, g_hTankConsume, g_hTankConsumeType, g_hTankBhopHitWllDistance, g_hTankRetreatAirAngles, g_hTankConsumeAction, g_hTankConsumeDamagePercent
+, g_hVsBossFlowBuffer, g_hTankConsumeLimitNum, g_hTankThrowForce, g_hTankConsume, g_hTankConsumeType, g_hTankRetreatAirAngles, g_hTankConsumeAction, g_hTankConsumeDamagePercent
 , g_hTankForceAttackDistance, g_hTankConsumeHealthLimit, g_hTankAttackIncapped, g_hDebugMod;
 // Ints
 int g_iTankTarget, g_iTankThrowDist, g_iTreeDetect, g_iTreePlayer[MAXPLAYERS + 1] = -1, g_iTreeNewTarget, g_iTankConsumeFindPositionCount, g_iTankConsumeLimit, g_iTankConsumeChooseNewPositionDistance
@@ -65,7 +65,7 @@ bool g_bTankBhop, g_bTankThrow, g_bCanTankConsume[MAXPLAYERS + 1] = false, g_bIn
 , g_bVomitCanInstantAttack, g_bVomitCanConsume[MAXPLAYERS + 1] = false, g_bTankConsume, g_bIsFirstConsumeCheck[MAXPLAYERS + 1] = true, g_bDebugMod;
 // Floats
 float g_fTankBhopSpeed, g_fTankAirAngles, g_fTankAttackRange, g_fTreePlayerOriginPos[3], g_fTankConsumeHeight, g_fConsumePosition[MAXPLAYERS + 1][3]
-, g_fTeleportPosition[MAXPLAYERS + 1][3], g_fVomitAttackInterval, g_fRunTopSpeed[MAXPLAYERS + 1], g_fTankBhopHitWallDistance, g_fTankRetreatAirAngles;
+, g_fTeleportPosition[MAXPLAYERS + 1][3], g_fVomitAttackInterval, g_fRunTopSpeed[MAXPLAYERS + 1], g_fTankRetreatAirAngles;
 
 enum PreferredSpecialDirection
 {
@@ -99,10 +99,10 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 
 public void OnPluginStart()
 {
-	g_hTankBhopSpeed = CreateConVar("ai_Tank_BhopSpeed", "70.0", "Tank连跳的速度", FCVAR_NOTIFY, true, 0.0);
+	g_hTankBhopSpeed = CreateConVar("ai_Tank_BhopSpeed", "60.0", "Tank连跳的速度", FCVAR_NOTIFY, true, 0.0);
 	g_hTankBhop = CreateConVar("ai_Tank_Bhop", "1", "是否开启Tank连跳功能：0=关闭，1=开启", FCVAR_NOTIFY, true, 0.0, true, 1.0);
 	g_hTankThrow = CreateConVar("ai_Tank_Throw", "1", "是否允许Tank投掷石块：0=关闭，1=开启", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-	g_hTankThrowDist = CreateConVar("ai_Tank_ThrowDistance", "2500", "Tank距离目标多近允许投掷石块", FCVAR_NOTIFY, true, 0.0);
+	g_hTankThrowDist = CreateConVar("ai_Tank_ThrowDistance", "300", "Tank距离目标多近允许投掷石块", FCVAR_NOTIFY, true, 0.0);
 	g_hTankTarget = CreateConVar("ai_Tank_Target", "1", "Tank目标选择：1=最近，2=血量最少，3=血量最多", FCVAR_NOTIFY, true, 1.0, true, 3.0);
 	g_hTreeDetect = CreateConVar("ai_Tank_TreeDetect", "1", "生还者与Tank进行秦王绕柱时进行的操作：0=关闭此项，1=切换目标，2=将Tank传送至绕树的生还者后", FCVAR_NOTIFY, true, 0.0, true, 2.0);
 	g_hTreeNewTarget = CreateConVar("ai_Tank_TreeNewTargetDistance", "300", "Tank记录绕树生还者并选择新目标后，距离新目标多近重置绕树目标记录", FCVAR_NOTIFY, true, 0.0);
@@ -119,7 +119,6 @@ public void OnPluginStart()
 	g_hTeleportForwardPercent = CreateConVar("ai_Tank_TeleportForwardPercent", "10", "Tank开始消耗时，记录此时生还者行进距离x，生还者前压超过x + 这个值时，Tank会传送至生还者处进行压制", FCVAR_NOTIFY, true, 0.0);
 	g_hTankConsumeLimitNum = CreateConVar("ai_Tank_ConsumeLimitNum", "5", "Tank最多进行消耗的次数（找到一次消耗位并抵达消耗位算 1 次消耗）", FCVAR_NOTIFY, true, 0.0);
 	g_hTankConsumeType = CreateConVar("ai_TankConsumeType", "3", "Tank进行消耗将会按照哪种特感类型找位：1=Smoker，2=Boomer，3=Hunter，4=Spitter，5=Jockey，6=Charger，8=Tank", FCVAR_NOTIFY, true, 1.0, true, 8.0);
-	g_hTankBhopHitWllDistance = CreateConVar("ai_TankBhopHitWallDistance", "150.0", "Tank视角前这个距离内有障碍物，Tank将会停止连跳", FCVAR_NOTIFY, true, 0.0);
 	g_hTankRetreatAirAngles = CreateConVar("ai_TankRetreatAirAngles", "75.0", "Tank在回避的连跳过程中视角与速度超过这个值将会停止连跳", FCVAR_NOTIFY, true, 0.0);
 	g_hTankConsumeAction = CreateConVar("ai_TankConsumeAction", "2", "Tank在消耗范围内将会：1=冰冻，2=可活动但不允许超出消耗范围", FCVAR_NOTIFY, true, 1.0, true, 2.0);
 	g_hTankConsumeDamagePercent = CreateConVar("ai_TankConsumeDamagePercent", "50", "Tank在消耗过程中只会受到这个百分比的伤害", FCVAR_NOTIFY, true, 0.0, true, 100.0);
@@ -162,7 +161,6 @@ public void OnPluginStart()
 	g_hTankThrowForce.AddChangeHook(ConVarChanged_Cvars);
 	g_hTankConsume.AddChangeHook(ConVarChanged_Cvars);
 	g_hTankConsumeType.AddChangeHook(ConVarChanged_Cvars);
-	g_hTankBhopHitWllDistance.AddChangeHook(ConVarChanged_Cvars);
 	g_hTankRetreatAirAngles.AddChangeHook(ConVarChanged_Cvars);
 	g_hTankConsumeAction.AddChangeHook(ConVarChanged_Cvars);
 	g_hTankConsumeDamagePercent.AddChangeHook(ConVarChanged_Cvars);
@@ -253,7 +251,6 @@ void GetCvars()
 	g_iTankConsumeNum = g_hTankConsumeLimitNum.IntValue;
 	g_bTankConsume = g_hTankConsume.BoolValue;
 	g_iTankConsumeType = g_hTankConsumeType.IntValue;
-	g_fTankBhopHitWallDistance = g_hTankBhopHitWllDistance.FloatValue;
 	g_fTankRetreatAirAngles = g_hTankRetreatAirAngles.FloatValue;
 	g_iTankConsumeAction = g_hTankConsumeAction.IntValue;
 	g_iTankConsumeDamagePercent = g_hTankConsumeDamagePercent.IntValue;
@@ -301,19 +298,15 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 				float fBuffer[3], fTargetPos[3];
 				GetClientAbsOrigin(iTarget, fTargetPos);
 				fBuffer = UpdatePosition(tank, g_fTankBhopSpeed);
-				if (g_fTankAttackRange+50 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
+				if (g_fTankAttackRange+30 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
 				{
 					if (iFlags & FL_ONGROUND)
 					{
-						if (!BhopWillHitWall(tank, g_fTankBhopHitWallDistance))
+						buttons |= IN_JUMP;
+						buttons |= IN_DUCK;
+						if (buttons & IN_FORWARD || buttons & IN_BACK || buttons & IN_MOVELEFT || buttons & IN_MOVERIGHT)
 						{
-							buttons |= IN_JUMP;
-							buttons |= IN_DUCK;
-							// 方向按钮按下的情况，判断下一帧位置是否会坠落，如果已传送，则不会坠落，返回true，执行方向，会则返回false，不执行方向，直到不会坠落
-							if (DoBhop(tank, buttons, fBuffer))
-							{
-								return Plugin_Changed;
-							}
+							ClientPush(tank, fBuffer);
 						}
 					}
 					else if (iFlags == FL_JUMPING)
@@ -370,14 +363,11 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 						{
 							if (fCurrentSpeed > 190.0)
 							{
-								if (!BhopWillHitWall(tank, g_fTankBhopHitWallDistance))
+								buttons |= IN_JUMP;
+								buttons |= IN_DUCK;
+								if (buttons & IN_FORWARD || buttons & IN_BACK || buttons & IN_MOVELEFT || buttons & IN_MOVERIGHT)
 								{
-									buttons |= IN_JUMP;
-									buttons |= IN_DUCK;
-									if (DoBhop(tank, buttons, fForwardVec))
-									{
-										return Plugin_Changed;
-									}
+									ClientPush(tank, fForwardVec);
 								}
 							}
 						}
@@ -864,29 +854,6 @@ bool WillHitWll(int iTank, int iEntity, int iTarget = -1, const float vEndPos[3]
 	return bHit;
 }
 
-bool BhopWillHitWall(int client, float fDistance)
-{
-	float fTankEyePos[3], fTankEyeAngles[3];
-	GetClientEyePosition(client, fTankEyePos);
-	GetClientEyeAngles(client, fTankEyeAngles);
-	bool bHit = false;
-	Handle hTrace = TR_TraceRayFilterEx(fTankEyePos, fTankEyeAngles, MASK_SOLID, RayType_Infinite, traceFilter, client);
-	if (TR_DidHit(hTrace))
-	{
-		float fHitPos[3], fCollisonDistance;
-		TR_GetEndPosition(fHitPos, hTrace);
-		fCollisonDistance = GetVectorDistance(fTankEyePos, fHitPos);
-		int hit = TR_GetEntityIndex(hTrace);
-		char sClassname[16];
-		GetEntityClassname(hit, sClassname, sizeof(sClassname));
-		if ((sClassname[0] == 'w') && fCollisonDistance <= fDistance)
-		{
-			bHit = true;
-		}
-	}
-	delete hTrace;
-	return bHit;
-}
 
 // **************
 //		事件
@@ -1031,104 +998,14 @@ float UpdatePosition(int tank, float fForce)
 }
 
 // 连跳操作
-bool ClientPush(int client, float fForwardVec[3])
+void ClientPush(int client, float fForwardVec[3])
 {
 	float fCurVelVec[3];
 	GetEntPropVector(client, Prop_Data, "m_vecAbsVelocity", fCurVelVec);
 	AddVectors(fCurVelVec, fForwardVec, fCurVelVec);
-	// 判断下一帧的位置是否会坠落，再进行传送
-	if (DontFall(client, fCurVelVec))
-	{
-		TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, fCurVelVec);
-		return true;
-	}
-	return false;
+	TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, fCurVelVec);
 }
 
-bool DoBhop(int client, int &buttons, float fForwardVec[3])
-{
-	static bool bJumped;
-	bJumped = false;
-	if (buttons & IN_FORWARD || buttons & IN_BACK || buttons & IN_MOVELEFT || buttons & IN_MOVERIGHT)
-	{
-		if (ClientPush(client, fForwardVec))
-		{
-			bJumped = true;
-		}
-	}
-	return bJumped;
-}
-
-bool DontFall(int client, const float fVelocity[3])
-{
-	static float vPos[3], vEnd[3];
-	GetClientAbsOrigin(client, vPos);
-	// 当前位置加当前速度，等于下一帧理论位置，保存在vEnd里
-	AddVectors(vPos, fVelocity, vEnd);
-	vPos[2] += OBSTACLE_HEIGHT;
-	static float vMins[3], vMaxs[3];
-	GetClientMins(client, vMins);
-	GetClientMaxs(client, vMaxs);
-	static bool bHit;
-	static Handle hTrace;
-	static float vEndPos[3];
-	bHit = false;
-	vEnd[2] += OBSTACLE_HEIGHT;
-	hTrace = TR_TraceHullFilterEx(vPos, vEnd, vMins, vMaxs, MASK_PLAYERSOLID_BRUSHONLY, bTraceEntityFilter);
-	vEnd[2] -= OBSTACLE_HEIGHT;
-	// 当前位置与射线的中止位置距离小于64.0，继续连跳可能会撞墙，返回false
-	if (TR_DidHit(hTrace))
-	{
-		bHit = true;
-		TR_GetEndPosition(vEndPos, hTrace);
-		if (GetVectorDistance(vPos, vEndPos) < 64.0)
-		{
-			delete hTrace;
-			return false;
-		}
-	}
-	delete hTrace;
-	if (!bHit)
-	{
-		// 设置vEndPos为下一帧理论位置
-		vEndPos = vEnd;
-	}
-	// 向下射线检测，将vDown的z坐标设置为下一帧理论位置向下-100000.0的位置
-	static float vDown[3];
-	vDown[0] = vEndPos[0];
-	vDown[1] = vEndPos[1];
-	vDown[2] = vEndPos[2] - 100000.0;
-	// 创建射线，从下一帧理论位置指向vDown的位置
-	hTrace = TR_TraceHullFilterEx(vEndPos, vDown, vMins, vMaxs, MASK_PLAYERSOLID_BRUSHONLY, bTraceEntityFilter);
-	if (TR_DidHit(hTrace))
-	{
-		// 将hTrace的中止位置保存于vEnd中
-		TR_GetEndPosition(vEnd, hTrace);
-		// 如果下一帧的理论位置（高位）z坐标减去射线终止位置的z坐标（低位）大于120，则判定会坠落，返回false
-		if (vEndPos[2] - vEnd[2] > 120.0)
-		{
-			delete hTrace;
-			return false;
-		}
-		static int iEntity;
-		// 检测是否非玩家实体
-		if ((iEntity = TR_GetEntityIndex(hTrace)) > MaxClients)
-		{
-			// 判断低位的实体是否会对坦克造成伤害
-			static char sClassname[13];
-			GetEdictClassname(iEntity, sClassname, sizeof(sClassname));
-			if (strcmp(sClassname, "trigger_hurt") == 0)
-			{
-				delete hTrace;
-				return false;
-			}
-		}
-		delete hTrace;
-		return true;
-	}
-	delete hTrace;
-	return false;
-}
 
 bool bTraceEntityFilter(int entity, int contentsMask)
 {

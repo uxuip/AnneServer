@@ -23,7 +23,7 @@ public Plugin myinfo =
 	name 			= "Direct InfectedSpawn",
 	author 			= "Caibiii, 夜羽真白，东",
 	description 	= "特感刷新控制，传送落后特感",
-	version 		= "2022.04.9",
+	version 		= "2022.04.12",
 	url 			= "https://github.com/Caibiii/AnneServer"
 }
 
@@ -545,7 +545,7 @@ public Action SpawnNewInfected(Handle timer)
 				}
 			}
 		}
-		g_fSpawnDistanceMax = 350.0;
+		g_fSpawnDistanceMax = 250.0;
 		ResetInfectedNumber();
 
 		g_iSpawnMaxCount += 1;
@@ -627,6 +627,27 @@ bool IsOnValidMesh(float fReferencePos[3])
 
 //判断该坐标是否可以看到生还或者距离小于200码
 bool PlayerVisibleTo(float spawnpos[3])
+{
+	float pos[3];
+	g_iSurvivorNum = 0;
+	for(int i = 1; i <= MaxClients; i++)
+	{
+		if(IsValidSurvivor(i) && IsPlayerAlive(i))
+		{
+			g_iSurvivors[g_iSurvivorNum] = i;
+			g_iSurvivorNum++;
+			GetClientEyePosition(i, pos);
+			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 200.0)
+			{
+				return true;
+			}
+		}	
+	}
+	return false;
+}
+
+//判断该坐标是否可以看到生还或者距离小于300码(传送专属)
+bool TeleportPlayerVisibleTo(float spawnpos[3])
 {
 	float pos[3];
 	g_iSurvivorNum = 0;
@@ -891,7 +912,7 @@ void HardTeleMode(int client)
 {
 	static float fEyePos[3] = {0.0}, fSelfEyePos[3] = {0.0};
 	GetClientEyePosition(client, fEyePos);
-	if (!PlayerVisibleTo(fEyePos) && !IsPinningSomeone(client))
+	if (!TeleportPlayerVisibleTo(fEyePos) && !IsPinningSomeone(client))
 	{
 		float fSpawnPos[3] = {0.0}, fSurvivorPos[3] = {0.0}, fDirection[3] = {0.0}, fEndPos[3] = {0.0}, fMins[3] = {0.0}, fMaxs[3] = {0.0};
 		if (IsValidSurvivor(g_iTargetSurvivor))
@@ -913,7 +934,7 @@ void HardTeleMode(int client)
 //			fVisiblePos[2] =fSpawnPos[2];
 			int count2=0;
 			
-			while (PlayerVisibleTo(fSpawnPos) || !IsOnValidMesh(fSpawnPos) || IsPlayerStuck(fSpawnPos))
+			while (TeleportPlayerVisibleTo(fSpawnPos) || !IsOnValidMesh(fSpawnPos) || IsPlayerStuck(fSpawnPos))
 			{
 				count2 ++;
 				if(count2 > 50)
@@ -954,7 +975,7 @@ void HardTeleMode(int client)
 					{
 						GetClientEyePosition(index, fSurvivorPos);
 						fSurvivorPos[2] -= 60.0;
-						if (L4D2_VScriptWrapper_NavAreaBuildPath(fSpawnPos, fSurvivorPos, g_fTeleportDistance, false, false, TEAM_INFECTED, false) && GetVectorDistance(fSelfEyePos, fSpawnPos) > g_fTeleportDistance && GetVectorDistance(fSelfEyePos, fSpawnPos) > g_fSpawnDistanceMin)
+						if (L4D2_VScriptWrapper_NavAreaBuildPath(fSpawnPos, fSurvivorPos, g_fTeleportDistance, false, false, TEAM_INFECTED, false) && GetVectorDistance(fSelfEyePos, fSpawnPos) > g_fSpawnDistanceMin)
 						{
 							TeleportEntity(client, fSpawnPos, NULL_VECTOR, NULL_VECTOR);
 							SDKUnhook(client, SDKHook_PostThinkPost, SDK_UpdateThink);
