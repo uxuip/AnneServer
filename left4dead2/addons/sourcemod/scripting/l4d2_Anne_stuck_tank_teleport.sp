@@ -9,7 +9,7 @@
 #define TEAM_INFECTED 3
 #define CVAR_FLAGS		FCVAR_NOTIFY
 
-#define PLUGIN_VERSION "1.2"
+#define PLUGIN_VERSION "1.3"
 ConVar 	g_hCvarEnable;
 ConVar 	g_hCvarStuckInterval;
 ConVar 	g_hCvarNonStuckRadius;
@@ -400,7 +400,7 @@ public Action Timer_CheckRusher(Handle timer) {
 					//增加限制条件，tank的路程图不能在生还者前面，否则会碰到刷tank后生还者距离过远，直接传送到生还者附近
 					if (distance > g_hCvarRusherDist.FloatValue) {
 						
-						if (g_iRushTimes[i] >= g_hCvarRusherCheckTimes.IntValue && L4D2Direct_GetFlowDistance(tank)<L4D2_GetFurthestSurvivorFlow()) {
+						if (g_iRushTimes[i] >= g_hCvarRusherCheckTimes.IntValue && L4D2Direct_GetFlowDistance(tank)<GetFurthestUncappedSurvivorFlow()) {
 
 							TeleportToSurvivorInPlace(tank, i);
 							PrintToChatAll("\x03%N \x04 因为当求生跑男，Tank开始传送惩罚.", i);
@@ -419,6 +419,16 @@ public Action Timer_CheckRusher(Handle timer) {
 		}
 	}
 	return Plugin_Continue;
+}
+float GetFurthestUncappedSurvivorFlow(){
+	float HighestFlow=0.0;
+	for(int i=1;i<=MaxClients;i++)
+		if(IsValidSurvivor(i)&&L4D_IsPlayerIncapacitated(i)){
+			float tmp=L4D2Direct_GetFlowDistance(i);
+			if(tmp>HighestFlow)
+				HighestFlow=tmp;
+		}
+	return HighestFlow;
 }
 int GetNearestTank(int client) {
 	static float tpos[3], spos[3], dist, mindist;
