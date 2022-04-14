@@ -23,11 +23,11 @@ public Plugin myinfo =
 }
 
 // ConVars
-ConVar g_hBoomerBhop, g_hBoomerBhopSpeed, g_hVomitRange, g_hBoomerAirAngles;
+ConVar g_hBoomerBhop, g_hBoomerBhopSpeed, g_hVomitRange, g_hBoomerAirAngles, g_hBoomerJumpAbility;
 // Floats
 float g_fBoomerBhopSpeed, g_fVomitRange, g_fBoomerAirAngles;
 // Bools
-bool g_bBoomerBhop, bCanVomit[MAXPLAYERS + 1];
+bool g_bBoomerBhop,g_bBoomerJumpAbility, bCanVomit[MAXPLAYERS + 1];
 // Handles
 Handle g_hVomitSurvivor;
 
@@ -39,6 +39,7 @@ public void OnPluginStart()
 {
 	// CreateConVar
 	g_hBoomerBhop = CreateConVar("ai_BoomerBhop", "1", "是否开启Boomer连跳", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	g_hBoomerJumpAbility = CreateConVar("ai_BoomerJumpAbility", "1", "是否开启Boomer跳吐", FCVAR_NOTIFY, true, 0.0, true, 1.0);
 	g_hBoomerBhopSpeed = CreateConVar("ai_BoomerBhopSpeed", "120.0", "Boomer连跳的速度", FCVAR_NOTIFY, true, 0.0);
 	g_hBoomerAirAngles = CreateConVar("ai_BoomerAirAngles", "60.0", "Boomer在空中的速度向量与到生还者的方向向量夹角大于这个值停止连跳", FCVAR_NOTIFY, true, 0.0);
 	g_hVomitRange = FindConVar("z_vomit_range");
@@ -47,6 +48,7 @@ public void OnPluginStart()
 	HookEvent("player_shoved", evt_PlayerShoved);
 	HookEvent("ability_use", evt_AbilityUse);
 	// AddChangeHook
+	g_hBoomerJumpAbility.AddChangeHook(ConVarChanged_Cvars);
 	g_hBoomerBhop.AddChangeHook(ConVarChanged_Cvars);
 	g_hBoomerBhopSpeed.AddChangeHook(ConVarChanged_Cvars);
 	g_hBoomerAirAngles.AddChangeHook(ConVarChanged_Cvars);
@@ -77,6 +79,7 @@ void ConVarChanged_Cvars(ConVar convar, const char[] oldValue, const char[] newV
 
 void GetCvars()
 {
+	g_bBoomerJumpAbility = g_hBoomerJumpAbility.BoolValue;
 	g_bBoomerBhop = g_hBoomerBhop.BoolValue;
 	g_fBoomerBhopSpeed = g_hBoomerBhopSpeed.FloatValue;
 	g_fVomitRange = g_hVomitRange.FloatValue;
@@ -98,8 +101,12 @@ public Action OnPlayerRunCmd(int boomer, int &buttons, int &impulse, float vel[3
 		float fBoomerPos[3], fTargetAngles[3];
 		GetClientAbsOrigin(boomer, fBoomerPos);
 		// 靠近生还者，立即喷吐，不需要在地上，空中也能吐
-		//if (iFlags & FL_ONGROUND && bHasSight && fDistance <= g_fVomitRange-80.0 && bCanVomit[boomer])
-		if (bHasSight && fDistance <= g_fVomitRange-100.0 && bCanVomit[boomer])
+		if(g_bBoomerJumpAbility && bHasSight && fDistance <= g_fVomitRange-100.0 && bCanVomit[boomer])
+		{
+			buttons |= IN_FORWARD;
+			buttons |= IN_ATTACK;
+		}			
+		else if(!g_bBoomerJumpAbility && iFlags & FL_ONGROUND && bHasSight && fDistance <= g_fVomitRange-100.0 && bCanVomit[boomer])
 		{
 			buttons |= IN_FORWARD;
 			buttons |= IN_ATTACK;

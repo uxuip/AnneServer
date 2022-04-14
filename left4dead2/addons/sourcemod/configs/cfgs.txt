@@ -213,6 +213,17 @@
 			"message" "关闭消耗克"
 		}
 	}
+	"特感能力选项"
+	{
+		"exec vote/sky_ability_on.cfg"
+		{
+			"message" "开启特感跳吐"
+		}
+		"exec vote/sky_ability_off.cfg"
+		{
+			"message" "关闭特感跳吐"
+		}
+	}
 	"开关死门"
 	{
 		"sm_cvar coopmode 1"
