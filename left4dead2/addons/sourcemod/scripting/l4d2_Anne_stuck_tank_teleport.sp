@@ -423,7 +423,8 @@ public Action Timer_CheckRusher(Handle timer) {
 float GetFurthestUncappedSurvivorFlow(){
 	float HighestFlow=0.0;
 	for(int i=1;i<=MaxClients;i++)
-		if(IsValidSurvivor(i)&&L4D_IsPlayerIncapacitated(i)){
+		if(IsValidSurvivor(i))
+			if(!L4D_IsPlayerIncapacitated(i)||!L4D_IsPlayerPinned(i)){
 			float tmp=L4D2Direct_GetFlowDistance(i);
 			if(tmp>HighestFlow)
 				HighestFlow=tmp;
