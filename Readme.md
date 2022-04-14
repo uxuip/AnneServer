@@ -11,7 +11,7 @@
 
 ### 新增插件介绍
 
-#### l4d2_Anne_stuck_tank_teleport.smx(你可以选装）
+#### l4d2_Anne_stuck_tank_teleport.smx(你可以删除，默认安装）
 
 原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本，一定时间内坦克移动半径没超过15个单位触发传送，会传送到距离生还者超过300单位且看不到的地方。当有生还者超过tank距离2000个单位，直接传送到生还者头上（求生跑男是吧，叫你跑Xd）。
 
@@ -25,7 +25,7 @@
 
 刷特插件稍作修改，修复了有时候会多刷一只特感的bug，并且减少了每服务器帧的刷特循环，降低服务器var值，刷特也变得更加分散，传送逻辑改变，不再是6s后没人看到就能传送，改为连续3s，每0.1s检测一次，都没被看到就能允许传送。
 
-#### l4d_infected_movement.smx
+#### l4d_infected_movement.smx(你可以删除，默认安装）
 
 这个插件本来时tank得跳砖功能，但是跳砖已经继承到了AI_HardSI_new.smx插件中，就在这个插件上增加了Spitter跳吐的能力。
 
