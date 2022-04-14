@@ -545,7 +545,7 @@ public Action SpawnNewInfected(Handle timer)
 				}
 			}
 		}
-		g_fSpawnDistanceMax = 250.0;
+		g_fSpawnDistanceMax = 400.0;
 		ResetInfectedNumber();
 
 		g_iSpawnMaxCount += 1;
