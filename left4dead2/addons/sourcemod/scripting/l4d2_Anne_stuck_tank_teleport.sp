@@ -9,7 +9,7 @@
 #define TEAM_INFECTED 3
 #define CVAR_FLAGS		FCVAR_NOTIFY
 
-#define PLUGIN_VERSION "1.1"
+#define PLUGIN_VERSION "1.2"
 ConVar 	g_hCvarEnable;
 ConVar 	g_hCvarStuckInterval;
 ConVar 	g_hCvarNonStuckRadius;
@@ -479,6 +479,10 @@ public void OnMapEnd() {
 	g_iTanksCount = 0;
 }
 
+stock bool IsOnLadder(int entity)
+{
+	return GetEntityMoveType(entity) == MOVETYPE_LADDER;
+}
 public Action Timer_CheckPos(Handle timer, int UserId)
 {
 	//PrintToConsoleAll("开始检查tank是否卡住");
@@ -492,7 +496,7 @@ public Action Timer_CheckPos(Handle timer, int UserId)
 		static float distance;
 		distance = GetVectorDistance(pos, g_pos[tank], false);
 		//PrintToConsoleAll("tank目前位置和前位置相差:%f",distance);
-		if (distance < g_hCvarNonStuckRadius.FloatValue && !IsIncappedNearBy(pos) && !IsTankAttacking(tank)) {
+		if (distance < g_hCvarNonStuckRadius.FloatValue && !IsIncappedNearBy(pos) && !IsTankAttacking(tank)&&!IsOnLadder(tank)) {
 			
 			if ( g_iStuckTimes[tank] > 2) {
 				TeleportTank(tank);
