@@ -1012,17 +1012,9 @@ public bool SpitterSpawn(){
 	return false;
 }
 
-// 返回在场特感数量，根据 z_%s_limit 限制每种特感上限
+// 返回在场特感数量，根据 z_%s_limit 限制每种特感上限，修改后不刷boomer和spitter
 int IsBotTypeNeeded()
 {
-	//ResetInfectedNumber();
-	if(SpitterSpawn())
-	{
-		if ((iSpitterLimit < GetConVarInt(FindConVar("z_spitter_limit"))))
-		{
-					return 4;
-		}
-	}
 	int iType = GetURandomIntRange(1, 7);
 	if (iType == 1)
 	{
@@ -1038,15 +1030,7 @@ int IsBotTypeNeeded()
 	}
 	else if (iType == 2)
 	{
-		if ((iBoomerLimit < GetConVarInt(FindConVar("z_boomer_limit"))))
-		{
-	//		iBoomerLimit++;
-			return 2;
-		}
-		else
-		{
 			IsBotTypeNeeded();
-		}
 	}
 	else if (iType == 3)
 	{
@@ -1062,20 +1046,7 @@ int IsBotTypeNeeded()
 	}
 	else if (iType == 4)
 	{
-		if ((iSpitterLimit < GetConVarInt(FindConVar("z_spitter_limit"))))
-		{
-			if(g_hSpawnMax.IntValue>4)
-				IsBotTypeNeeded();
-			else 
-				{
-			//		iSpitterLimit++;
-					return 4;
-				}
-		}
-		else
-		{
 			IsBotTypeNeeded();
-		}
 	}
 	else if (iType == 5)
 	{
