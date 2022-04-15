@@ -9,7 +9,7 @@
 #define TEAM_INFECTED 3
 #define CVAR_FLAGS		FCVAR_NOTIFY
 
-#define PLUGIN_VERSION "1.4"
+#define PLUGIN_VERSION "1.5"
 ConVar 	g_hCvarEnable;
 ConVar 	g_hCvarStuckInterval;
 ConVar 	g_hCvarNonStuckRadius;
@@ -32,6 +32,9 @@ int 	g_iRushTimes[MAXPLAYERS+1];
 int		g_iTanksCount;
 /*
 	ChangeLog:
+	1.5
+		修改tank传送可能被卡住的情况
+		
 	1.4
 		救援关不启动rush传送，修改Tank流程检测.生还者进度超过98%的也不会传送（防止传送到安全门内）
 	 
@@ -219,19 +222,27 @@ bool IsOnValidMesh(float fReferencePos[3])
 		return false;
 	}
 }
-bool IsPlayerStuck(float fSpawnPos[3])
+bool IsPlayerStuck(float fSpawnPos[3],int client)
 {
 	bool IsStuck = true;
 	float fMins[3] = {0.0}, fMaxs[3] = {0.0}, fNewPos[3] = {0.0};
 	fNewPos = fSpawnPos;
-	fNewPos[2] += 90.0;
-	fMins[0] = fMins[1] = -40.0;
+	fNewPos[2] += 60.0;
+	fMins[0] = fMins[1] = -24.0;
 	fMins[2] = 0.0;
-	fMaxs[0] = fMaxs[1] = 40.0;
-	fMaxs[2] = 90.0;
-	TR_TraceHullFilter(fSpawnPos, fNewPos, fMins, fMaxs, 147467, TraceFilter, _);
+	fMaxs[0] = fMaxs[1] = 24.0;
+	fMaxs[2] = 72.0;
+	TR_TraceHullFilter(fSpawnPos, fNewPos, fMins, fMaxs, MASK_NPCSOLID_BRUSHONLY, TraceRay_NoPlayers, client);
 	IsStuck = TR_DidHit();
 	return IsStuck;
+}
+public bool TraceRay_NoPlayers(int entity, int mask, any data)
+{
+    if(entity == data || (entity >= 1 && entity <= MaxClients))
+    {
+        return false;
+    }
+    return true;
 }
 public void TeleportTank(int client){
 		static float fEyePos[3] = {0.0}, fSelfEyePos[3] = {0.0};
@@ -254,7 +265,7 @@ public void TeleportTank(int client){
 			fSpawnPos[2] = GetRandomFloat(fSurvivorPos[2], fMaxs[2]);
 			int count2=0;
 			//PrintToConsoleAll("Tank找位置传送中.");
-			while (PlayerVisibleTo(fSpawnPos) || !IsOnValidMesh(fSpawnPos)|| IsPlayerStuck(fSpawnPos))
+			while (PlayerVisibleTo(fSpawnPos) || !IsOnValidMesh(fSpawnPos)|| IsPlayerStuck(fSpawnPos,client))
 			{
 				count2 ++;
 				if(count2 > 50)
@@ -297,7 +308,7 @@ public void TeleportTank(int client){
 						fSurvivorPos[2] -= 40.0;
 						if (L4D2_VScriptWrapper_NavAreaBuildPath(fSpawnPos, fSurvivorPos, 1500.0, false, false, TEAM_INFECTED, false))
 						{
-							fSpawnPos[2] += 70.0;
+							//fSpawnPos[2] += 70.0;
 							TeleportEntity(client, fSpawnPos, NULL_VECTOR, NULL_VECTOR);
 							PrintToChatAll("\x01Tank被卡住了开始传送.");
 						}
@@ -572,14 +583,7 @@ bool IsIncappedNearBy(float vOrigin[3])
 	}
 	return false;
 }
-public bool TraceRay_NoPlayers(int entity, int mask, any data)
-{
-    if(entity == data || (entity >= 1 && entity <= MaxClients))
-    {
-        return false;
-    }
-    return true;
-}
+
 
 stock bool IsIncapped(int client)
 {
