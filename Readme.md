@@ -13,7 +13,25 @@
 
 #### l4d2_Anne_stuck_tank_teleport.smx(你可以删除，默认安装）
 
-原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本，一定时间内坦克移动半径没超过15个单位触发传送，会传送到距离生还者超过300单位且看不到的地方。当有生还者超过tank距离2000个单位，直接传送到生还者头上（求生跑男是吧，叫你跑Xd）。
+原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本防卡插件。
+	ChangeLog:
+  1.5
+		修改tank传送可能被卡住的情况
+    
+	1.4
+		救援关不启动rush传送，修改Tank流程检测.生还者进度超过98%的也不会传送（防止传送到安全门内）
+	 
+	1.3 
+		增加倒地被控玩家不进入检测
+	
+	1.2 
+	    增加tank流程检测
+	
+	1.1 (01-Mar-2019)
+	 	修改tank传送逻辑
+	
+	1.0 (12-4-2022)
+	    版本发布
 
 #### AI_HardSI_new.smx
 
