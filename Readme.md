@@ -15,7 +15,7 @@
 
 原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本防卡插件。
 	ChangeLog:
-  1.5
+  	1.5
 		修改tank传送可能被卡住的情况
     
 	1.4
