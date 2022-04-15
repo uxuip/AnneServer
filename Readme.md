@@ -15,9 +15,9 @@
 
 原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本防卡插件。
 	ChangeLog:
-  	1.5
+	1.5
 		修改tank传送可能被卡住的情况
-    
+		
 	1.4
 		救援关不启动rush传送，修改Tank流程检测.生还者进度超过98%的也不会传送（防止传送到安全门内）
 	 
@@ -32,7 +32,6 @@
 	
 	1.0 (12-4-2022)
 	    版本发布
-
 #### AI_HardSI_new.smx
 
 在原版L4D2_TankThrow.smx基础上，增加了特感激进进攻的指令(来自 l4d2_asiai.ssp)，增加了跳砖，其余的两个插件相差不大，所以直接用这个插件替代原来那两个插件。
