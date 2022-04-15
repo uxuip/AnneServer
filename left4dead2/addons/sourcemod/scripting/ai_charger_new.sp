@@ -27,7 +27,7 @@ ConVar g_hChargerBhop, g_hChargerBhopSpeed, g_hChargerTarget, g_hStartChargeDist
 // Ints
 int g_iChargerTarget, g_iStartChargeDistance, g_iChargerAimOffset, g_iHealthStartCharge, g_iValidSurvivor = 0,g_iChargerCoolTime;
 // Bools
-bool g_bChargerBhop, g_bShouldCharge[MAXPLAYERS + 1];
+bool g_bChargerBhop, g_bShouldCharge[MAXPLAYERS + 1],alreadycharged[MAXPLAYERS + 1];
 // Floats
 float g_fChargerBhopSpeed, g_fChargerAirAngles;
 
@@ -238,6 +238,7 @@ public Action OnPlayerRunCmd(int charger, int &buttons, int &impulse, float vel[
 			else
 			{
 				buttons |= IN_ATTACK2;
+				if(!alreadycharged[charger])
 				g_bShouldCharge[charger] = true;
 			}
 			return Plugin_Continue;
@@ -426,6 +427,7 @@ public void evt_PlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	if (IsAiCharger(client))
 	{
+		alreadycharged[client]=false;
 		g_bShouldCharge[client] = false;
 	}
 }
@@ -435,6 +437,9 @@ public void evt_ChargerChargeStart(Event event, const char[] name, bool dontBroa
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	if (IsAiCharger(client))
 	{
+		g_bShouldCharge[client]=false;
+		alreadycharged[client]=true;
+		CreateTimer(g_iChargerCoolTime,ChargerEnable,client,TIMER_FLAG_NO_MAPCHANGE);
 		int iTarget = GetClientAimTarget(client, true);
 		if (!IsSurvivor(iTarget) || IsIncapped(iTarget) || IsPinned(iTarget) || IsTargetWatchingAttacker(client, g_iChargerAimOffset))
 		{
@@ -476,11 +481,10 @@ public void evt_ChargerChargeStart(Event event, const char[] name, bool dontBroa
 			}
 			ChargerPridiction(client, iTarget);
 		}
-		g_bShouldCharge[client]=false;
-		CreateTimer(g_iChargerCoolTime,ChargerEnable,client,TIMER_FLAG_NO_MAPCHANGE);
 	}
 }
 public Action ChargerEnable(Handle timer,int client) {
+	alreadycharged[client]=false;
 	g_bShouldCharge[client]=true;
 }
 void ChargerPridiction(int charger, int survivor)
