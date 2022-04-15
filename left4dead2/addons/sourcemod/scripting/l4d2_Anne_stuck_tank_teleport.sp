@@ -9,7 +9,7 @@
 #define TEAM_INFECTED 3
 #define CVAR_FLAGS		FCVAR_NOTIFY
 
-#define PLUGIN_VERSION "1.3"
+#define PLUGIN_VERSION "1.4"
 ConVar 	g_hCvarEnable;
 ConVar 	g_hCvarStuckInterval;
 ConVar 	g_hCvarNonStuckRadius;
@@ -30,6 +30,24 @@ int 	g_iTimes[MAXPLAYERS+1];
 int 	g_iStuckTimes[MAXPLAYERS+1];
 int 	g_iRushTimes[MAXPLAYERS+1];
 int		g_iTanksCount;
+/*
+	ChangeLog:
+	1.4
+		救援关不启动rush传送，修改Tank流程检测.生还者进度超过98%的也不会传送（防止传送到安全门内）
+	 
+	1.3 
+		增加倒地被控玩家不进入检测
+	
+	1.2 
+	    增加tank流程检测
+	
+	1.1 (01-Mar-2019)
+	 	修改tank传送逻辑
+	
+	1.0 (12-4-2022)
+	    版本发布
+	
+*/
 public Plugin myinfo = 
 {
 	name = "Anne Stuck Tank Teleport System",
@@ -46,7 +64,7 @@ public void OnPluginStart()
 	g_hCvarStuckInterval = CreateConVar(	"l4d2_Anne_stuck_tank_teleport_check_interval",			"3",		"Time intervals (in sec.) tank stuck should be checked", CVAR_FLAGS );
 	g_hCvarNonStuckRadius = CreateConVar(	"l4d2_Anne_stuck_tank_teleport_non_stuck_radius",		"15",		"Maximum radius where tank is cosidered non-stucked when not moved during X (9) sec. (see l4d2_Anne_stuck_tank_teleport_check_interval ConVar)", CVAR_FLAGS );
 	g_hCvarRusherPunish = CreateConVar(		"l4d2_Anne_stuck_tank_teleport_rusher_punish",			"1",		"Punish the player who rush too far from the nearest tank by teleporting tank to him? (0 - No / 1 - Yes)", CVAR_FLAGS );
-	g_hCvarRusherDist = CreateConVar(		"l4d2_Anne_stuck_tank_teleport_rusher_dist",			"2000",		"Maximum distance to the nearest tank considered as rusher", CVAR_FLAGS );
+	g_hCvarRusherDist = CreateConVar(		"l4d2_Anne_stuck_tank_teleport_rusher_dist",			"3000",		"Maximum distance to the nearest tank considered as rusher", CVAR_FLAGS );
 	g_hCvarRusherCheckTimes = CreateConVar(	"l4d2_Anne_stuck_tank_teleport_rusher_check_times",		"3",		"Number of checks before finally considering player as rusher", CVAR_FLAGS );
 	g_hCvarRusherCheckInterv = CreateConVar("l4d2_Anne_stuck_tank_teleport_rusher_check_interval",	"5",		"Interval (in sec.) between each check for rusher", CVAR_FLAGS );	
 	g_hCvarRusherMinPlayers = CreateConVar(	"l4d_TankAntiStuck_rusher_minplayers",		"2",		"Minimum living players allowed for 'Rusher player' rule to work", CVAR_FLAGS );
@@ -388,6 +406,9 @@ public Action Timer_CheckRusher(Handle timer) {
 		if (IsClientInGame(i) && GetClientTeam(i) == 2 && !IsFakeClient(i) && IsPlayerAlive(i))
 		{
 			GetClientAbsOrigin(i, pos);
+			if (L4D_IsPlayerIncapacitated(i)||L4D_IsPlayerPinned(i)) {
+				break;
+			}
 			
 			if (GetSurvivorCountAlive() >= g_hCvarRusherMinPlayers.IntValue) {
 				
@@ -400,7 +421,7 @@ public Action Timer_CheckRusher(Handle timer) {
 					//增加限制条件，tank的路程图不能在生还者前面，否则会碰到刷tank后生还者距离过远，直接传送到生还者附近
 					if (distance > g_hCvarRusherDist.FloatValue) {
 						
-						if (g_iRushTimes[i] >= g_hCvarRusherCheckTimes.IntValue && L4D2Direct_GetFlowDistance(tank)<GetFurthestUncappedSurvivorFlow()) {
+						if (g_iRushTimes[i] >= g_hCvarRusherCheckTimes.IntValue && L4D2Direct_GetFlowDistance(tank)<L4D2Direct_GetFlowDistance(i) && !L4D_IsMissionFinalMap() && GetPlayerflowPercent(i)<98.0) {
 
 							TeleportToSurvivorInPlace(tank, i);
 							PrintToChatAll("\x03%N \x04 因为当求生跑男，Tank开始传送惩罚.", i);
@@ -420,6 +441,10 @@ public Action Timer_CheckRusher(Handle timer) {
 	}
 	return Plugin_Continue;
 }
+float GetPlayerflowPercent(int client){
+	return (L4D2Direct_GetFlowDistance(client)/L4D2Direct_GetMapMaxFlowDistance())*100.0;
+}
+/*
 float GetFurthestUncappedSurvivorFlow(){
 	float HighestFlow=0.0;
 	for(int i=1;i<=MaxClients;i++)
@@ -431,6 +456,7 @@ float GetFurthestUncappedSurvivorFlow(){
 		}
 	return HighestFlow;
 }
+*/
 int GetNearestTank(int client) {
 	static float tpos[3], spos[3], dist, mindist;
 	static int iNearClient;
