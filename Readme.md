@@ -25,13 +25,22 @@
 
 刷特插件稍作修改，修复了有时候会多刷一只特感的bug，并且减少了每服务器帧的刷特循环，降低服务器var值，刷特也变得更加分散，传送逻辑改变，不再是6s后没人看到就能传送，改为连续3s，每0.1s检测一次，都没被看到就能允许传送。
 
-#### l4d_infected_movement.smx(你可以删除，默认安装）
+#### l4d_infected_movement.smx(spitter跳吐和boomer跳吐已经提供了关闭投票）
 
 这个插件本来时tank得跳砖功能，但是跳砖已经继承到了AI_HardSI_new.smx插件中，就在这个插件上增加了Spitter跳吐的能力。
 
-### l4d_target_override
+#### l4d_target_override
 
 更新为最新版本，并修改了一些目标顺序。
+
+#### Alone
+单人装逼插件已经用新版刷特逻辑替代，并且继承了老版对smoker加伤，不刷boomer spitter等功能（但是刷特种类依旧是读取特感限制来刷，不过应该没影响）
+
+#### l4d_target_override 
+更新到最新版本，多了一些目标可以选择，修改后的l4d_target_override.cfg在data文件内。
+
+#### hunter
+1vht插件也用新版刷特逻辑替代，并且1vht模式用了增强的hunter。
 
 ### 特感增强介绍
 
@@ -47,11 +56,11 @@ Smoker优先拉超前或者落单者，拉喷子效果一般。
 
 #### Tank
 
-Tank将连跳到选定生还者前TankAttack+50的距离停止连跳，增加检测绕树功能，被绕的情况下重新选取目标。
+Tank将连跳到选定生还者前TankAttack+50的距离停止连跳，增加检测绕树功能，被绕的情况下重新选取目标。增加了消耗克的投票。
 
 #### Boomer
 
-Boomer连跳速度加快，但是不会再有飞天炸了，应该算削了？
+Boomer连跳速度加快，但是不会再有飞天炸了，应该算削了？update:可以空中吐，但是相比2-2应该还是算削了
 
 #### Spitter
 
