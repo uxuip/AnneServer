@@ -226,12 +226,10 @@ bool IsPlayerStuck(float fSpawnPos[3],int client)
 {
 	bool IsStuck = true;
 	float fMins[3] = {0.0}, fMaxs[3] = {0.0}, fNewPos[3] = {0.0};
+	GetClientMaxs(client,fMaxs);
+	GetClientMins(client,fMins);
 	fNewPos = fSpawnPos;
-	fNewPos[2] += 60.0;
-	fMins[0] = fMins[1] = -24.0;
-	fMins[2] = 0.0;
-	fMaxs[0] = fMaxs[1] = 24.0;
-	fMaxs[2] = 72.0;
+	fNewPos[2] += 80.0;
 	TR_TraceHullFilter(fSpawnPos, fNewPos, fMins, fMaxs, MASK_NPCSOLID_BRUSHONLY, TraceRay_NoPlayers, client);
 	IsStuck = TR_DidHit();
 	return IsStuck;
@@ -310,7 +308,7 @@ public void TeleportTank(int client){
 						{
 							//fSpawnPos[2] += 70.0;
 							TeleportEntity(client, fSpawnPos, NULL_VECTOR, NULL_VECTOR);
-							PrintToChatAll("\x01Tank被卡住了开始传送.");
+							PrintToChatAll("\x03Tank被卡住了开始传送.");
 						}
 					}
 				}
@@ -433,10 +431,10 @@ public Action Timer_CheckRusher(Handle timer) {
 					if (distance > g_hCvarRusherDist.FloatValue) {
 						
 						if (g_iRushTimes[i] >= g_hCvarRusherCheckTimes.IntValue && L4D2Direct_GetFlowDistance(tank)<L4D2Direct_GetFlowDistance(i) && !L4D_IsMissionFinalMap() && GetPlayerflowPercent(i)<98.0) {
-
+							PrintToConsoleAll("tank与\x03%N的距离为：%f，坦克的路程为:%f，生还者的路程为:%f,生还者进度为：%f",distance,L4D2Direct_GetFlowDistance(tank),L4D2Direct_GetFlowDistance(i),GetPlayerflowPercent(i));
 							TeleportToSurvivorInPlace(tank, i);
 							PrintToChatAll("\x03%N \x04 因为当求生跑男，Tank开始传送惩罚.", i);
-							
+														
 							g_iRushTimes[i] = 0;
 						}
 						else {

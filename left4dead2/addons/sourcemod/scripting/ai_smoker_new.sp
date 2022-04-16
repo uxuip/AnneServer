@@ -30,13 +30,13 @@ public Plugin myinfo =
 }
 
 // ConVars
-ConVar g_hTongueRange, g_hTargetChoose, g_hMeleeAvoid, g_hVisionInverse, g_hLeftDistance, g_hDistancePercent, g_hSmokerBhop, g_hSmokerBhopSpeed;
+ConVar g_hTongueRange, g_hTargetChoose, g_hMeleeAvoid, g_hLeftDistance, g_hDistancePercent, g_hSmokerBhop, g_hSmokerBhopSpeed,g_hSmokerInterval;
 // Ints
 int g_iTongueRange, g_iTargetChoose, g_iMellePlayer = -1, g_iValidSurvivor = 0;
 // Bools
-bool g_bMeleeAvoid, g_bVisionInverse, bIsBehind[MAXPLAYERS + 1], g_bSmokerBhop,bCanSmoker[MAXPLAYERS + 1];
+bool g_bMeleeAvoid, bIsBehind[MAXPLAYERS + 1], g_bSmokerBhop,bCanSmoker[MAXPLAYERS + 1];
 // Floats
-float g_fMapFlowDistance, g_fLeftDistance, g_fDistancePercent, g_fSmokerBhopSpeed;
+float g_fMapFlowDistance, g_fLeftDistance, g_fDistancePercent, g_fSmokerBhopSpeed,g_fSmokerInterval;
 
 public void OnPluginStart()
 {
@@ -44,20 +44,20 @@ public void OnPluginStart()
 	g_hSmokerBhopSpeed = CreateConVar("ai_SmokerBhopSpeed", "80.0", "Smoker连跳的速度", FCVAR_NOTIFY, true, 0.0);
 	g_hTargetChoose = CreateConVar("ai_SmokerTarget", "3", "Smoker优先选择的目标：1=距离最近，2=手持喷子的人（无则最近），3=落单者或超前者（无则最近），4=正在换弹的人（无则最近）", FCVAR_NOTIFY, true, 1.0, true, 4.0);
 	g_hMeleeAvoid = CreateConVar("ai_SmokerMeleeAvoid", "1", "Smoker的目标如果手持近战则切换目标", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-	g_hVisionInverse = CreateConVar("ai_SmokerVisionInverse", "0", "Smoker正在拉人时视角是否转向背后", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	g_hSmokerInterval = FindConVar("tongue_hit_delay");
 	g_hLeftDistance = CreateConVar("ai_SmokerLeftBehindDistance", "5.0", "玩家距离团队多远判定为落后或超前", FCVAR_NOTIFY, true, 0.0);
-	g_hDistancePercent = CreateConVar("ai_SmokerDistantPercent", "0.90", "舌头如果处在这个系数 * 舌头长度的距离范围内，则会立刻拉人", FCVAR_NOTIFY, true, 0.0);
+	g_hDistancePercent = CreateConVar("ai_SmokerDistantPercent", "0.80", "舌头如果处在这个系数 * 舌头长度的距离范围内，则会立刻拉人", FCVAR_NOTIFY, true, 0.0);
 	g_hTongueRange = FindConVar("tongue_range");
 	// HookEvent
 	HookEvent("round_start", evtRoundStart);
 	HookEvent("player_spawn", evt_PlayerSpawn);
 	HookEvent("player_death", evt_PlayerDeath);
 	// AddChangeHooks
+	g_hSmokerInterval.AddChangeHook(ConVarChanged_Cvars);
 	g_hSmokerBhop.AddChangeHook(ConVarChanged_Cvars);
 	g_hSmokerBhopSpeed.AddChangeHook(ConVarChanged_Cvars);
 	g_hTargetChoose.AddChangeHook(ConVarChanged_Cvars);
 	g_hMeleeAvoid.AddChangeHook(ConVarChanged_Cvars);
-	g_hVisionInverse.AddChangeHook(ConVarChanged_Cvars);
 	g_hTongueRange.AddChangeHook(ConVarChanged_Cvars);
 	g_hLeftDistance.AddChangeHook(ConVarChanged_Cvars);
 	g_hDistancePercent.AddChangeHook(ConVarChanged_Cvars);
@@ -83,11 +83,11 @@ void ConVarChanged_Cvars(ConVar convar, const char[] oldValue, const char[] newV
 void GetCvars()
 {
 	g_bSmokerBhop = g_hSmokerBhop.BoolValue;
+	g_fSmokerInterval = g_hSmokerInterval.FloatValue;
 	g_fSmokerBhopSpeed = g_hSmokerBhopSpeed.FloatValue;
 	g_iTargetChoose = g_hTargetChoose.IntValue;
 	g_iTongueRange = g_hTongueRange.IntValue;
 	g_bMeleeAvoid = g_hMeleeAvoid.BoolValue;
-	g_bVisionInverse = g_hVisionInverse.BoolValue;
 	g_fLeftDistance = g_hLeftDistance.FloatValue;
 	g_fDistancePercent = g_hDistancePercent.FloatValue;
 }
@@ -144,19 +144,8 @@ public Action OnPlayerRunCmd(int smoker, int &buttons, int &impulse, float vel[3
 					}
 				}
 			}
-			if (bHasSight)
-			{
-				if (!g_bVisionInverse)
-				{
-					// 如果没有开视角转向，则可以锁死视角
-					return Plugin_Changed;
-				}
-				ComputeAimAngles(smoker, iTarget, fTargetAngles, AimChest);
-				fTargetAngles[2] = 0.0;
-				TeleportEntity(smoker, NULL_VECTOR, fTargetAngles, NULL_VECTOR);
-			}
 			// 由于舌头需要拉人，所以此时需要判断可见性
-			if (IsSurvivor(iTarget) && !IsIncapped(iTarget) && IsVisible(smoker, iTarget))
+			if (IsSurvivor(iTarget) && !IsIncapped(iTarget) && bHasSight)
 			{
 				if (fDistance < SMOKER_MELEE_RANGE)
 				{
@@ -166,22 +155,15 @@ public Action OnPlayerRunCmd(int smoker, int &buttons, int &impulse, float vel[3
 				}
 				else if (fDistance < g_fDistancePercent * float(g_iTongueRange)&&bCanSmoker[smoker])
 				{
+					ComputeAimAngles(smoker, iTarget, fTargetAngles, AimChest);
+					//fTargetAngles[2] = 0.0;
+					TeleportEntity(smoker, NULL_VECTOR, fTargetAngles, NULL_VECTOR);
 					buttons |= IN_ATTACK2;
 					buttons |= IN_ATTACK;
 					bCanSmoker[smoker]=false;
-					CreateTimer(0.5,CoolDown,smoker);
+					CreateTimer(g_fSmokerInterval,CoolDown,smoker);
 					return Plugin_Changed;
 				}
-			}
-		}
-		else
-		{
-			if (!g_hVisionInverse)
-			{
-				int iNewTarget = GetClosestSurvivor(fSmokerPos);
-				ComputeAimAngles(smoker, iNewTarget, fTargetAngles, AimChest);
-				fTargetAngles[2] = 0.0;
-				TeleportEntity(smoker, NULL_VECTOR, fTargetAngles, NULL_VECTOR);
 			}
 		}
 		// 拉到人了
@@ -189,13 +171,6 @@ public Action OnPlayerRunCmd(int smoker, int &buttons, int &impulse, float vel[3
 		if (iVictim > 0)
 		{
 			g_iMellePlayer = -1;
-			if (g_bVisionInverse)
-			{
-				DataPack pack = new DataPack();
-				pack.WriteCell(iVictim);
-				pack.WriteCell(smoker);
-				VisionInverse(pack);
-			}
 		}
 	}
 	return Plugin_Continue;
@@ -262,26 +237,6 @@ bool IsAiSmoker(int client)
 	else
 	{
 		return false;
-	}
-}
-
-void VisionInverse(DataPack pack)
-{
-	pack.Reset();
-	int victim = pack.ReadCell();
-	int attacker = pack.ReadCell();
-	float fSelfPos[3], fTargetPos[3], fLookAt[3], fNegetiveLookAt[3];
-	if (IsAiSmoker(attacker))
-	{
-		GetClientEyePosition(attacker, fSelfPos);
-		if (IsSurvivor(victim))
-		{
-			GetClientEyePosition(victim, fTargetPos);
-			MakeVectorFromPoints(fSelfPos, fTargetPos, fLookAt);
-			NegateVector(fLookAt);
-			GetVectorAngles(fLookAt, fNegetiveLookAt);
-			TeleportEntity(attacker, NULL_VECTOR, fNegetiveLookAt, NULL_VECTOR);
-		}
 	}
 }
 
@@ -526,16 +481,29 @@ bool IsIncapped(int client)
 {
     return view_as<bool>(GetEntProp(client, Prop_Send, "m_isIncapacitated"));
 }
-
+	/*
 // 是否两者可见？
 bool IsVisible(int client, int target)
 {
 	bool bCanSee = false;
-	float selfpos[3], targetpos[3], lookat[3], angles[3];
+	float selfpos[3], targetpos[3];
+	//float selfpos[3], targetpos[3], lookat[3], angles[3];
 	GetClientEyePosition(client, selfpos);
-	GetClientEyePosition(target, targetpos);
-	MakeVectorFromPoints(selfpos, targetpos, lookat);
-	GetVectorAngles(lookat, angles);
+	GetClientAbsOrigin(target, targetpos);
+	targetpos[2]+=45.0;
+	//MakeVectorFromPoints(selfpos, targetpos, lookat);
+	//GetVectorAngles(lookat, angles);
+	float fMins[3] = {0.0}, fMaxs[3] = {0.0};
+	fMins[0] = fMins[1] = -10.0;
+	fMins[2] = 0.0;
+	fMaxs[0] = fMaxs[1] = 10.0;
+	fMaxs[2] = 10.0;
+	TR_TraceHullFilter(selfpos, targetpos, fMins, fMaxs, MASK_NPCSOLID_BRUSHONLY, TraceRay_NoPlayers, client);
+	if (!TR_DidHit())
+	{
+			bCanSee = true;
+	}
+
 	Handle hTrace = TR_TraceRayFilterEx(selfpos, angles, MASK_SOLID, RayType_Infinite, traceFilter, client);
 	if (TR_DidHit(hTrace))
 	{
@@ -546,12 +514,24 @@ bool IsVisible(int client, int target)
 		}
 	}
 	delete hTrace;
+	
 	return bCanSee;
 }
-
+*/
+/*
 bool traceFilter(int entity, int mask, int self)
 {
 	return entity != self;
+}
+*/
+
+public bool TraceRay_NoPlayers(int entity, int mask, any data)
+{
+    if(entity == data || (entity >= 1 && entity <= MaxClients))
+    {
+        return false;
+    }
+    return true;
 }
 
 // 选择最近玩家
