@@ -13,7 +13,8 @@
 
 #### l4d2_Anne_stuck_tank_teleport.smx(你可以删除，默认安装）
 
-原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本防卡插件。
+原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本tank防卡和跑男惩罚插件。
+    
     ChangeLog:
 
     1.5
@@ -28,10 +29,10 @@
     1.2 
         增加tank流程检测
     
-    1.1 (01-Mar-2019)
+    1.1 
          修改tank传送逻辑
     
-    1.0 (12-4-2022)
+    1.0 
         版本发布
 
 #### AI_HardSI_new.smx
@@ -46,7 +47,7 @@
 
 #### l4d_infected_movement.smx(spitter跳吐和boomer跳吐已经提供了关闭投票）
 
-这个插件本来时tank得跳砖功能，但是跳砖已经继承到了AI_HardSI_new.smx插件中，就在这个插件上增加了Spitter跳吐的能力。
+这个插件本来时tank的跳砖功能，但是跳砖已经继承到了ai_tank_new.smx插件中，就在这个插件上增加了Spitter跳吐的能力。
 
 #### l4d_target_override
 
@@ -70,7 +71,7 @@
 
 #### Hunter
 
-Hunter将优先选择拿机枪的玩家进行攻击，如果有墙面的时候优先选择弹墙，降低垂直高度限制，低扑更加灵活。
+Hunter将优先选择拿机枪的玩家进行攻击，如果有墙面的时候优先选择弹墙，降低垂直高度限制(这会导致水平速度加快，你如果你用原来的，把这个从7改回原来的10)，低扑更加灵活。
 
 #### Smoker
 
