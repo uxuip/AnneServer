@@ -13,7 +13,8 @@
 
 #### l4d2_Anne_stuck_tank_teleport.smx(你可以删除，默认安装）
 
-原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本防卡插件。
+原来那个防卡tank和Anne搭配不好，借鉴infected_control和l4d_tankantistuck，写了这个版本tank防卡和跑男惩罚插件。
+    
     ChangeLog:
 
     1.5
@@ -28,10 +29,10 @@
     1.2 
         增加tank流程检测
     
-    1.1 (01-Mar-2019)
+    1.1 
          修改tank传送逻辑
     
-    1.0 (12-4-2022)
+    1.0 
         版本发布
 
 #### AI_HardSI_new.smx
@@ -46,7 +47,7 @@
 
 #### l4d_infected_movement.smx(spitter跳吐和boomer跳吐已经提供了关闭投票）
 
-这个插件本来时tank得跳砖功能，但是跳砖已经继承到了AI_HardSI_new.smx插件中，就在这个插件上增加了Spitter跳吐的能力。
+这个插件本来时tank的跳砖功能，但是跳砖已经继承到了ai_tank_new.smx插件中，就在这个插件上增加了Spitter跳吐的能力。
 
 #### l4d_target_override
 
