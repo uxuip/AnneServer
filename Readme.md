@@ -4,4 +4,4 @@
 
 test分支第一版基本已经完成，欢迎体验，有bug及时反馈~
 
-增加了2个docker，分别对应稳定分支和test分支，方便服务器部署，使用方法在WiKi[1](https://github.com/Caibiii/AnneServer/wiki/AnneServer-Docker%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97)，特别是想一个服务器部署多个服的。
+增加了2个docker，分别对应稳定分支和test分支，方便服务器部署，使用方法在[WiKi](https://github.com/Caibiii/AnneServer/wiki/AnneServer-Docker%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97)，特别是想一个服务器部署多个服的。
