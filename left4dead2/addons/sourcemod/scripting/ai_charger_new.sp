@@ -180,26 +180,11 @@ public Action OnPlayerRunCmd(int charger, int &buttons, int &impulse, float vel[
 					buttons &= ~IN_DUCK;
 				}
 			}
-			else
-			{
-				int iNewTarget = GetClosestSurvivor(fChargerPos);
-				ComputeAimAngles(charger, iNewTarget, fTargetAngles, AimChest);
-				fTargetAngles[2] = 0.0;
-				TeleportEntity(charger, NULL_VECTOR, fTargetAngles, NULL_VECTOR);
-			}
 		}
 		else if (float(g_iStartChargeDistance) - 10.0 < fDistance < float(g_iStartChargeDistance) + 100.0 && fCurrentSpeed > 260.0)
 		{
 			if (iFlags & FL_ONGROUND)
 			{
-				//地方锁定视野
-				if (bHasSight)
-				{
-					// 锁定视野
-					ComputeAimAngles(charger, iTarget, fTargetAngles, AimChest);
-					fTargetAngles[2] = 0.0;
-					TeleportEntity(charger, NULL_VECTOR, fTargetAngles, NULL_VECTOR);
-				}
 				//设置牛连跳上限
 				if (fLeftGroundMaxSpeed[charger] != -1.0)
 				{
