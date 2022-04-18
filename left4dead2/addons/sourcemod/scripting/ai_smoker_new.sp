@@ -55,6 +55,7 @@ public void OnPluginStart()
 	HookEvent("player_spawn", evt_PlayerSpawn);
 	HookEvent("player_death", evt_PlayerDeath);
 	// AddChangeHooks
+	g_hCvarTongueDelay.AddChangeHook(ConVarChanged_Cvars);
 	g_hSmokerInterval.AddChangeHook(ConVarChanged_Cvars);
 	g_hSmokerBhop.AddChangeHook(ConVarChanged_Cvars);
 	g_hSmokerBhopSpeed.AddChangeHook(ConVarChanged_Cvars);
@@ -84,6 +85,8 @@ void ConVarChanged_Cvars(ConVar convar, const char[] oldValue, const char[] newV
 
 void GetCvars()
 {
+	//阻止重启后值被重载
+	SetConVarFloat(g_hCvarTongueDelay, SMOKER_TONGUE_DELAY);
 	g_bSmokerBhop = g_hSmokerBhop.BoolValue;
 	g_fSmokerInterval = g_hSmokerInterval.FloatValue;
 	g_fSmokerBhopSpeed = g_hSmokerBhopSpeed.FloatValue;
