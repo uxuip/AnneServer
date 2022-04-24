@@ -1,8 +1,6 @@
-name: Go Release
+name: AnneServer Update Achieve Release
 
 on:
-  release:
-    types: [published]
   push:
     branches:
       - 'main'
@@ -11,41 +9,18 @@ jobs:
 
   release:
     if: github.repository == 'Caibiii/AnneServer'
-    name: Build with go ${{ matrix.go_version }} on ${{ matrix.os }} and upload
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        go_version: [1.13]
-        os: [ubuntu-latest]
-
+    name: Upload  AnneServer Achieve if a new commit was been push.
+    runs-on: [ubuntu-latest]
+    
     steps:
-
-      - name: Set up Go ${{ matrix.go_version }}
-        uses: actions/setup-go@v1
-        with:
-          go-version: ${{ matrix.go_version }}
-        id: go
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v1
-
-      - name: Get dependencies
+      - name: Checkout code
         run: |
-          go get -v -t -d ./...
-          if [ -f Gopkg.toml ]; then
-              curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-              dep ensure
-          fi
-
-      - name: Build
-        run: |
-          go build -v -o main .
+          git clone https://github.com/Caibiii/AnneServer.git
 
       - name: Gzip
         run: |
           mkdir AnneServer-stable-${date}
-          cp main AnneServer-stable-${date}
+          cp -R AnneServer AnneServer-stable-${date}
           tar -czvf  AnneServer-stable-${date}.tar.gz  AnneServer-stable-${date}
 
       - name: Upload to release
