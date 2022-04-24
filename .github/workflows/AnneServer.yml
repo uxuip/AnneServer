@@ -3,11 +3,14 @@ name: Go Release
 on:
   release:
     types: [published]
+  push:
+    branches:
+      - 'main'
 
 jobs:
 
   release:
-    if: github.repository == 'PasteUs/HelloCI'
+    if: github.repository == 'Caibiii/AnneServer'
     name: Build with go ${{ matrix.go_version }} on ${{ matrix.os }} and upload
     runs-on: ${{ matrix.os }}
 
@@ -41,13 +44,13 @@ jobs:
 
       - name: Gzip
         run: |
-          mkdir hello-word-${{ matrix.os }}
-          cp main hello-word-${{ matrix.os }}
-          tar -czvf hello-word-${{ matrix.os }}.tar.gz hello-word-${{ matrix.os }}
+          mkdir AnneServer-stable-${date}
+          cp main AnneServer-stable-${date}
+          tar -czvf  AnneServer-stable-${date}.tar.gz  AnneServer-stable-${date}
 
       - name: Upload to release
         uses: JasonEtco/upload-to-release@master
         with:
-          args: hello-word-${{ matrix.os }}.tar.gz application/octet-stream
+          args:  AnneServer-stable-${date}.tar.gz application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
