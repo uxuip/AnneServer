@@ -16,16 +16,19 @@ jobs:
       - name: Checkout code
         run: |
           git clone https://github.com/Caibiii/AnneServer.git
+      
+      - name: Set current date as env variable
+        run: echo "NOW::$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Gzip
         run: |
-          mkdir AnneServer-stable-${date}
-          cp -R AnneServer AnneServer-stable-${date}
-          tar -czvf  AnneServer-stable-${date}.tar.gz  AnneServer-stable-${date}
+          mkdir AnneServer-stable-$NOW
+          cp -R AnneServer AnneServer-stable-$NOW
+          tar -czvf  AnneServer-stable-$NOW.tar.gz  AnneServer-stable-$NOW
 
       - name: Upload to release
         uses: JasonEtco/upload-to-release@master
         with:
-          args:  AnneServer-stable-${date}.tar.gz application/octet-stream
+          args:  AnneServer-stable-NOW.tar.gz application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
