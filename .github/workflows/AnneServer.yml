@@ -28,7 +28,8 @@ jobs:
           tar -czvf  AnneServer-stable-${{ steps.date.outputs.date }}.tar.gz  AnneServer-stable-${{ steps.date.outputs.date }}
  
       - name: Update release
-        uses: johnwbyrd/update-release@v1
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-           token: ${{ secrets.YOUR_PRIVATE_SECRET_TOKEN }}
-           asset: ./AnneServer-stable-${{ steps.date.outputs.date }}.tar.gz
+          files: AnneServer-stable-${{ steps.date.outputs.date }}.tar.gz
