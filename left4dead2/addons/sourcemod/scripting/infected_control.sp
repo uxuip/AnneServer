@@ -28,7 +28,7 @@ public Plugin myinfo =
 }
 
 // Cvars
-ConVar g_hSpawnDistanceMin, g_hSpawnDistanceMax, g_hTeleportSi, g_hTeleportDistance, g_hSiLimit, g_hSiInterval, g_hMaxPlayerZombies, g_hSpawnMax;
+ConVar g_hSpawnDistanceMin, g_hSpawnDistanceMax, g_hTeleportSi, g_hTeleportDistance, g_hSiLimit, g_hSiInterval, g_hMaxPlayerZombies;
 // Ints
 int g_iSiLimit,iWaveTime,
 g_iTeleCount[MAXPLAYERS + 1] = {0}, g_iTargetSurvivor = -1, g_iSpawnMaxCount = 0, g_iSurvivorNum = 0, g_iSurvivors[MAXPLAYERS + 1] = {0};
@@ -63,7 +63,7 @@ public void OnPluginStart()
 	g_hTeleportDistance = CreateConVar("inf_TeleportDistance", "800.0", "特感落后于最近的生还者超过这个距离则将它们传送", CVAR_FLAG, true, 0.0);
 	g_hSiLimit = CreateConVar("l4d_infected_limit", "6", "一次刷出多少特感", CVAR_FLAG, true, 0.0);
 	g_hSiInterval = CreateConVar("versus_special_respawn_interval", "16.0", "对抗模式下刷特时间控制", CVAR_FLAG, true, 0.0);
-	g_hSpawnMax = CreateConVar("spawn_count_max", "0", "此值记录特感找位次数，根据此值动态改变刷新距离", ~ CVAR_FLAG, true, 0.0);
+//	g_hSpawnMax = CreateConVar("spawn_count_max", "0", "此值记录特感找位次数，根据此值动态改变刷新距离", ~ CVAR_FLAG, true, 0.0);
 	g_hMaxPlayerZombies = FindConVar("z_max_player_zombies");
 	SetConVarInt(FindConVar("director_no_specials"), 1);
 	// HookEvents
@@ -278,6 +278,7 @@ public void OnGameFrame()
 				}
 				if (count2<=20)
 				{
+					int iZombieClass;
 					//Debug_Print("生还者看不到");
 					// 生还数量为 4，循环 4 次，检测此位置到生还的距离是否小于 750 是则刷特，此处可以刷新 1 ~ g_iSiLimit 只特感，如果此处刷完，则上面的 SpawnSpecial 将不再刷特
 					for (int count = 0; count < g_iSurvivorNum; count++)
@@ -287,7 +288,7 @@ public void OnGameFrame()
 						fSurvivorPos[2] -= 60.0;
 						if (L4D2_VScriptWrapper_NavAreaBuildPath(fSpawnPos, fSurvivorPos, dist, false, false, TEAM_INFECTED, false) && GetVectorDistance(fSurvivorPos, fSpawnPos) > g_fSpawnDistanceMin)
 						{
-							int iZombieClass = IsBotTypeNeeded();
+							iZombieClass = IsBotTypeNeeded();
 							if (iZombieClass > 0&&g_iSpawnMaxCount > 0)
 							{
 								int entityindex = L4D2_SpawnSpecial(iZombieClass, fSpawnPos, view_as<float>({0.0, 0.0, 0.0}));
@@ -295,10 +296,33 @@ public void OnGameFrame()
 								{
 									g_iSpawnMaxCount -= 1;
 									addlimit(iZombieClass);
-									print_type(iZombieClass,g_hSpawnMax.IntValue,g_fSpawnDistanceMax);
-									if (g_hSpawnMax.IntValue < 50)
+									print_type(iZombieClass,g_fSpawnDistanceMax);
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					int iZombieClass;
+					L4D_GetRandomPZSpawnPosition(g_iTargetSurvivor, iZombieClass, 1, fSpawnPos);
+					if(!PlayerVisibleTo(fSpawnPos))
+					{
+						for (int i = 0; i < g_iSurvivorNum; i++)
+						{
+							int index4 = g_iSurvivors[i];
+							GetClientEyePosition(index4, fSurvivorPos);
+							if (L4D2_VScriptWrapper_NavAreaBuildPath(fSpawnPos, fSurvivorPos, dist, false, false, TEAM_INFECTED, false) && GetVectorDistance(fSurvivorPos, fSpawnPos) < g_fSpawnDistanceMax)
+							{
+								iZombieClass = IsBotTypeNeeded();
+								if (iZombieClass > 0 && g_iSpawnMaxCount > 0)
+								{
+									int entityindex = L4D2_SpawnSpecial(iZombieClass, fSpawnPos, view_as<float>({0.0, 0.0, 0.0}));
+									if (IsValidEntity(entityindex) && IsValidEdict(entityindex))
 									{
-										g_hSpawnMax.IntValue = 0;
+										g_iSpawnMaxCount -= 1;
+										addlimit(iZombieClass);
+										print_type(iZombieClass,g_fSpawnDistanceMax);
 									}
 								}
 							}
@@ -307,7 +331,7 @@ public void OnGameFrame()
 				}
 			}			
 		}
-	//}
+	
 }
 
 public void ResetInfectedNumber(){
@@ -354,7 +378,7 @@ public void ResetInfectedNumber(){
 	iChargerLimit=iChargers;
 }
 
-public void print_type(int iType,int time,float g_fSpawnDistanceMax1){
+public void print_type(int iType,float g_fSpawnDistanceMax1){
 	char sTime[32];
 	FormatTime(sTime, sizeof(sTime), "%I-%M-%S", GetTime()); 
 	int iBoomers = 0, iSmokers = 0, iHunters = 0, iSpitters = 0, iJockeys = 0, iChargers = 0;
@@ -394,27 +418,27 @@ public void print_type(int iType,int time,float g_fSpawnDistanceMax1){
 	}
 	if (iType == 1)
 	{
-			Debug_Print("%s:生成一只Smoker，当前Smoker数量：%d,特感总数量 %d,刷特进行的找位次数：%d 找位最大单位距离：%f",sTime,iSmokers,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,time,g_fSpawnDistanceMax1);
+			Debug_Print("%s:生成一只Smoker，当前Smoker数量：%d,特感总数量 %d,找位最大单位距离：%f",sTime,iSmokers,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,g_fSpawnDistanceMax1);
 	}
 	else if (iType == 2)
 	{
-			Debug_Print("%s:生成一只Boomer，当前Boomer数量：%d,特感总数量 %d,刷特进行的找位次数：%d 找位最大单位距离：%f",sTime,iBoomers,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,time,g_fSpawnDistanceMax1);
+			Debug_Print("%s:生成一只Boomer，当前Boomer数量：%d,特感总数量 %d, 找位最大单位距离：%f",sTime,iBoomers,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,g_fSpawnDistanceMax1);
 	}
 	else if (iType == 3)
 	{
-			Debug_Print("%s:生成一只Hunter，当前Hunter数量：%d,特感总数量 %d,刷特进行的找位次数：%d 找位最大单位距离：%f",sTime,iHunters,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,time,g_fSpawnDistanceMax1);
+			Debug_Print("%s:生成一只Hunter，当前Hunter数量：%d,特感总数量 %d, 找位最大单位距离：%f",sTime,iHunters,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,g_fSpawnDistanceMax1);
 	}
 	else if (iType == 4)
 	{
-			Debug_Print("%s:生成一只Spitter，当前Spitter数量：%d,特感总数量 %d,刷特进行的找位次数：%d 找位最大单位距离：%f",sTime,iSpitters,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,time,g_fSpawnDistanceMax1);
+			Debug_Print("%s:生成一只Spitter，当前Spitter数量：%d,特感总数量 %d, 找位最大单位距离：%f",sTime,iSpitters,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,g_fSpawnDistanceMax1);
 	}
 	else if (iType == 5)
 	{
-			Debug_Print("%s:生成一只Jockey，当前Jockey数量：%d,特感总数量 %d,刷特进行的找位次数：%d 找位最大单位距离：%f",sTime,iJockeys,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,time,g_fSpawnDistanceMax1);
+			Debug_Print("%s:生成一只Jockey，当前Jockey数量：%d,特感总数量 %d, 找位最大单位距离：%f",sTime,iJockeys,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,g_fSpawnDistanceMax1);
 	}
 	else if (iType == 6)
 	{
-			Debug_Print("%s:生成一只Charger，当前Charger数量：%d,特感总数量 %d,刷特进行的找位次数：%d 找位最大单位距离：%f",sTime,iChargers,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,time,g_fSpawnDistanceMax1);
+			Debug_Print("%s:生成一只Charger，当前Charger数量：%d,特感总数量 %d, 找位最大单位距离：%f",sTime,iChargers,iSmokers+iBoomers+iHunters+iSpitters+iJockeys+iChargers,g_fSpawnDistanceMax1);
 	}
 
 }
@@ -448,34 +472,6 @@ public void addlimit(int iZombieClass){
 	}
 }
 
-
-
-
-// 禁推口水
-public Action L4D_OnShovedBySurvivor(int client, int victim, const float vecDir[3])
-{
-	if (IsSpitter(victim))
-	{
-		return Plugin_Handled;
-	}
-	else
-	{
-		return Plugin_Continue;
-	}
-}
-
-public Action L4D2_OnEntityShoved(int client, int entity, int weapon, float vecDir[3], bool bIsHighPounce)
-{
-	if (IsSpitter(entity))
-	{
-		return Plugin_Handled;
-	}
-	else
-	{
-		return Plugin_Continue;
-	}
-}
-
 // 初始 & 动态刷特时钟
 public Action SpawnFirstInfected(Handle timer)
 {
@@ -484,7 +480,7 @@ public Action SpawnFirstInfected(Handle timer)
 		g_bIsLate = true;
 		if (g_hSiInterval.FloatValue > 9.0)
 		{
-			Handle aSpawnTimer = CreateTimer(g_fSiInterval + 8.0, SpawnNewInfected, _, TIMER_REPEAT);
+			Handle aSpawnTimer = CreateTimer(g_fSiInterval + 9.0, SpawnNewInfected, _, TIMER_REPEAT);
 			aThreadHandle.Push(aSpawnTimer);
 			TriggerTimer(aSpawnTimer, true);
 		}
@@ -522,7 +518,7 @@ public Action SpawnNewInfected(Handle timer)
 		{
 			if (g_hSiInterval.FloatValue > 9.0)
 			{
-				Handle aSpawnTimer = CreateTimer(g_fSiInterval + 8.0, SpawnNewInfected, _, TIMER_REPEAT);
+				Handle aSpawnTimer = CreateTimer(g_fSiInterval + 9.0, SpawnNewInfected, _, TIMER_REPEAT);
 				aThreadHandle.Push(aSpawnTimer);
 				TriggerTimer(aSpawnTimer, true);
 			}
@@ -637,7 +633,7 @@ bool PlayerVisibleTo(float spawnpos[3])
 			g_iSurvivors[g_iSurvivorNum] = i;
 			g_iSurvivorNum++;
 			GetClientEyePosition(i, pos);
-			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 200.0)
+			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 250.0)
 			{
 				return true;
 			}
@@ -658,7 +654,7 @@ bool TeleportPlayerVisibleTo(float spawnpos[3])
 			g_iSurvivors[g_iSurvivorNum] = i;
 			g_iSurvivorNum++;
 			GetClientEyePosition(i, pos);
-			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 200.0)
+			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 250.0)
 			{
 				return true;
 			}
@@ -759,6 +755,7 @@ bool IsPinned(int client)
 		if(GetEntPropEnt(client, Prop_Send, "m_carryAttacker") > 0) bIsPinned = true;
 		if(GetEntPropEnt(client, Prop_Send, "m_pummelAttacker") > 0) bIsPinned = true;
 		if(GetEntPropEnt(client, Prop_Send, "m_jockeyAttacker") > 0) bIsPinned = true;
+		if(GetEntPropEnt(client, Prop_Send, "m_isHangingFromLedge") > 0) bIsPinned = true;
 	}		
 	return bIsPinned;
 }
@@ -837,7 +834,7 @@ int HasAnyCountFull()
 	int  iSurvivors[4] = {0}, iSurvivorIndex = 0;
 	for (int client = 1; client <= MaxClients; client++)
 	{
-		if (IsValidSurvivor(client) && IsPlayerAlive(client) && !IsPinned(client))
+		if (IsValidSurvivor(client) && IsPlayerAlive(client) && !IsPinned(client)) 
 		{
 			g_bIsLate = true;
 			if (iSurvivorIndex < 4)
@@ -1062,7 +1059,7 @@ int IsBotTypeNeeded()
 	{
 		if ((iSpitterLimit < GetConVarInt(FindConVar("z_spitter_limit"))))
 		{
-			if(g_hSpawnMax.IntValue>4)
+			if(g_iSpawnMaxCount>4)
 				IsBotTypeNeeded();
 			else 
 				{

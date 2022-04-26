@@ -332,7 +332,7 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 				float fBuffer[3] = {0.0}, fTargetPos[3] = {0.0};
 				GetClientAbsOrigin(iTarget, fTargetPos);
 				fBuffer = UpdatePosition(tank, iTarget, g_fTankBhopSpeed);
-				if (g_fTankAttackRange+50 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
+				if (150.0 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
 				{
 					if (iFlags & FL_ONGROUND)
 					{

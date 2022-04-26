@@ -4,7 +4,7 @@
 #include <sdkhooks>
 #include <left4dhooks>
 //#include <smlib>
-#define PLUGIN_VERSION	"2022-04-15"
+#define PLUGIN_VERSION	"2022-05"
 new Handle: g_hCvarInfectedTime = INVALID_HANDLE;
 new Handle: g_hCvarInfectedLimit = INVALID_HANDLE;
 new Handle: g_hCvarTankBhop = INVALID_HANDLE;
@@ -21,7 +21,7 @@ public OnPluginStart()
 	g_hCvarInfectedTime = FindConVar("versus_special_respawn_interval");
 	g_hCvarInfectedLimit = FindConVar("l4d_infected_limit");
 	g_hCvarTankBhop = FindConVar("ReturnBlood");
-	g_hCvarWeapon = FindConVar("ZonemodWeapon");
+	g_hCvarWeapon = CreateConVar("ZonemodWeapon", "0");
 	HookConVarChange(g_hCvarInfectedTime, Cvar_InfectedTime);
 	HookConVarChange(g_hCvarInfectedLimit, Cvar_InfectedLimit);
 	HookConVarChange(g_hCvarTankBhop, CvarTankBhop);
@@ -90,6 +90,14 @@ public CvarTankBhop( Handle:cvar, const String:oldValue[], const String:newValue
 public CvarWeapon( Handle:cvar, const String:oldValue[], const String:newValue[] ) 
 {
 	Weapon = GetConVarInt(g_hCvarWeapon);
+	if(Weapon > 0)
+	{
+		ServerCommand("exec vote/weapon/zonedmod.cfg");
+	}
+	else
+	{
+		ServerCommand("exec vote/weapon/AnneHappy.cfg");
+	}
 }
 public Action:InfectedStatus(Client, args)
 { 
@@ -203,9 +211,9 @@ stock bool:IsValidPlayer(Client, bool:AllowBot = true, bool:AllowDeath = true)
 ReloadPlugins()
 {
 	ServerCommand("sm plugins load_unlock");
-	ServerCommand("sm plugins reload optional/infected_control_test.smx");
-	ServerCommand("sm plugins reload optional/hunters.smx");
-	ServerCommand("sm plugins reload optional/Alone.smx");
+	ServerCommand("sm plugins reload optional/AnneHappy/infected_control.smx");
+	ServerCommand("sm plugins reload optional/AnneHappy/hunters.smx");
+	ServerCommand("sm plugins reload optional/AnneHappy/Alone.smx");
 	ServerCommand("sm plugins load_lock");
 	ServerCommand("sm_startspawn");
 	
