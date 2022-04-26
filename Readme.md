@@ -24,7 +24,7 @@
 
 ####  [SMG Tweaks 'n Stuff] 
 
-####  sm_weapon smg damage 24
+####  sm_weapon smg damage 23
 
 ####  sm_weapon smg spreadpershot 0.20
 
@@ -38,17 +38,17 @@
 
 ####  [Shotgun Tweaks 'n Stuff]
 
-####  sm_weapon shotgun_chrome damage 35
+####  sm_weapon shotgun_chrome damage 16
 
-####  sm_weapon shotgun_chrome bullets 8
+####  sm_weapon shotgun_chrome bullets 16
 
 ####  sm_weapon shotgun_chrome scatterpitch 3.5
 
 ####  sm_weapon shotgun_chrome scatteryaw 3.5
 
-####  sm_weapon pumpshotgun damage 30
+####  sm_weapon pumpshotgun damage 14
 
-####  sm_weapon pumpshotgun bullets 10
+####  sm_weapon pumpshotgun bullets 20
 
 ####  sm_weapon pumpshotgun scatterpitch 4.5
 
