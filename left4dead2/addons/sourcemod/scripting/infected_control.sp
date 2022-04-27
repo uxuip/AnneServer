@@ -608,7 +608,7 @@ bool PlayerVisibleTo(float spawnpos[3])
 			g_iSurvivors[g_iSurvivorNum] = i;
 			g_iSurvivorNum++;
 			GetClientEyePosition(i, pos);
-			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 250.0)
+			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 300.0)
 			{
 				return true;
 			}
@@ -629,7 +629,7 @@ bool TeleportPlayerVisibleTo(float spawnpos[3])
 			g_iSurvivors[g_iSurvivorNum] = i;
 			g_iSurvivorNum++;
 			GetClientEyePosition(i, pos);
-			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 250.0)
+			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 300.0)
 			{
 				return true;
 			}
