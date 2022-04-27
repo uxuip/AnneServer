@@ -873,7 +873,7 @@ int HasAnyCountFull()
 	int  iSurvivors[4] = {0}, iSurvivorIndex = 0;
 	for (int client = 1; client <= MaxClients; client++)
 	{
-		if (IsValidSurvivor(client) && IsPlayerAlive(client) && !IsPinned(client) && !L4D_IsPlayerIncapacitated(client))
+		if (IsValidSurvivor(client) && IsPlayerAlive(client) && !IsPinned(client) && !L4D_IsPlayerIncapacitated(client) && !L4D_IsPlayerHangingFromLedge(client))
 		{
 			g_bIsLate = true;
 			if (iSurvivorIndex < 4)
@@ -905,6 +905,7 @@ int HasAnyCountFull()
 	}
 	return iHunterLimit+iSmokerLimit+iBoomerLimit+iSpitterLimit+iJockeyLimit+iChargerLimit;
 }
+
 /*
 int HasAnyCountFull()
 {
