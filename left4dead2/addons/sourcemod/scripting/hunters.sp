@@ -870,12 +870,14 @@ int HasAnyCountFull()
 		{
 			if(client == FurthestAlivePlayer)
 				continue;
+			if(FurthestAlivePlayer == 0)
+				break;
 			float abs[3],abs2[3];
 			GetClientAbsOrigin(client,abs);
 			GetClientAbsOrigin(FurthestAlivePlayer,abs2);
-			if(GetVectorDistance(abs,abs2)>1500.0)
+			if(GetVectorDistance(abs,abs2) > 1500.0)
 			{
-				g_iTargetSurvivor =FurthestAlivePlayer;
+				g_iTargetSurvivor = FurthestAlivePlayer;
 				break;
 			}
 		}
