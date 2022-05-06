@@ -803,7 +803,7 @@ float NearestSurvivorDistancetank(int client, int SpecificSur = -1)
 				TargetSur = newtarget;
 			}
 		}
-		if (HasEntProp(TargetSur, Prop_Send, "m_vecOrigin"))
+		if (TargetSur > 0 && HasEntProp(TargetSur, Prop_Send, "m_vecOrigin"))
 		{
 			GetEntPropVector(TargetSur, Prop_Send, "m_vecOrigin", TargetSurPos);
 			return GetVectorDistance(selfpos, TargetSurPos);
@@ -830,7 +830,7 @@ float NearestSurvivorDistance(int client, int SpecificSur = -1)
 				TargetSur = newtarget;
 			}
 		}
-		if (HasEntProp(TargetSur, Prop_Send, "m_vecOrigin"))
+		if (TargetSur > 0 && HasEntProp(TargetSur, Prop_Send, "m_vecOrigin"))
 		{
 			GetEntPropVector(TargetSur, Prop_Send, "m_vecOrigin", TargetSurPos);
 			return GetVectorDistance(selfpos, TargetSurPos);
