@@ -160,7 +160,7 @@ stock int GetClosetMobileSurvivor(int client, int exclude_client = -1)
 			int target_distance = RoundToNearest(GetVectorDistance(self_pos, target_pos));
 			for (int newtarget = 1; newtarget <= MaxClients; newtarget++)
 			{
-				if (IsValidSurvivor(newtarget) && IsPlayerAlive(newtarget) && !IsClientIncapped(client) &&!IsClientPinned(client) && newtarget != exclude_client)
+				if (IsValidSurvivor(newtarget) && IsPlayerAlive(newtarget) && !IsClientIncapped(client) && newtarget != exclude_client)
 				{
 					GetClientAbsOrigin(newtarget, target_pos);
 					int newtarget_distance = RoundToNearest(GetVectorDistance(self_pos, target_pos));
