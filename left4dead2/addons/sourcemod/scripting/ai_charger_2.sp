@@ -174,7 +174,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					// 查找冲锋范围内是否有其他正在看着自身的玩家
 					for (int i = 0; i < ranged_index[client]; i++)
 					{
-						if (ranged_client[client][i] != target && !IsClientPinned(ranged_client[client][i]) && Is_Target_Watching_Attacker(client, ranged_client[client][i], g_hAimOffset.IntValue) && !Is_InGetUp_Or_Incapped(ranged_client[client][i]) && GetEntProp(ability, Prop_Send, "m_isCharging") != 1 )
+						if (ranged_client[client][i] != target && !IsClientPinned(ranged_client[client][i]) && Is_Target_Watching_Attacker(client, ranged_client[client][i], g_hAimOffset.IntValue) && !Is_InGetUp_Or_Incapped(ranged_client[client][i]) && IsValidEntity(ability) && GetEntProp(ability, Prop_Send, "m_isCharging") != 1 )
 						{
 							SetCharge(client);
 							float new_target_pos[3] = {0.0};
@@ -189,7 +189,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					}
 				}
 				// 目标可能正在看着自身，自身可以冲锋，目标没有拿着近战，且不在倒地或起身状态时则直接冲锋，目标拿着近战，则转到 OnChooseVictim 处理，转移新目标或继续挥拳
-				if (!Client_MeleeCheck(target) && !Is_InGetUp_Or_Incapped(target)  && GetEntProp(ability, Prop_Send, "m_isCharging") != 1 )
+				if (!Client_MeleeCheck(target) && !Is_InGetUp_Or_Incapped(target)  && IsValidEntity(ability) && GetEntProp(ability, Prop_Send, "m_isCharging") != 1 )
 				{
 					SetCharge(client);
 					buttons |= IN_ATTACK2;
@@ -214,7 +214,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					for (int i = 0; i < ranged_index[client]; i++)
 					{
 						// 循环时，由于 ranged_index 增加时，数组中一定为有效生还者，故无需判断是否是有效生还者
-						if (!IsClientPinned(ranged_client[client][i]) && Is_Target_Watching_Attacker(client, ranged_client[client][i], g_hAimOffset.IntValue) && !Is_InGetUp_Or_Incapped(ranged_client[client][i]) && GetEntProp(ability, Prop_Send, "m_isCharging") != 1)
+						if (!IsClientPinned(ranged_client[client][i]) && Is_Target_Watching_Attacker(client, ranged_client[client][i], g_hAimOffset.IntValue) && !Is_InGetUp_Or_Incapped(ranged_client[client][i]) && IsValidEntity(ability) && GetEntProp(ability, Prop_Send, "m_isCharging") != 1)
 						{
 							SetCharge(client);
 							float new_target_pos[3] = {0.0};
