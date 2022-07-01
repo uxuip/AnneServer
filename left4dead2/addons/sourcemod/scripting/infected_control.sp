@@ -565,10 +565,10 @@ public Action SpawnNewInfected(Handle timer)
 		}
 			
 		// 当一定时间内刷不出特感，触发时钟使 g_iSpawnMaxCount 超过 g_iSiLimit 值时，最多允许刷出 g_iSiLimit + 2 只特感，防止连续刷 2-3 波的情况
-		if (g_iSiLimit < g_iSpawnMaxCount)
+		if (g_iSiLimit+2 < g_iSpawnMaxCount)
 		{
 
-			g_iSpawnMaxCount = g_iSiLimit;
+			g_iSpawnMaxCount = g_iSiLimit+2;
 			
 			Debug_Print("当前特感数量达到上限");
 		}
@@ -642,7 +642,7 @@ bool PlayerVisibleTo(float spawnpos[3])
 	g_iSurvivorNum = 0;
 	for(int i = 1; i <= MaxClients; i++)
 	{
-		if(IsValidSurvivor(i) && IsPlayerAlive(i))
+		if(IsValidSurvivor(i) && IsPlayerAlive(i) )
 		{
 			g_iSurvivors[g_iSurvivorNum] = i;
 			g_iSurvivorNum++;
@@ -663,7 +663,7 @@ bool TeleportPlayerVisibleTo(float spawnpos[3])
 	g_iSurvivorNum = 0;
 	for(int i = 1; i <= MaxClients; i++)
 	{
-		if(IsValidSurvivor(i) && IsPlayerAlive(i))
+		if(IsValidSurvivor(i) && IsPlayerAlive(i) && !IsClientIncapped(i))
 		{
 			g_iSurvivors[g_iSurvivorNum] = i;
 			g_iSurvivorNum++;
@@ -676,6 +676,34 @@ bool TeleportPlayerVisibleTo(float spawnpos[3])
 	}
 	return false;
 }
+
+/*
+//获取没倒底的最远生还者流程
+float GetFurthestUncappedSurvivorFlow(){
+	float HighestFlow = 0.0;
+	for(int i = 1;i< = MaxClients; i++)
+		if(IsValidSurvivor(i))
+			if(!L4D_IsPlayerIncapacitated(i) || !L4D_IsPlayerPinned(i)){
+				float tmp = L4D2Direct_GetFlowDistance(i);
+				if(tmp > HighestFlow)
+					HighestFlow = tmp;
+		}
+	return HighestFlow;
+}*/
+
+// 判断玩家是否倒地，倒地返回 true，未倒地返回 false
+stock bool IsClientIncapped(int client)
+{
+	if (IsValidClient(client))
+	{
+		return view_as<bool>(GetEntProp(client, Prop_Send, "m_isIncapacitated"));
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 //判断从该坐标发射的射线是否击中目标
 bool PosIsVisibleTo(int client, const float targetposition[3])
@@ -807,12 +835,12 @@ public Action Timer_PositionSi(Handle timer)
 		if(CanBeTeleport(client)){
 			float fSelfPos[3] = {0.0};
 			GetClientEyePosition(client, fSelfPos);
-			if (!PlayerVisibleTo(fSelfPos))
+			if (!TeleportPlayerVisibleTo(fSelfPos))
 			{
 				if (g_iTeleCount[client] > 49)
 				{
 					Debug_Print("%N开始传送",client);
-					if (!PlayerVisibleTo(fSelfPos) && !IsPinningSomeone(client))
+					if (!TeleportPlayerVisibleTo(fSelfPos) && !IsPinningSomeone(client))
 					{
 						SDKHook(client, SDKHook_PostThinkPost, SDK_UpdateThink);
 						g_iTeleCount[client] = 0;
@@ -1006,6 +1034,14 @@ void HardTeleMode(int client)
 						{
 							TeleportEntity(client, fSpawnPos, NULL_VECTOR, NULL_VECTOR);
 							SDKUnhook(client, SDKHook_PostThinkPost, SDK_UpdateThink);
+							//解决smoker传送后悬空的问题
+							if(IsAiSmoker(client))
+							{
+								SetConVarInt(FindConVar("tongue_range"),9999);
+								BlockSmokerTongue(client);
+								CreateTimer(0.5,ResetTougueRange);
+							}
+							return;
 						}
 					}
 				}
@@ -1013,6 +1049,35 @@ void HardTeleMode(int client)
 		}
 	}
 }
+
+// 阻止舌头拉
+void BlockSmokerTongue(int client)
+{
+	int ability = GetEntPropEnt(client, Prop_Send, "m_customAbility");
+	if (IsValidEntity(ability))
+	{
+			SetEntPropFloat(ability, Prop_Send, "m_timestamp", GetGameTime() + 0.5);
+	}
+}
+
+
+public Action ResetTougueRange(Handle timer,int client) 
+{
+	SetConVarInt(FindConVar("tongue_range"),750);
+}
+
+stock bool IsAiSmoker(int client)
+{
+	if (client && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client) && IsFakeClient(client) && GetClientTeam(client) == TEAM_INFECTED && GetEntProp(client, Prop_Send, "m_zombieClass") == 1 && GetEntProp(client, Prop_Send, "m_isGhost") != 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 stock bool IsGhost(int client)
 {
     return (IsValidClient(client) && view_as<bool>(GetEntProp(client, Prop_Send, "m_isGhost")));
@@ -1065,8 +1130,11 @@ int IsBotTypeNeeded()
 	{
 		if ((iBoomerLimit < GetConVarInt(FindConVar("z_boomer_limit"))))
 		{
+			if(g_iSpawnMaxCount>=4)
+				IsBotTypeNeeded();
+			else
 	//		iBoomerLimit++;
-			return 2;
+				return 2;
 		}
 		else
 		{
@@ -1089,7 +1157,7 @@ int IsBotTypeNeeded()
 	{
 		if ((iSpitterLimit < GetConVarInt(FindConVar("z_spitter_limit"))))
 		{
-			if(g_iSpawnMaxCount>4)
+			if(g_iSpawnMaxCount>=4)
 				IsBotTypeNeeded();
 			else 
 				{

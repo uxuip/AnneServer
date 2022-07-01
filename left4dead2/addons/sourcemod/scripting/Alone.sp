@@ -1011,6 +1011,14 @@ void HardTeleMode(int client)
 						{
 							TeleportEntity(client, fSpawnPos, NULL_VECTOR, NULL_VECTOR);
 							SDKUnhook(client, SDKHook_PostThinkPost, SDK_UpdateThink);
+							//解决smoker传送后悬空的问题
+							if(IsAiSmoker(client))
+							{
+								SetConVarInt(FindConVar("tongue_range"),9999);
+								BlockSmokerTongue(client);
+								CreateTimer(0.5,ResetTougueRange);
+							}
+							return;
 						}
 					}
 				}
@@ -1018,6 +1026,35 @@ void HardTeleMode(int client)
 		}
 	}
 }
+
+// 阻止舌头拉
+void BlockSmokerTongue(int client)
+{
+	int ability = GetEntPropEnt(client, Prop_Send, "m_customAbility");
+	if (IsValidEntity(ability))
+	{
+			SetEntPropFloat(ability, Prop_Send, "m_timestamp", GetGameTime() + 0.5);
+	}
+}
+
+public Action ResetTougueRange(Handle timer,int client) 
+{
+	SetConVarInt(FindConVar("tongue_range"),750);
+}
+
+stock bool IsAiSmoker(int client)
+{
+	if (client && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client) && IsFakeClient(client) && GetClientTeam(client) == TEAM_INFECTED && GetEntProp(client, Prop_Send, "m_zombieClass") == 1 && GetEntProp(client, Prop_Send, "m_isGhost") != 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
 stock bool IsGhost(int client)
 {
     return (IsValidClient(client) && view_as<bool>(GetEntProp(client, Prop_Send, "m_isGhost")));
