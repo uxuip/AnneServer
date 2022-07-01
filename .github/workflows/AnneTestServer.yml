@@ -8,7 +8,7 @@ on:
 jobs:
 
   release:
-    if: github.repository == 'Caibiii/AnneServer'
+    if: github.repository == 'Caibiii/AnneServer:test'
     name: Upload  AnneServer Achieve if a new commit was been push.
     runs-on: [ubuntu-latest]
     
