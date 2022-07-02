@@ -277,6 +277,42 @@ public Action evt_AbilityUse(Event event, const char[] name, bool dontBroadcast)
 	}
 }
 
+
+
+void Boomer_OnVomit(int client)
+{
+	//hook改变方向
+	SDKHook(client, SDKHook_PreThink, SpreadBoomer);
+	//以防2.5s后boomer没死没有unhook
+	CreateTimer(2.5, Unhook ,client);
+}
+
+public Action Unhook(Handle Timer, int client)
+{
+	if( IsClientConnected( client ) != true || IsClientInGame(client) != true || IsPlayerAlive(client) != true || GetClientTeam( client ) == 3 )
+	{
+		SDKUnhook(client, SDKHook_PreThink, SpreadBoomer);	
+		return;
+	}
+}
+//改变方向
+public Action SpreadBoomer(int client)
+{
+	if( IsClientConnected( client ) != true || IsClientInGame(client) != true || IsPlayerAlive(client) != true || GetClientTeam( client ) != 3 )
+	{
+		SDKUnhook(client, SDKHook_PreThink, SpreadBoomer);	
+		return;
+	}
+	static float fNearestAngles[3];
+	if (MakeNearestAngles(client, fNearestAngles))
+	{
+		fNearestAngles[1]+= GetRandomFloat(-60.0, 60.0);
+		fNearestAngles[0]+= 10;
+		TeleportEntity(client, NULL_VECTOR, fNearestAngles, NULL_VECTOR);
+	}
+}
+
+/*
 void Boomer_OnVomit(int client)
 {
 	//hook改变方向
@@ -292,41 +328,6 @@ void Boomer_OnVomit(int client)
 	dp.WriteFloat(2.0);
 	CreateTimer(0.25, SpreadBoomer, dp);
 }
-/*
-void Boomer_OnVomit(int client)
-{
-	//hook改变方向
-	SDKHook(client, SDKHook_PreThink, SpreadBoomer);
-	//以防3s后boomer没死没有unhook
-	CreateTimer(2.5, unhook,client);
-}
-
-public Action Unhook(Handle Timer, int client)
-{
-	if( IsClientConnected( client ) != true || IsClientInGame(client) != true || IsPlayerAlive(client) != true || GetClientTeam( client ) == 3 )
-	{
-		SDKUnhook(client, SDKHook_PreThink, SpreadBoomer);	
-		return;
-	}
-}
-//改变方向
-public Action SpreadBoomer(int client)
-{
-	if( IsClientConnected( client ) != true || IsClientInGame(client) != true || IsPlayerAlive(client) != true || GetClientTeam( client ) == 3 )
-	{
-		SDKUnhook(client, SDKHook_PreThink, SpreadBoomer);	
-		return;
-	}
-	static float fNearestAngles[3];
-	if (MakeNearestAngles(client, fNearestAngles))
-	{
-		fNearestAngles[1]+= GetRandomFloat(-60.0, 60.0);
-		fNearestAngles[0]+= GetRandomFloat(-60.0, 60.0);
-		TeleportEntity(client, NULL_VECTOR, fNearestAngles, NULL_VECTOR);
-	}
-}
-*/
-
 //改变方向
 public Action SpreadBoomer(Handle timer,DataPack dp)
 {
@@ -353,6 +354,7 @@ public Action SpreadBoomer(Handle timer,DataPack dp)
 	}
 		
 }
+*/
 
 bool MakeNearestAngles(int client, float NearestAngles[3])
 {

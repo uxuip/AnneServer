@@ -244,7 +244,7 @@ public void OnGameFrame()
 			{
 				// 根据指定生还者坐标，拓展刷新范围
 				GetClientEyePosition(g_iTargetSurvivor, fSurvivorPos);
-				g_fSpawnDistanceMax += 10.0;
+				g_fSpawnDistanceMax += 5.0;
 				if(g_fSpawnDistanceMax < 500.0)
 				{
 					dist = 750.0;
@@ -272,7 +272,7 @@ public void OnGameFrame()
 				while (PlayerVisibleTo(fSpawnPos) || !IsOnValidMesh(fSpawnPos) || IsPlayerStuck(fSpawnPos))
 				{
 					count2++;
-					if(count2 > 10)
+					if(count2 > 20)
 					{
 						break;
 					}
@@ -301,7 +301,7 @@ public void OnGameFrame()
 						}
 					}
 				}
-				if (count2 <= 10)
+				if (count2 <= 20)
 				{
 					//Debug_Print("生还者看不到");
 					// 生还数量为 4，循环 4 次，检测此位置到生还的距离是否小于 750 是则刷特，此处可以刷新 1 ~ g_iSiLimit 只特感，如果此处刷完，则上面的 SpawnSpecial 将不再刷特
@@ -944,7 +944,7 @@ void HardTeleMode(int client)
 			while (PlayerVisibleTo(fSpawnPos) || !IsOnValidMesh(fSpawnPos) || IsPlayerStuck(fSpawnPos))
 			{
 				count2 ++;
-				if(count2 > 10)
+				if(count2 > 20)
 				{
 					break;
 				}
@@ -973,7 +973,7 @@ void HardTeleMode(int client)
 					}
 				}
 			}
-			if (count2<=10)
+			if (count2<= 20)
 			{
 				for (int count = 0; count < g_iSurvivorNum; count++)
 				{
