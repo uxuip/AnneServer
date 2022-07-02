@@ -24,7 +24,7 @@ public Plugin myinfo =
 	name 			= "Direct InfectedSpawn",
 	author 			= "Caibiii, 夜羽真白，东",
 	description 	= "特感刷新控制，传送落后特感",
-	version 		= "2022.04.24",
+	version 		= "2022.07.1",
 	url 			= "https://github.com/Caibiii/AnneServer"
 }
 
@@ -220,7 +220,7 @@ public void OnGameFrame()
 			{
 				// 根据指定生还者坐标，拓展刷新范围
 				GetClientEyePosition(g_iTargetSurvivor, fSurvivorPos);
-				g_fSpawnDistanceMax += 5.0;
+				g_fSpawnDistanceMax += 10.0;
 				if(g_fSpawnDistanceMax < 500.0)
 				{
 					dist = 750.0;
@@ -248,7 +248,7 @@ public void OnGameFrame()
 				while (PlayerVisibleTo(fSpawnPos) || !IsOnValidMesh(fSpawnPos) || IsPlayerStuck(fSpawnPos))
 				{
 					count2++;
-					if(count2 > 20)
+					if(count2 > 10)
 					{
 						break;
 					}
@@ -277,7 +277,7 @@ public void OnGameFrame()
 						}
 					}
 				}
-				if (count2<=20)
+				if (count2<=10)
 				{
 					//Debug_Print("生还者看不到");
 					// 生还数量为 4，循环 4 次，检测此位置到生还的距离是否小于 750 是则刷特，此处可以刷新 1 ~ g_iSiLimit 只特感，如果此处刷完，则上面的 SpawnSpecial 将不再刷特
@@ -506,7 +506,7 @@ public Action SpawnFirstInfected(Handle timer)
 		}
 		if (g_bTeleportSi)
 		{
-			g_hTeleHandle = CreateTimer(0.1, Timer_PositionSi, _, TIMER_REPEAT);
+			g_hTeleHandle = CreateTimer(1.0, Timer_PositionSi, _, TIMER_REPEAT);
 		}
 	}
 	return Plugin_Continue;
@@ -827,7 +827,7 @@ bool CanBeTeleport(int client)
 	}
 }
 
-//5秒内以0.1s检测一次，49次没被看到，就可以传送了
+//5秒内以1s检测一次，5次没被看到，就可以传送了
 public Action Timer_PositionSi(Handle timer)
 {
 	for (int client = 1; client <= MaxClients; client++)
@@ -837,7 +837,7 @@ public Action Timer_PositionSi(Handle timer)
 			GetClientEyePosition(client, fSelfPos);
 			if (!TeleportPlayerVisibleTo(fSelfPos))
 			{
-				if (g_iTeleCount[client] > 49)
+				if (g_iTeleCount[client] > 10)
 				{
 					Debug_Print("%N开始传送",client);
 					if (!TeleportPlayerVisibleTo(fSelfPos) && !IsPinningSomeone(client))
@@ -878,40 +878,35 @@ int HasAnyCountFull()
 		if (IsValidSurvivor(client) && IsPlayerAlive(client) && !IsPinned(client) && !L4D_IsPlayerIncapacitated(client))
 		{
 			g_bIsLate = true;
-			if (iSurvivorIndex < 4)
-			{
-				if(FurthestAlivePlayer==0)
-					FurthestAlivePlayer=client;
-				else if(L4D2Direct_GetFlowDistance(client)>L4D2Direct_GetFlowDistance(FurthestAlivePlayer))
-					FurthestAlivePlayer=client;
-				iSurvivors[iSurvivorIndex] = client;
-				iSurvivorIndex += 1;
-			}
+			if(FurthestAlivePlayer == 0)
+				FurthestAlivePlayer=client;
+			else if(L4D2Direct_GetFlowDistance(client) > L4D2Direct_GetFlowDistance(FurthestAlivePlayer))
+				FurthestAlivePlayer = client;
+			iSurvivors[iSurvivorIndex] = client;
+			iSurvivorIndex += 1;
 		}
 	}
 	if (iSurvivorIndex > 0)
 	{
-		g_iTargetSurvivor = iSurvivors[GetRandomInt(0, iSurvivorIndex - 1)];
-	}
-	for (int client = 1; client <= MaxClients; client++)
-	{
-		if (IsValidSurvivor(client) && IsPlayerAlive(client))
+		for (int index = 0; index <= iSurvivorIndex; index++)
 		{
-			if(client == FurthestAlivePlayer)
-				continue;
 			if(FurthestAlivePlayer == 0)
-				break;
+					break;
+			if(iSurvivors[iSurvivorIndex] == FurthestAlivePlayer)
+					continue;
+				
 			float abs[3],abs2[3];
-			GetClientAbsOrigin(client,abs);
-			GetClientAbsOrigin(FurthestAlivePlayer,abs2);
-			if(GetVectorDistance(abs,abs2) > 1500.0)
+			GetClientAbsOrigin(iSurvivors[iSurvivorIndex], abs);
+			GetClientAbsOrigin(FurthestAlivePlayer, abs2);
+			if(GetVectorDistance(abs,abs2)> 1200.0)
 			{
-				g_iTargetSurvivor = FurthestAlivePlayer;
-				break;
+				g_iTargetSurvivor =FurthestAlivePlayer;
+				return iHunterLimit+iSmokerLimit+iBoomerLimit+iSpitterLimit+iJockeyLimit+iChargerLimit;
 			}
 		}
+		g_iTargetSurvivor = iSurvivors[GetRandomInt(0, iSurvivorIndex - 1)];
 	}
-	return iHunterLimit+iSmokerLimit+iBoomerLimit+iSpitterLimit+iJockeyLimit+iChargerLimit;
+	return iHunterLimit + iSmokerLimit + iBoomerLimit + iSpitterLimit + iJockeyLimit + iChargerLimit;
 }
 /*
 int HasAnyCountFull()
@@ -992,7 +987,7 @@ void HardTeleMode(int client)
 			while (TeleportPlayerVisibleTo(fSpawnPos) || !IsOnValidMesh(fSpawnPos) || IsPlayerStuck(fSpawnPos))
 			{
 				count2 ++;
-				if(count2 > 50)
+				if(count2 > 10)
 				{
 					break;
 				}
@@ -1021,7 +1016,7 @@ void HardTeleMode(int client)
 					}
 				}
 			}
-			if (count2<=50)
+			if (count2<=10)
 			{
 				for (int count = 0; count < g_iSurvivorNum; count++)
 				{
