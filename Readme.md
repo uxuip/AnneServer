@@ -20,6 +20,27 @@
 
 - 优化刷特，降低了对服务器的压力，要不然刷特服务器帧数太难看啦（我目前不知道哪里还能优化，大佬们有空看看源码发表发表看法或者pullrequest，到目前如果云服还卡没人有解决办法的话暂时只能调服务器刷新率了）
 
+- 增加自动更新插件，自动更新test分支的最近更新(比较大版本可能需要手动更新，小版本更新每天自动更新，其中updater.smx为更新工具，AnneUpdater为Anne插件自动更新插件，自动更新的具体插件下面有)
+
+- 刷特再次大幅优化，而且刷特的spawnpos小幅修改，让特感生成位置更加多样，L4D2_VScriptWrapper_NavAreaBuildPath改为L4D2_NavAreaBuildPath检测由vscript脚本模式改为sdkcalls模式，检测更加严格且准确。[left4dhooks版本需要大于1.110，谢谢Silvers大佬帮忙实现了东的request，感谢他的支持和帮助]
+
+
+### 自动更新的插件
+
+            "Plugin"    "Path_SM/plugins/optional/ai_boomer_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/ai_charger_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/AI_HardSI_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/ai_hunter_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/ai_smoker_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/ai_spitter_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/ai_tank_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/ai_jockey_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/Alone.smx"
+            "Plugin"    "Path_SM/plugins/optional/hunters.smx"
+            "Plugin"    "Path_SM/plugins/optional/infected_control.smx"
+            "Plugin"    "Path_SM/plugins/optional/text.smx"
+            "Plugin"    "Path_SM/plugins/optional/server.smx"
+
 ## 修改介绍
 
 当前测试分支在电信测试服测试过后，感觉没有很大问题，所以放到测试分支方便有兴趣的服主下载下来测试。
