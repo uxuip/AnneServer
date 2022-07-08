@@ -58,8 +58,8 @@ ArrayList aThreadHandle;
 public void OnPluginStart()
 {
 	// CreateConVar
-	g_hSpawnDistanceMin = CreateConVar("inf_SpawnDistanceMin", "0.0", "特感复活离生还者最近的距离限制", CVAR_FLAG, true, 0.0);
-	g_hSpawnDistanceMax = CreateConVar("inf_SpawnDistanceMax", "250.0", "特感复活离生还者最远的距离限制", CVAR_FLAG, true, g_hSpawnDistanceMin.FloatValue);
+	g_hSpawnDistanceMin = CreateConVar("inf_SpawnDistanceMin", "35.0", "特感复活离生还者最近的距离限制", CVAR_FLAG, true, 0.0);
+	g_hSpawnDistanceMax = CreateConVar("inf_SpawnDistanceMax", "350.0", "特感复活离生还者最远的距离限制", CVAR_FLAG, true, g_hSpawnDistanceMin.FloatValue);
 	g_hTeleportSi = CreateConVar("inf_TeleportSi", "1", "是否开启特感距离生还者一定距离将其传送至生还者周围", CVAR_FLAG, true, 0.0, true, 1.0);
 	g_hTeleportDistance = CreateConVar("inf_TeleportDistance", "800.0", "特感落后于最近的生还者超过这个距离则将它们传送", CVAR_FLAG, true, 0.0);
 	g_hSiLimit = CreateConVar("l4d_infected_limit", "6", "一次刷出多少特感", CVAR_FLAG, true, 0.0);
@@ -252,12 +252,12 @@ public void OnGameFrame()
 				g_fSpawnDistanceMax += 5.0;
 				if(g_fSpawnDistanceMax < 500.0)
 				{
-					dist = 750.0;
+					dist = 1000.0;
 					fMaxs[2] = fSurvivorPos[2] + 500.0;
 				}
 				else
 				{
-					dist = 250.0 + g_fSpawnDistanceMax;
+					dist = 500.0 + g_fSpawnDistanceMax;
 					fMaxs[2] = fSurvivorPos[2] + g_fSpawnDistanceMax;
 				}
 				fMins[0] = fSurvivorPos[0] - g_fSpawnDistanceMax;
@@ -315,7 +315,9 @@ public void OnGameFrame()
 						int index = g_iSurvivors[count];
 						GetClientEyePosition(index, fSurvivorPos);
 						fSurvivorPos[2] -= 60.0;
-						if (L4D2_VScriptWrapper_NavAreaBuildPath(fSpawnPos, fSurvivorPos, dist, false, false, TEAM_INFECTED, false) && GetVectorDistance(fSurvivorPos, fSpawnPos) > g_fSpawnDistanceMin)
+						Address nav1 = L4D_GetNearestNavArea(fSpawnPos, 100.0);
+						Address nav2 = L4D_GetNearestNavArea(fSurvivorPos, 100.0);
+						if (L4D2_NavAreaBuildPath(nav1, nav2, dist, TEAM_INFECTED, false) && L4D2_NavAreaTravelDistance(fSurvivorPos, fSpawnPos, false) > g_fSpawnDistanceMin)
 						{
 							int iZombieClass = IsBotTypeNeeded();
 							if (iZombieClass > 0&&g_iSpawnMaxCount > 0)
@@ -326,6 +328,7 @@ public void OnGameFrame()
 									g_iSpawnMaxCount -= 1;
 									addlimit(iZombieClass);
 									print_type(iZombieClass,g_fSpawnDistanceMax);
+									return;
 								}
 								/*
 								if (SAFEDETECT_IsEntityInEndSaferoom(entityindex))
@@ -586,7 +589,7 @@ public Action SpawnNewInfected(Handle timer)
 				}
 			}
 		}
-		g_fSpawnDistanceMax = 350.0;
+		g_fSpawnDistanceMax = g_fSpawnDistanceMin;
 		ResetInfectedNumber();
 
 		g_iSpawnMaxCount += 1;
@@ -665,20 +668,16 @@ bool IsOnValidMesh(float fReferencePos[3])
 	}
 }
 
-
 //判断该坐标是否可以看到生还或者距离小于200码
 bool PlayerVisibleTo(float spawnpos[3])
 {
 	float pos[3];
-	g_iSurvivorNum = 0;
-	for(int i = 1; i <= MaxClients; i++)
+	for(int i = 0; i < g_iSurvivorNum; i++)
 	{
-		if(IsValidSurvivor(i) && IsPlayerAlive(i))
+		if(IsValidSurvivor(g_iSurvivors[i]) && IsPlayerAlive(g_iSurvivors[i]) )
 		{
-			g_iSurvivors[g_iSurvivorNum] = i;
-			g_iSurvivorNum++;
-			GetClientEyePosition(i, pos);
-			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 350.0)
+			GetClientEyePosition(g_iSurvivors[i], pos);
+			if(PosIsVisibleTo(g_iSurvivors[i], spawnpos) || GetVectorDistance(spawnpos, pos) < 350.0)
 			{
 				return true;
 			}
@@ -687,19 +686,36 @@ bool PlayerVisibleTo(float spawnpos[3])
 	return false;
 }
 
+//判断倒地的人800单位附近是不是已经没有健康的生还者了
+public bool IsClientIncappedAndNoNearby(int client, float spawnpos[3])
+{
+	float pos[3];
+	for(int i = 0; i < g_iSurvivorNum; i++)
+	{
+		if(IsValidSurvivor(g_iSurvivors[i]) && IsPlayerAlive(g_iSurvivors[i])&& !IsClientIncapped(g_iSurvivors[i]))
+		{
+			if(g_iSurvivors[i] == client)
+			continue;
+			GetClientEyePosition(g_iSurvivors[i], pos);
+			if(GetVectorDistance(spawnpos, pos) < 800.0)
+				return false;
+		}				
+	}
+	return true;
+}
+
 //判断该坐标是否可以看到生还或者距离小于300码(传送专属)
 bool TeleportPlayerVisibleTo(float spawnpos[3])
 {
 	float pos[3];
-	g_iSurvivorNum = 0;
-	for(int i = 1; i <= MaxClients; i++)
+	for(int i = 0; i < g_iSurvivorNum; i++)
 	{
-		if(IsValidSurvivor(i) && IsPlayerAlive(i) && !IsClientIncapped(i))
+		if(IsValidSurvivor(g_iSurvivors[i]) && IsPlayerAlive(g_iSurvivors[i]))
 		{
-			g_iSurvivors[g_iSurvivorNum] = i;
-			g_iSurvivorNum++;
-			GetClientEyePosition(i, pos);
-			if(PosIsVisibleTo(i, spawnpos) || GetVectorDistance(spawnpos, pos) < 350.0)
+			GetClientEyePosition(g_iSurvivors[i], pos);
+			if(IsClientIncapped(g_iSurvivors[i]) && IsClientIncappedAndNoNearby(g_iSurvivors[i],spawnpos))
+				continue;
+			if(PosIsVisibleTo(g_iSurvivors[i], spawnpos) || GetVectorDistance(spawnpos, pos) < 350.0)
 			{
 				return true;
 			}
@@ -1065,7 +1081,9 @@ void HardTeleMode(int client)
 					{
 						GetClientEyePosition(index, fSurvivorPos);
 						fSurvivorPos[2] -= 60.0;
-						if (L4D2_VScriptWrapper_NavAreaBuildPath(fSpawnPos, fSurvivorPos, g_fTeleportDistance, false, false, TEAM_INFECTED, false) && GetVectorDistance(fSelfEyePos, fSpawnPos) > g_fTeleportDistance && GetVectorDistance(fSelfEyePos, fSpawnPos) > g_fSpawnDistanceMin)
+						Address nav1 = L4D_GetNearestNavArea(fSpawnPos, 100.0);
+						Address nav2 = L4D_GetNearestNavArea(fSurvivorPos, 100.0);
+						if (L4D2_NavAreaBuildPath(nav1, nav2, g_fTeleportDistance + 200.0 , TEAM_INFECTED, false) && L4D2_NavAreaTravelDistance(fSurvivorPos, fSpawnPos, false) > g_fSpawnDistanceMin)
 						{
 							TeleportEntity(client, fSpawnPos, NULL_VECTOR, NULL_VECTOR);
 							SDKUnhook(client, SDKHook_PostThinkPost, SDK_UpdateThink);

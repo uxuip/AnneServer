@@ -473,7 +473,7 @@ bool Is_InGetUp_Or_Incapped(int client)
 void BlockCharge(int client)
 {
 	int ability = GetEntPropEnt(client, Prop_Send, "m_customAbility");
-	if (IsValidEntity(ability) && GetEntProp(ability, Prop_Send, "m_isCharging") != 1)
+	if (IsValidEntity(ability) && GetEntProp(ability, Prop_Send, "m_isCharging") != 1 && (GetEntPropFloat(ability, Prop_Send, "m_timestamp")  < GetGameTime()))
 	{
 			SetEntPropFloat(ability, Prop_Send, "m_timestamp", GetGameTime() + 0.3);
 	}
@@ -485,7 +485,7 @@ void SetCharge(int client)
 	int ability = GetEntPropEnt(client, Prop_Send, "m_customAbility");
 	if (IsValidEntity(ability) && GetEntProp(ability, Prop_Send, "m_isCharging") != 1 && GetEntPropFloat(ability, Prop_Send, "m_timestamp") < GetGameTime() + 1.0)
 	{
-		SetEntPropFloat(ability, Prop_Send, "m_timestamp", GetGameTime() - 0.3);
+		SetEntPropFloat(ability, Prop_Send, "m_timestamp", GetGameTime() - 0.5);
 	}
 }
 
