@@ -52,7 +52,7 @@ public void OnPluginStart()
 	SetConVarFloat(g_hCvarTongueDelay, SMOKER_TONGUE_DELAY);
 	// HookEvent
 	HookEvent("round_start", evtRoundStart);
-	HookEvent("player_spawn", evt_PlayerSpawn);
+	//HookEvent("player_spawn", evt_PlayerSpawn);
 
 	// AddChangeHooks
 	g_hCvarTongueDelay.AddChangeHook(ConVarChanged_Cvars);
@@ -67,7 +67,7 @@ public void OnPluginStart()
 	// GetCvars
 	GetCvars();
 }
-
+/*
 // ***** 事件 *****
 public void evt_PlayerSpawn(Event event, const char[] name, bool dontBroadCast)
 {
@@ -102,6 +102,7 @@ public Action ResetTougueRange(Handle timer,int client)
 	bCanSmoker[client] = true;
 	SetConVarInt(g_hTongueRange,750);
 }
+*/
 
 void ConVarChanged_Cvars(ConVar convar, const char[] oldValue, const char[] newValue)
 {
