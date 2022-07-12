@@ -331,8 +331,9 @@ public void OnGameFrame()
 					// 生还数量为 4，循环 4 次，检测此位置到生还的距离是否小于 750 是则刷特，此处可以刷新 1 ~ g_iSiLimit 只特感，如果此处刷完，则上面的 SpawnSpecial 将不再刷特
 					for (int count = 0; count < g_iSurvivorNum; count++)
 					{
-						
 						int index = g_iSurvivors[count];
+						if(!IsValidSurvivor(index))
+							continue;
 						if( IsValidSurvivor(index) && IsPlayerAlive(index) )
 						{
 							GetClientEyePosition(index, fSurvivorPos);

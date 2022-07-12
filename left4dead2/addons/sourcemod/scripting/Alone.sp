@@ -314,6 +314,8 @@ public void OnGameFrame()
 					for (int count = 0; count < g_iSurvivorNum; count++)
 					{
 						int index = g_iSurvivors[count];
+						if(!IsValidSurvivor(index))
+							continue;					
 						GetClientEyePosition(index, fSurvivorPos);
 						fSurvivorPos[2] -= 60.0;
 						Address nav1 = L4D_GetNearestNavArea(fSpawnPos, 300.0);

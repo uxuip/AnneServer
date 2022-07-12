@@ -289,7 +289,7 @@ void Boomer_OnVomit(int client)
 
 public Action Unhook(Handle Timer, int client)
 {
-	if( IsClientConnected( client ) != true || IsClientInGame(client) != true || IsPlayerAlive(client) != true || GetClientTeam( client ) == 3 )
+	if( IsClientConnected( client ) != true || IsClientInGame(client) != true || IsPlayerAlive(client) != true || GetClientTeam( client ) != 3 )
 	{
 		SDKUnhook(client, SDKHook_PreThink, SpreadBoomer);	
 		return;
@@ -306,8 +306,8 @@ public Action SpreadBoomer(int client)
 	static float fNearestAngles[3];
 	if (MakeNearestAngles(client, fNearestAngles))
 	{
-		fNearestAngles[1]+= GetRandomFloat(-60.0, 60.0);
-		fNearestAngles[0]+= 10;
+		fNearestAngles[1]+= GetRandomFloat(-90.0, 90.0);
+		fNearestAngles[0]-= 20;
 		TeleportEntity(client, NULL_VECTOR, fNearestAngles, NULL_VECTOR);
 	}
 }

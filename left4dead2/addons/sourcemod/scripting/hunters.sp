@@ -100,9 +100,19 @@ public void evt_PlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 	if (IsAiTank(client)&&IsClientInGame(client) && IsFakeClient(client))
 	{
 		if(!L4D_IsMissionFinalMap())
-			KickClient(client,"1vht模式不允许出现tank");
-		else
+		KickClient(client,"1vht模式不允许出现tank");
+		/*
+		if(L4D_IsMissionFinalMap() )
+		{
 			ForcePlayerSuicide(client);
+			PrintToChatAll("救援关tank被处死");
+		}			
+		else
+		{
+			KickClient(client,"1vht模式不允许出现tank");
+			PrintToChatAll("普通关tank被踢出");
+		}	
+		*/
 	}
 }
 
@@ -315,6 +325,8 @@ public void OnGameFrame()
 					for (int count = 0; count < g_iSurvivorNum; count++)
 					{
 						int index = g_iSurvivors[count];
+						if(!IsValidSurvivor(index))
+							continue;
 						GetClientEyePosition(index, fSurvivorPos);
 						fSurvivorPos[2] -= 60.0;
 						Address nav1 = L4D_GetNearestNavArea(fSpawnPos, 300.0);
