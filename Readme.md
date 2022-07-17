@@ -6,7 +6,7 @@
 
 - AI_HardSI_new 被 AI_HardSI_2.0替代，主要用来匹配tank2.0版本，而且删除里面原有的charger，smoker，jockey控制
 
-- tank传送稍微修改传送条件，获取flow失败的时候不进行检测
+- ~~tank传送稍微修改传送条件，获取flow失败的时候不进行检测~~
 
 - ~~ai_smoker_new更新，解决了射线刷特导致smoker刷到半空中成为斗宗强者的问题~~
 
@@ -14,7 +14,7 @@
 
 - 刷特插件也修复了smoker传送导致的斗宗smoker问题，同时倒地的人视线不会影响特感传送时间累计
 
-- 10特及以上增加AnneHappyPlus武器配置
+- ~~10特及以上增加AnneHappyPlus武器配置~~
 
 - 适配ai_jockey_new到7月插件(5月有问题没有加载)
 
@@ -39,7 +39,6 @@
             "Plugin"    "Path_SM/plugins/optional/Alone.smx"
             "Plugin"    "Path_SM/plugins/optional/hunters.smx"
             "Plugin"    "Path_SM/plugins/optional/infected_control.smx"
-            "Plugin"    "Path_SM/plugins/optional/text.smx"
 
 ## 修改介绍
 

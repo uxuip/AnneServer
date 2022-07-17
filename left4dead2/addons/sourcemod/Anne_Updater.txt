@@ -26,8 +26,6 @@
 			"Plugin"	"Path_SM/plugins/optional/Alone.smx"
 			"Plugin"	"Path_SM/plugins/optional/hunters.smx"
 			"Plugin"	"Path_SM/plugins/optional/infected_control.smx"
-			"Plugin"	"Path_SM/plugins/optional/text.smx"
-			"Plugin"	"Path_SM/plugins/optional/server.smx"
 		}
 		"Plugin"	"Path_SM/plugins/optional/ai_boomer_new.smx"
 		"Plugin"	"Path_SM/plugins/optional/ai_charger_new.smx"
@@ -40,7 +38,5 @@
 		"Plugin"	"Path_SM/plugins/optional/Alone.smx"
 		"Plugin"	"Path_SM/plugins/optional/hunters.smx"
 		"Plugin"	"Path_SM/plugins/optional/infected_control.smx"
-		"Plugin"	"Path_SM/plugins/optional/text.smx"
-		"Plugin"	"Path_SM/plugins/optional/server.smx"
 	}
 }
