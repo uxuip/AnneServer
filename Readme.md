@@ -24,21 +24,22 @@
 
 - 刷特再次大幅优化，而且刷特的spawnpos小幅修改，让特感生成位置更加多样，L4D2_VScriptWrapper_NavAreaBuildPath改为L4D2_NavAreaBuildPath检测由vscript脚本模式改为sdkcalls模式，检测更加严格且准确。[left4dhooks版本需要大于1.110，谢谢Silvers大佬帮忙实现了东的request，感谢他的支持和帮助]
 
+- 由于test分支东和Caibiii都已经不再维护整个架构结构，所以以后将只会提供下面自动更新插件的源码和插件，需要你自己将test分支的插件替换掉[Caibiii维护分支](https://github.com/Caibiii/AnneServer)的对应插件或直接使用[东维护分支](https://github.com/fantasylidong/AnneZonemod)
+
 ### 自动更新的插件
 
             "Plugin"    "Path_SM/plugins/optional/ai_boomer_new.smx"
-            "Plugin"    "Path_SM/plugins/optional/ai_charger_new.smx"
-            "Plugin"    "Path_SM/plugins/optional/AI_HardSI_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/ai_charger_2.smx"
+            "Plugin"    "Path_SM/plugins/optional/AI_HardSI_2.smx"
             "Plugin"    "Path_SM/plugins/optional/ai_hunter_new.smx"
             "Plugin"    "Path_SM/plugins/optional/ai_smoker_new.smx"
             "Plugin"    "Path_SM/plugins/optional/ai_spitter_new.smx"
-            "Plugin"    "Path_SM/plugins/optional/ai_tank_new.smx"
+            "Plugin"    "Path_SM/plugins/optional/ai_tank_2.smx"
             "Plugin"    "Path_SM/plugins/optional/ai_jockey_new.smx"
             "Plugin"    "Path_SM/plugins/optional/Alone.smx"
             "Plugin"    "Path_SM/plugins/optional/hunters.smx"
             "Plugin"    "Path_SM/plugins/optional/infected_control.smx"
             "Plugin"    "Path_SM/plugins/optional/text.smx"
-            "Plugin"    "Path_SM/plugins/optional/server.smx"
 
 ## 修改介绍
 

@@ -6,6 +6,8 @@
 #include <sdktools>
 #include <left4dhooks>
 //#include <l4d2_saferoom_detect>
+#undef REQUIRE_PLUGIN
+#include <ai_smoker_new>
 
 #define CVAR_FLAG FCVAR_NOTIFY
 #define TEAM_SURVIVOR 2
@@ -60,8 +62,8 @@ ArrayList aThreadHandle;
 public void OnPluginStart()
 {
 	// CreateConVar
-	g_hSpawnDistanceMin = CreateConVar("inf_SpawnDistanceMin", "450.0", "特感复活离生还者最近的距离限制", CVAR_FLAG, true, 0.0);
-	g_hSpawnDistanceMax = CreateConVar("inf_SpawnDistanceMax", "450.0", "特感复活离生还者最远的距离限制", CVAR_FLAG, true, g_hSpawnDistanceMin.FloatValue);
+	g_hSpawnDistanceMin = CreateConVar("inf_SpawnDistanceMin", "500.0", "特感复活离生还者最近的距离限制", CVAR_FLAG, true, 0.0);
+	g_hSpawnDistanceMax = CreateConVar("inf_SpawnDistanceMax", "500.0", "特感复活离生还者最远的距离限制", CVAR_FLAG, true, g_hSpawnDistanceMin.FloatValue);
 	g_hTeleportSi = CreateConVar("inf_TeleportSi", "1", "是否开启特感距离生还者一定距离将其传送至生还者周围", CVAR_FLAG, true, 0.0, true, 1.0);
 	g_hTeleportDistance = CreateConVar("inf_TeleportDistance", "800.0", "特感落后于最近的生还者超过这个距离则将它们传送", CVAR_FLAG, true, 0.0);
 	g_hSiLimit = CreateConVar("l4d_infected_limit", "6", "一次刷出多少特感", CVAR_FLAG, true, 0.0);
@@ -105,6 +107,7 @@ public Action Cmd_StartSpawn(int client, int args)
 	}
 	return Plugin_Continue;
 }
+
 
 /* 玩家受伤,增加对smoker得伤害 */
 public void Event_PlayerHurt(Event event, const char[] name, bool dont_broadcast)
@@ -232,17 +235,13 @@ public Action Timer_KickBot(Handle timer, int client)
 // *********************
 public void OnGameFrame()
 {
-	/*
 	// 根据情况动态调整 z_maxplayers_zombie 数值
 	if (g_iSiLimit > g_hMaxPlayerZombies.IntValue)
 	{
 		CreateTimer(0.1, MaxSpecialsSet);
 	}
-	*/
-	if (g_bIsLate && g_iSpawnMaxCount > 0)
+	if (g_bIsLate && g_iSpawnMaxCount > 0 && g_iSiLimit > iHunterLimit+iSmokerLimit+iBoomerLimit+iSpitterLimit+iJockeyLimit+iChargerLimit)
 	{
-		if (g_iSiLimit > iHunterLimit+iSmokerLimit+iBoomerLimit+iSpitterLimit+iJockeyLimit+iChargerLimit)
-		{	
 			if(g_bCanRun)
 				HasAnyCountFull();			
 			float fSpawnPos[3] = {0.0}, fSurvivorPos[3] = {0.0}, fDirection[3] = {0.0}, fEndPos[3] = {0.0}, fMins[3] = {0.0}, fMaxs[3] = {0.0},dist;	
@@ -253,12 +252,12 @@ public void OnGameFrame()
 				g_fSpawnDistanceMax += 5.0;
 				if(g_fSpawnDistanceMax < 500.0)
 				{
-					dist = 900.0;
+					dist = 850.0;
 					fMaxs[2] = fSurvivorPos[2] + 500.0;
 				}
 				else
 				{
-					dist = 400.0 + g_fSpawnDistanceMax;
+					dist = 350.0 + g_fSpawnDistanceMax;
 					fMaxs[2] = fSurvivorPos[2] + g_fSpawnDistanceMax;
 				}
 				fMins[0] = fSurvivorPos[0] - g_fSpawnDistanceMax;
@@ -318,9 +317,9 @@ public void OnGameFrame()
 							continue;					
 						GetClientEyePosition(index, fSurvivorPos);
 						fSurvivorPos[2] -= 60.0;
-						Address nav1 = L4D_GetNearestNavArea(fSpawnPos, 300.0);
-						Address nav2 = L4D_GetNearestNavArea(fSurvivorPos, 300.0);
-						if (L4D2_NavAreaBuildPath(nav1, nav2, dist, TEAM_INFECTED, false))
+						Address nav1 = L4D_GetNearestNavArea(fSpawnPos, 300.0, false, false, false, 3);
+						Address nav2 = L4D_GetNearestNavArea(fSurvivorPos, 300.0, false, false, false, 2);
+						if (L4D2_NavAreaBuildPath(nav1, nav2, dist, TEAM_INFECTED, false) && GetVectorDistance(fSurvivorPos, fSpawnPos) >= g_fSpawnDistanceMin)
 						{
 							int iZombieClass = IsBotTypeNeeded();
 							if (iZombieClass > 0&&g_iSpawnMaxCount > 0)
@@ -348,7 +347,7 @@ public void OnGameFrame()
 					}
 				}
 			}			
-		}
+		//}
 	}
 }
 /*
@@ -945,13 +944,30 @@ public void SDK_UpdateThink(int client)
 {
 	if (IsInfectedBot(client) && IsPlayerAlive(client))
 	{
+		if(IsAiSmoker(client) && !IsSmokerCanUseAbility(client))
+		{
+			//减去3s拉失败时间
+			g_iTeleCount[client] = 2;
+			SDKUnhook(client, SDKHook_PostThinkPost, SDK_UpdateThink);
+			return;
+		}
 		g_iTeleCount[client] = 0;
 		HardTeleMode(client);
 			
 	}
 }
 
-
+stock bool IsAiSmoker(int client)
+{
+	if (client && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client) && IsFakeClient(client) && GetClientTeam(client) == TEAM_INFECTED && GetEntProp(client, Prop_Send, "m_zombieClass") == 1 && GetEntProp(client, Prop_Send, "m_isGhost") != 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 
 void HardTeleMode(int client)

@@ -1,0 +1,46 @@
+"Updater"
+{
+	"Information"
+	{
+		"Version"
+		{
+			"Latest"	"1.0"
+		}
+		
+		"Notes"	"More info @ https://github.com/Caibiii/AnneServer/tree/test"
+		"Notes"	"first Anne updater init"
+	}
+	
+	"Files"
+	{
+		"Patch"
+		{
+			"Plugin"	"Path_SM/plugins/optional/ai_boomer_new.smx"
+			"Plugin"	"Path_SM/plugins/optional/ai_charger_new.smx"
+			"Plugin"	"Path_SM/plugins/optional/AI_HardSI_new.smx"
+			"Plugin"	"Path_SM/plugins/optional/ai_hunter_new.smx"
+			"Plugin"	"Path_SM/plugins/optional/ai_smoker_new.smx"
+			"Plugin"	"Path_SM/plugins/optional/ai_spitter_new.smx"
+			"Plugin"	"Path_SM/plugins/optional/ai_tank_new.smx"
+			"Plugin"	"Path_SM/plugins/optional/ai_jockey_new.smx"
+			"Plugin"	"Path_SM/plugins/optional/Alone.smx"
+			"Plugin"	"Path_SM/plugins/optional/hunters.smx"
+			"Plugin"	"Path_SM/plugins/optional/infected_control.smx"
+			"Plugin"	"Path_SM/plugins/optional/text.smx"
+			"Plugin"	"Path_SM/plugins/optional/server.smx"
+		}
+		"Plugin"	"Path_SM/plugins/optional/ai_boomer_new.smx"
+		"Plugin"	"Path_SM/plugins/optional/ai_charger_new.smx"
+		"Plugin"	"Path_SM/plugins/optional/AI_HardSI_new.smx"
+		"Plugin"	"Path_SM/plugins/optional/ai_hunter_new.smx"
+		"Plugin"	"Path_SM/plugins/optional/ai_smoker_new.smx"
+		"Plugin"	"Path_SM/plugins/optional/ai_spitter_new.smx"
+		"Plugin"	"Path_SM/plugins/optional/ai_tank_new.smx"
+		"Plugin"	"Path_SM/plugins/optional/ai_jockey_new.smx"
+		"Plugin"	"Path_SM/plugins/optional/Alone.smx"
+		"Plugin"	"Path_SM/plugins/optional/hunters.smx"
+		"Plugin"	"Path_SM/plugins/optional/infected_control.smx"
+		"Plugin"	"Path_SM/plugins/optional/text.smx"
+		"Plugin"	"Path_SM/plugins/optional/server.smx"
+	}
+}
