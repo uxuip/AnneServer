@@ -310,8 +310,9 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		{
 			eTankStructure[client].fRockThrowTime = GetGameTime();
 		}
+		//PrintToConsoleAll("锁定视角start");
 		// 视角锁定，不允许消耗时并当前时间戳减去扔石头时的时间戳大于 ROCK_AIM_TIME 锁定视角
-		if (bHasSight && !eTankStructure[client].bCanConsume && GetGameTime() - eTankStructure[client].fRockThrowTime > ROCK_AIM_TIME && !IsOnLadder(client) && !IsClientIncapped(nearest_target) && !eTankStructure[client].bCanLockVision)
+		if (bHasSight && !eTankStructure[client].bCanConsume && GetGameTime() - eTankStructure[client].fRockThrowTime > ROCK_AIM_TIME && !IsOnLadder(client) && !IsClientIncapped(nearest_target) &&  eTankStructure[client].bCanLockVision)
 		//if (bHasSight && !eTankStructure[client].bCanConsume && GetGameTime() - eTankStructure[client].fRockThrowTime > ROCK_AIM_TIME && !IsOnLadder(client) && !IsClientIncapped(nearest_target))
 		{
 			//PrintToConsoleAll("锁定视角");
@@ -352,15 +353,14 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	}
 	return Plugin_Continue;
 }
-
-//检测附近有没有梯子
-stock bool IsLadderAround(int client, float distance, float selfpos[3])
+// 检测当前坦克周围有没有梯子
+void IsLadderAround(int client, float distance, float selfpos[3])
 {
-	//PrintToConsoleAll("锁定视角1");
-	if(IsAiTank(client) && IsPlayerAlive(client)){
+	if (IsAiTank(client) && IsPlayerAlive(client))
+	{
 		float mins[3] = {0.0}, maxs[3] = {0.0};
-		GetClientMaxs(client, mins);
-		GetClientMins(client, maxs);
+		GetClientMins(client, mins);
+		GetClientMaxs(client, maxs);
 		mins[0] -= distance;
 		mins[1] -= distance;
 		mins[2] += NAV_MESH_HEIGHT;
@@ -368,29 +368,31 @@ stock bool IsLadderAround(int client, float distance, float selfpos[3])
 		maxs[1] += distance;
 		TR_EnumerateEntitiesHull(selfpos, selfpos, mins, maxs, MASK_NPCSOLID_BRUSHONLY, TR_LadderFilter, client);
 	}
-	return false;
 }
-
 stock bool TR_LadderFilter(int entity, int self)
 {
+	//PrintToConsoleAll("视角锁定： %d", eTankStructure[self].bCanLockVision);
 	if (IsValidEntity(entity) && IsValidEdict(entity))
 	{
-		static char sClassName[32];
-		GetEntityClassname(entity, sClassName, sizeof(sClassName));
-		//PrintToConsoleAll("%s", sClassName);
-		if (sClassName[0] == 'f' && (strcmp(sClassName, "func_simpleladder") == 0 || strcmp(sClassName, "func_ladder") == 0))
+		char classname[64] = {'\0'};
+		GetEntityClassname(entity, classname, sizeof(classname));
+		if (classname[0] == 'f' && (strcmp(classname, "func_simpleladder") == 0 || strcmp(classname, "func_ladder") == 0))
 		{
+			//PrintToConsoleAll("有梯子，解除锁定视角");
 			eTankStructure[self].bCanLockVision = false;
 			eTankStructure[self].fLockVisonTime = GetGameTime();
 			return false;
 		}
 	}
-	if(GetGameTime() - eTankStructure[self].fLockVisonTime > VISION_UNLOCK_TIME)
+	if (GetGameTime() - eTankStructure[self].fLockVisonTime > VISION_UNLOCK_TIME)
 	{
 		eTankStructure[self].bCanLockVision = true;
 	}
+	//PrintToConsoleAll("视角锁定： %d", eTankStructure[self].bCanLockVision);
 	return true;
 }
+
+
 
 // 坦克跳砖
 public Action L4D_OnCThrowActivate(int ability)
