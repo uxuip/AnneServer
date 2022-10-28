@@ -56,13 +56,13 @@ public Plugin myinfo =
 ConVar g_hTankBhop, g_hTankThrow, g_hTankThrowDist,g_hTankBlockThrowDist, g_hTankTarget, g_hTankBhopSpeed, g_hTreeDetect, g_hTreeNewTarget, g_hTankAirAngles, g_hTankAttackRange
 , g_hTankConsumeHeight, g_hTankConsumLimit, g_hTankConsumeRaidus, g_hTankAttackVomitedNum, g_hVomitCanInstantAttack, g_hVomitAttackInterval, g_hTeleportForwardPercent
 , g_hVsBossFlowBuffer, g_hTankConsumeLimitNum, g_hTankThrowForce, g_hTankConsume, g_hTankConsumeType, g_hTankRetreatAirAngles, g_hTankConsumeAction, g_hTankConsumeDamagePercent
-, g_hTankForceAttackDistance, g_hTankConsumeHealthLimit, g_hTankAttackIncapped, g_hTankConsumeValidRaidus, g_hTankConsumeDistance, g_hSiLimit;
+, g_hTankForceAttackDistance, g_hTankConsumeHealthLimit, g_hTankAttackIncapped, g_hTankConsumeValidRaidus, g_hTankConsumeDistance, g_hSiLimit, g_hTankStopDistance;
 // Ints
 int g_iTankTarget, g_iTankThrowDist, g_iTankBlockThrowDist, g_iTreeDetect, g_iTreePlayer[MAXPLAYERS + 1] = -1, g_iTreeNewTarget, g_iTankConsumeLimit
 , g_iTankConsumeRaidus, g_iTankAttackVomitedNum, g_iVomitedPlayer = 0, g_iTeleportForwardPercent, g_iTankConsumeSurvivorProgress[MAXPLAYERS + 1] = 0
 , g_iTankConsumeNum, g_iTankConsumeLimitNum[MAXPLAYERS + 1] = 0, g_iTankConsumeType, g_iTankConsumeAction, g_iTankConsumeDamagePercent, g_iTankForceAttackDistance, g_iTankConsumeHealthLimit, g_iTankAttackIncapped
 , g_iTankConsumeValidRaidus, g_iTankConsumeDistance, g_iTankIncappedCount[MAXPLAYERS + 1][1], g_iTankConsumeValidPos[MAXPLAYERS + 1][1], g_iTankSecondAttackDistance[MAXPLAYERS + 1][1]
-, g_iDistanceCount[MAXPLAYERS + 1][1], g_iTankUnstuckTimes[MAXPLAYERS + 1][2], g_iSiLimit = 0;
+, g_iDistanceCount[MAXPLAYERS + 1][1], g_iTankUnstuckTimes[MAXPLAYERS + 1][2], g_iSiLimit = 0, g_iTankStopDistance;
 
 // Bools
 bool g_bTankBhop, g_bTankThrow, g_bCanTankConsume[MAXPLAYERS + 1] = false, g_bInConsumePlace[MAXPLAYERS + 1] = false, g_bReturnConsumePlace[MAXPLAYERS + 1] = false, g_bCanTankAttack[MAXPLAYERS + 1] = true
@@ -91,6 +91,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 public void OnPluginStart()
 {
 	g_hTankBhopSpeed = CreateConVar("ai_Tank_BhopSpeed", "60.0", "Tank连跳的速度", FCVAR_NOTIFY, true, 0.0);
+	g_hTankStopDistance = CreateConVar("ai_Tank_StopDistance", "130", "Tank在距离目标多远位置停下来", FCVAR_NOTIFY, true, 0.0);
 	g_hTankBhop = CreateConVar("ai_Tank_Bhop", "1", "是否开启Tank连跳功能：0=关闭，1=开启", FCVAR_NOTIFY, true, 0.0, true, 1.0);
 	g_hTankThrow = CreateConVar("ai_Tank_Throw", "1", "是否允许Tank投掷石块：0=关闭，1=开启", FCVAR_NOTIFY, true, 0.0, true, 1.0);
 	g_hTankThrowDist = CreateConVar("ai_TankThrowDistance", "450", "Tank距离目标多近允许投掷石块", FCVAR_NOTIFY, true, 0.0);
@@ -129,6 +130,7 @@ public void OnPluginStart()
 	HookEvent("player_now_it", evt_PlayerNowIt);
 	HookEvent("player_incapacitated", evt_PlayerIncapped);
 	// AddChangeHook
+	g_hTankStopDistance.AddChangeHook(ConVarChanged_Cvars);
 	g_hSiLimit.AddChangeHook(ConVarChanged_Cvars);
 	g_hTankBhop.AddChangeHook(ConVarChanged_Cvars);
 	g_hTankThrow.AddChangeHook(ConVarChanged_Cvars);
@@ -225,6 +227,7 @@ void ConVarChanged_Cvars(ConVar convar, const char[] oldValue, const char[] newV
 void GetCvars()
 {
 	g_bTankBhop = g_hTankBhop.BoolValue;
+	g_iTankStopDistance = g_hTankStopDistance.IntValue;
 	g_bTankThrow = g_hTankThrow.BoolValue;
 	g_iTankTarget = g_hTankTarget.IntValue;
 	g_iTankThrowDist = g_hTankThrowDist.IntValue;
@@ -335,7 +338,7 @@ public Action OnPlayerRunCmd(int tank, int &buttons, int &impulse, float vel[3],
 				float fBuffer[3] = {0.0}, fTargetPos[3] = {0.0};
 				GetClientAbsOrigin(iTarget, fTargetPos);
 				fBuffer = UpdatePosition(tank, iTarget, g_fTankBhopSpeed);
-				if (g_fTankAttackRange+55 < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
+				if (g_iTankStopDistance < iSurvivorDistance < 2000 && fCurrentSpeed > 190.0)
 				{
 					if (iFlags & FL_ONGROUND)
 					{
@@ -1389,6 +1392,19 @@ int GetClosestSurvivor(float refpos[3], int excludeSur = -1)
 		}
 	}
 	return closetSur;
+}
+
+bool TankIsPinned(int client)
+{
+	bool bIsPinned = false;
+	if (IsSurvivor(client))
+	{
+		if(GetEntPropEnt(client, Prop_Send, "m_pounceAttacker") > 0) bIsPinned = true;
+		if(GetEntPropEnt(client, Prop_Send, "m_carryAttacker") > 0) bIsPinned = true;
+		if(GetEntPropEnt(client, Prop_Send, "m_pummelAttacker") > 0) bIsPinned = true;
+		if(GetEntPropEnt(client, Prop_Send, "m_jockeyAttacker") > 0) bIsPinned = true;
+	}		
+	return bIsPinned;
 }
 
 bool IsPinned(int client)

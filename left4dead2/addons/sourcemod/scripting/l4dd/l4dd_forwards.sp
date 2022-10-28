@@ -52,9 +52,19 @@ GlobalForward g_hFWD_CTerrorPlayer_RecalculateVersusScore_Post;
 GlobalForward g_hFWD_CDirector_OnFirstSurvivorLeftSafeArea;
 GlobalForward g_hFWD_CDirector_OnFirstSurvivorLeftSafeArea_Post;
 GlobalForward g_hFWD_CDirector_OnFirstSurvivorLeftSafeArea_PostHandled;
+GlobalForward g_hFWD_CDirector_OnForceSurvivorPositions_Pre;
+GlobalForward g_hFWD_CDirector_OnForceSurvivorPositions;
+GlobalForward g_hFWD_CDirector_OnReleaseSurvivorPositions;
+GlobalForward g_hFWD_SpeakResponseConceptFromEntityIO_Pre;
+GlobalForward g_hFWD_SpeakResponseConceptFromEntityIO_Post;
 GlobalForward g_hFWD_CDirector_GetScriptValueInt;
 GlobalForward g_hFWD_CDirector_GetScriptValueFloat;
+// GlobalForward g_hFWD_CDirector_GetScriptValueVector;
 GlobalForward g_hFWD_CDirector_GetScriptValueString;
+GlobalForward g_hFWD_CSquirrelVM_GetValue_Void;
+GlobalForward g_hFWD_CSquirrelVM_GetValue_Int;
+GlobalForward g_hFWD_CSquirrelVM_GetValue_Float;
+GlobalForward g_hFWD_CSquirrelVM_GetValue_Vector;
 GlobalForward g_hFWD_CDirector_IsTeamFull;
 GlobalForward g_hFWD_CTerrorPlayer_EnterGhostState_Pre;
 GlobalForward g_hFWD_CTerrorPlayer_EnterGhostState_Post;
@@ -155,6 +165,15 @@ GlobalForward g_hFWD_CInsectSwarm_CanHarm_PostHandled;
 GlobalForward g_hFWD_CPipeBombProjectile_Create_Pre;
 GlobalForward g_hFWD_CPipeBombProjectile_Create_Post;
 GlobalForward g_hFWD_CPipeBombProjectile_Create_PostHandled;
+GlobalForward g_hFWD_CMolotovProjectile_Detonate;
+GlobalForward g_hFWD_CMolotovProjectile_Detonate_Post;
+GlobalForward g_hFWD_CMolotovProjectile_Detonate_PostHandled;
+GlobalForward g_hFWD_CPipeBombProjectile_Detonate;
+GlobalForward g_hFWD_CPipeBombProjectile_Detonate_Post;
+GlobalForward g_hFWD_CPipeBombProjectile_Detonate_PostHandled;
+GlobalForward g_hFWD_CVomitJarProjectile_Detonate;
+GlobalForward g_hFWD_CVomitJarProjectile_Detonate_Post;
+GlobalForward g_hFWD_CVomitJarProjectile_Detonate_PostHandled;
 GlobalForward g_hFWD_CTerrorPlayer_Extinguish;
 GlobalForward g_hFWD_CInferno_Spread;
 GlobalForward g_hFWD_CTerrorWeapon_OnHit;
@@ -180,6 +199,9 @@ GlobalForward g_hFWD_CTerrorPlayer_Fling_Post;
 GlobalForward g_hFWD_CTerrorPlayer_Fling_PostHandled;
 GlobalForward g_hFWD_CDeathFallCamera_Enable;
 GlobalForward g_hFWD_CTerrorPlayer_OnFalling_Post;
+GlobalForward g_hFWD_CTerrorPlayer_Cough;
+GlobalForward g_hFWD_CTerrorPlayer_Cough_Post;
+GlobalForward g_hFWD_CTerrorPlayer_Cough_PostHandled;
 GlobalForward g_hFWD_Witch_SetHarasser;
 GlobalForward g_hFWD_Tank_EnterStasis_Post;
 GlobalForward g_hFWD_Tank_LeaveStasis_Post;
@@ -205,6 +227,8 @@ void SetupDetours(GameData hGameData = null)
 		g_aUseLastIndex = new ArrayList();
 		g_aForwardIndex = new ArrayList();
 		g_aForceDetours = new ArrayList();
+		g_aDetourHookIDsPre = new ArrayList();
+		g_aDetourHookIDsPost = new ArrayList();
 		g_aGameDataSigs = new ArrayList(ByteCountToCells(MAX_FWD_LEN));
 		g_aForwardNames = new ArrayList(ByteCountToCells(MAX_FWD_LEN));
 	}
@@ -215,7 +239,7 @@ void SetupDetours(GameData hGameData = null)
 
 
 	// Forwards listed here must match forward list in plugin start.
-	//			 GameData			DHookCallback PRE											DHookCallback POST											Signature Name														Forward Name									useLast index		forceOn detour
+	//			 GameData			DHookCallback PRE											DHookCallback POST											Signature Name														Forward Name									useLast index		DynamicHook			Hook Address		forceOn detour
 	CreateDetour(hGameData,			DTR_ZombieManager_SpawnTank,								DTR_ZombieManager_SpawnTank_Post,							"L4DD::ZombieManager::SpawnTank",									"L4D_OnSpawnTank");
 	CreateDetour(hGameData,			DTR_ZombieManager_SpawnTank,								DTR_ZombieManager_SpawnTank_Post,							"L4DD::ZombieManager::SpawnTank",									"L4D_OnSpawnTank_Post",							true); // Different forwards, same detour as above - same index.
 	CreateDetour(hGameData,			DTR_ZombieManager_SpawnTank,								DTR_ZombieManager_SpawnTank_Post,							"L4DD::ZombieManager::SpawnTank",									"L4D_OnSpawnTank_PostHandled",					true);
@@ -256,6 +280,12 @@ void SetupDetours(GameData hGameData = null)
 	CreateDetour(hGameData,			DTR_CDirector_OnFirstSurvivorLeftSafeArea,					DTR_CDirector_OnFirstSurvivorLeftSafeArea_Post,				"L4DD::CDirector::OnFirstSurvivorLeftSafeArea",						"L4D_OnFirstSurvivorLeftSafeArea");
 	CreateDetour(hGameData,			DTR_CDirector_OnFirstSurvivorLeftSafeArea,					DTR_CDirector_OnFirstSurvivorLeftSafeArea_Post,				"L4DD::CDirector::OnFirstSurvivorLeftSafeArea",						"L4D_OnFirstSurvivorLeftSafeArea_Post",			true);
 	CreateDetour(hGameData,			DTR_CDirector_OnFirstSurvivorLeftSafeArea,					DTR_CDirector_OnFirstSurvivorLeftSafeArea_Post,				"L4DD::CDirector::OnFirstSurvivorLeftSafeArea",						"L4D_OnFirstSurvivorLeftSafeArea_PostHandled",	true);
+	CreateDetour(hGameData,			DTR_CDirector_OnForceSurvivorPositions_Pre,					DTR_CDirector_OnForceSurvivorPositions_Post,				"L4DD::CDirector::OnForceSurvivorPositions",						"L4D_OnForceSurvivorPositions_Pre");
+	CreateDetour(hGameData,			DTR_CDirector_OnForceSurvivorPositions_Pre,					DTR_CDirector_OnForceSurvivorPositions_Post,				"L4DD::CDirector::OnForceSurvivorPositions",						"L4D_OnForceSurvivorPositions",					true);
+	CreateDetour(hGameData,			DTR_CDirector_OnReleaseSurvivorPositions_Pre,				DTR_CDirector_OnReleaseSurvivorPositions,					"L4DD::CDirector::OnReleaseSurvivorPositions",						"L4D_OnReleaseSurvivorPositions");
+	CreateDetour(hGameData,			DTR_CDirector_OnReleaseSurvivorPositions_Pre,				DTR_CDirector_OnReleaseSurvivorPositions,					"L4DD::CDirector::OnReleaseSurvivorPositions",						"L4D_OnReleaseSurvivorPositions",				true);
+	CreateDetour(hGameData,			DTR_SpeakResponseConceptFromEntityIO_Pre,					DTR_SpeakResponseConceptFromEntityIO_Post,					"L4DD::SpeakResponseConceptFromEntityIO",							"L4D_OnSpeakResponseConcept_Pre");
+	CreateDetour(hGameData,			DTR_SpeakResponseConceptFromEntityIO_Pre,					DTR_SpeakResponseConceptFromEntityIO_Post,					"L4DD::SpeakResponseConceptFromEntityIO",							"L4D_OnSpeakResponseConcept_Post",				true);
 	CreateDetour(hGameData,			DTR_CTerrorPlayer_GetCrouchTopSpeed_Pre,					DTR_CTerrorPlayer_GetCrouchTopSpeed_Post,					"L4DD::CTerrorPlayer::GetCrouchTopSpeed",							"L4D_OnGetCrouchTopSpeed");
 	CreateDetour(hGameData,			DTR_CTerrorPlayer_GetRunTopSpeed_Pre,						DTR_CTerrorPlayer_GetRunTopSpeed_Post,						"L4DD::CTerrorPlayer::GetRunTopSpeed",								"L4D_OnGetRunTopSpeed");
 	CreateDetour(hGameData,			DTR_CTerrorPlayer_GetWalkTopSpeed_Pre,						DTR_CTerrorPlayer_GetWalkTopSpeed_Post,						"L4DD::CTerrorPlayer::GetWalkTopSpeed",								"L4D_OnGetWalkTopSpeed");
@@ -326,6 +356,9 @@ void SetupDetours(GameData hGameData = null)
 	CreateDetour(hGameData,			DTR_CTerrorPlayer_OnShovedByPounceLanding,					DTR_CTerrorPlayer_OnShovedByPounceLanding_Post,				"L4DD::CTerrorPlayer::OnShovedByPounceLanding",						"L4D2_OnPounceOrLeapStumble_PostHandled",		true);
 	CreateDetour(hGameData,			DTR_CDeathFallCamera_Enable,								INVALID_FUNCTION,											"L4DD::CDeathFallCamera::Enable",									"L4D_OnFatalFalling");
 	CreateDetour(hGameData,			DTR_CTerrorPlayer_OnFalling_Pre,							DTR_CTerrorPlayer_OnFalling_Post,							"L4DD::CTerrorPlayer::OnFalling",									"L4D_OnFalling");
+	CreateDetour(hGameData,			DTR_CTerrorPlayer_Cough,									DTR_CTerrorPlayer_Cough_Post,								"L4DD::CTerrorPlayer::Cough",										"L4D_OnPlayerCough");
+	CreateDetour(hGameData,			DTR_CTerrorPlayer_Cough,									DTR_CTerrorPlayer_Cough_Post,								"L4DD::CTerrorPlayer::Cough",										"L4D_OnPlayerCough_Post",						true);
+	CreateDetour(hGameData,			DTR_CTerrorPlayer_Cough,									DTR_CTerrorPlayer_Cough_Post,								"L4DD::CTerrorPlayer::Cough",										"L4D_OnPlayerCough_PostHandled",				true);
 	CreateDetour(hGameData,			DTR_Witch_SetHarasser,										INVALID_FUNCTION,											"L4DD::Witch::SetHarasser",											"L4D_OnWitchSetHarasser");
 	CreateDetour(hGameData,			DTR_Tank_EnterStasis_Pre,									DTR_Tank_EnterStasis_Post,									"L4DD::Tank::EnterStasis",											"L4D_OnEnterStasis");
 	CreateDetour(hGameData,			DTR_Tank_LeaveStasis_Pre,									DTR_Tank_LeaveStasis_Post,									"L4DD::Tank::LeaveStasis",											"L4D_OnLeaveStasis");
@@ -337,6 +370,12 @@ void SetupDetours(GameData hGameData = null)
 	CreateDetour(hGameData,			DTR_CPipeBombProjectile_Create_Pre,							DTR_CPipeBombProjectile_Create_Post,						"L4DD::CPipeBombProjectile::Create",								"L4D_PipeBombProjectile_Pre");
 	CreateDetour(hGameData,			DTR_CPipeBombProjectile_Create_Pre,							DTR_CPipeBombProjectile_Create_Post,						"L4DD::CPipeBombProjectile::Create",								"L4D_PipeBombProjectile_Post",					true);
 	CreateDetour(hGameData,			DTR_CPipeBombProjectile_Create_Pre,							DTR_CPipeBombProjectile_Create_Post,						"L4DD::CPipeBombProjectile::Create",								"L4D_PipeBombProjectile_PostHandled",			true);
+	CreateDetour(hGameData,			DTR_CMolotovProjectile_Detonate_Pre,						DTR_CMolotovProjectile_Detonate,							"L4DD::CMolotovProjectile::Detonate",								"L4D_Molotov_Detonate");
+	CreateDetour(hGameData,			DTR_CMolotovProjectile_Detonate_Pre,						DTR_CMolotovProjectile_Detonate,							"L4DD::CMolotovProjectile::Detonate",								"L4D_Molotov_Detonate_Post",					true);
+	CreateDetour(hGameData,			DTR_CMolotovProjectile_Detonate_Pre,						DTR_CMolotovProjectile_Detonate,							"L4DD::CMolotovProjectile::Detonate",								"L4D_Molotov_Detonate_PostHandled",				true);
+	CreateDetour(hGameData,			DTR_CPipeBombProjectile_Detonate_Pre,						DTR_CPipeBombProjectile_Detonate,							"L4DD::CPipeBombProjectile::Detonate",								"L4D_PipeBomb_Detonate");
+	CreateDetour(hGameData,			DTR_CPipeBombProjectile_Detonate_Pre,						DTR_CPipeBombProjectile_Detonate,							"L4DD::CPipeBombProjectile::Detonate",								"L4D_PipeBomb_Detonate_Post",					true);
+	CreateDetour(hGameData,			DTR_CPipeBombProjectile_Detonate_Pre,						DTR_CPipeBombProjectile_Detonate,							"L4DD::CPipeBombProjectile::Detonate",								"L4D_PipeBomb_Detonate_PostHandled",			true);
 	CreateDetour(hGameData,			DTR_CTerrorPlayer_Extinguish,								INVALID_FUNCTION,											"L4DD::CTerrorPlayer::Extinguish",									"L4D_PlayerExtinguish");
 	CreateDetour(hGameData,			DTR_CBreakableProp_Break_Pre,								DTR_CBreakableProp_Break_Post,								"L4DD::CBreakableProp::Break",										"L4D_CBreakableProp_Break");
 	CreateDetour(hGameData,			DTR_CTerrorPlayer_OnVomitedUpon,							DTR_CTerrorPlayer_OnVomitedUpon_Post,						"L4DD::CTerrorPlayer::OnVomitedUpon",								"L4D_OnVomitedUpon");
@@ -388,10 +427,13 @@ void SetupDetours(GameData hGameData = null)
 		CreateDetour(hGameData,		DTR_CGasCan_OnActionComplete,								DTR_CGasCan_OnActionComplete_Post,							"L4DD::CGasCan::OnActionComplete",									"L4D2_CGasCan_ActionComplete");
 		CreateDetour(hGameData,		DTR_CGasCan_OnActionComplete,								DTR_CGasCan_OnActionComplete_Post,							"L4DD::CGasCan::OnActionComplete",									"L4D2_CGasCan_ActionComplete_Post",				true);
 		CreateDetour(hGameData,		DTR_CGasCan_OnActionComplete,								DTR_CGasCan_OnActionComplete_Post,							"L4DD::CGasCan::OnActionComplete",									"L4D2_CGasCan_ActionComplete_PostHandled",		true);
+		CreateDetour(hGameData,		DTR_CVomitJarProjectile_Detonate_Pre,						DTR_CVomitJarProjectile_Detonate,							"L4DD::CVomitJarProjectile::Detonate",								"L4D2_VomitJar_Detonate");
+		CreateDetour(hGameData,		DTR_CVomitJarProjectile_Detonate_Pre,						DTR_CVomitJarProjectile_Detonate,							"L4DD::CVomitJarProjectile::Detonate",								"L4D2_VomitJar_Detonate_Post",					true);
+		CreateDetour(hGameData,		DTR_CVomitJarProjectile_Detonate_Pre,						DTR_CVomitJarProjectile_Detonate,							"L4DD::CVomitJarProjectile::Detonate",								"L4D2_VomitJar_Detonate_PostHandled",			true);
 		CreateDetour(hGameData,		DTR_CInsectSwarm_CanHarm,									DTR_CInsectSwarm_CanHarm_Post,								"L4DD::CInsectSwarm::CanHarm",										"L4D2_CInsectSwarm_CanHarm");
 		CreateDetour(hGameData,		DTR_CInsectSwarm_CanHarm,									DTR_CInsectSwarm_CanHarm_Post,								"L4DD::CInsectSwarm::CanHarm",										"L4D2_CInsectSwarm_CanHarm_Post",				true);
 		CreateDetour(hGameData,		DTR_CInsectSwarm_CanHarm,									DTR_CInsectSwarm_CanHarm_Post,								"L4DD::CInsectSwarm::CanHarm",										"L4D2_CInsectSwarm_CanHarm_PostHandled",		true);
-		CreateDetour(hGameData,		DTR_CTerrorPlayer_Fling,									DTR_CTerrorPlayer_Fling_Post,								"L4DD::CTerrorPlayer::Fling",										"L4D2_OnPlayerFling");	
+		CreateDetour(hGameData,		DTR_CTerrorPlayer_Fling,									DTR_CTerrorPlayer_Fling_Post,								"L4DD::CTerrorPlayer::Fling",										"L4D2_OnPlayerFling");
 		CreateDetour(hGameData,		DTR_CTerrorPlayer_Fling,									DTR_CTerrorPlayer_Fling_Post,								"L4DD::CTerrorPlayer::Fling",										"L4D2_OnPlayerFling_Post",						true);
 		CreateDetour(hGameData,		DTR_CTerrorPlayer_Fling,									DTR_CTerrorPlayer_Fling_Post,								"L4DD::CTerrorPlayer::Fling",										"L4D2_OnPlayerFling_PostHandled",				true);
 		CreateDetour(hGameData,		DTR_CTerrorPlayer_QueuePummelVictim,						DTR_CTerrorPlayer_QueuePummelVictim_Post,					"L4DD::CTerrorPlayer::QueuePummelVictim",							"L4D2_OnPummelVictim");
@@ -406,9 +448,17 @@ void SetupDetours(GameData hGameData = null)
 		CreateDetour(hGameData,		DTR_ZombieManager_SpawnWitchBride,							DTR_ZombieManager_SpawnWitchBride_Post,						"L4DD::ZombieManager::SpawnWitchBride",								"L4D2_OnSpawnWitchBride");
 		CreateDetour(hGameData,		DTR_ZombieManager_SpawnWitchBride,							DTR_ZombieManager_SpawnWitchBride_Post,						"L4DD::ZombieManager::SpawnWitchBride",								"L4D2_OnSpawnWitchBride_Post",					true);
 		CreateDetour(hGameData,		DTR_ZombieManager_SpawnWitchBride,							DTR_ZombieManager_SpawnWitchBride_Post,						"L4DD::ZombieManager::SpawnWitchBride",								"L4D2_OnSpawnWitchBride_PostHandled",			true);
-		CreateDetour(hGameData,		DTR_CDirector_GetScriptValueInt,							INVALID_FUNCTION,											"L4DD::CDirector::GetScriptValueInt",								"L4D_OnGetScriptValueInt");
-		CreateDetour(hGameData,		DTR_CDirector_GetScriptValueFloat,							INVALID_FUNCTION,											"L4DD::CDirector::GetScriptValueFloat",								"L4D_OnGetScriptValueFloat");
-		CreateDetour(hGameData,		DTR_CDirector_GetScriptValueString,							INVALID_FUNCTION,											"L4DD::CDirector::GetScriptValueString",							"L4D_OnGetScriptValueString");
+		CreateDetour(hGameData,		DTR_CDirector_GetScriptValueInt_Pre,						DTR_CDirector_GetScriptValueInt,							"L4DD::CDirector::GetScriptValueInt",								"L4D_OnGetScriptValueInt");
+		CreateDetour(hGameData,		DTR_CDirector_GetScriptValueFloat_Pre,						DTR_CDirector_GetScriptValueFloat,							"L4DD::CDirector::GetScriptValueFloat",								"L4D_OnGetScriptValueFloat");
+		// CreateDetour(hGameData,		DTR_CDirector_GetScriptValueVector_Pre,						DTR_CDirector_GetScriptValueVector,							"L4DD::CDirector::GetScriptValueVector",							"L4D_OnGetScriptValueVector");
+		CreateDetour(hGameData,		DTR_CDirector_GetScriptValueString_Pre,						DTR_CDirector_GetScriptValueString,							"L4DD::CDirector::GetScriptValueString",							"L4D_OnGetScriptValueString");
+
+		g_iScriptVMDetourIndex = g_iSmallIndex;
+		CreateDetour(hGameData,		INVALID_FUNCTION,											DTR_CSquirrelVM_GetValue,									"L4DD::ScriptVM",													"L4D2_OnGetScriptValueInt",						false,				g_hScriptHook,		g_pScriptVM);
+		CreateDetour(hGameData,		INVALID_FUNCTION,											DTR_CSquirrelVM_GetValue,									"L4DD::ScriptVM",													"L4D2_OnGetScriptValueFloat",					true,				g_hScriptHook,		g_pScriptVM);
+		CreateDetour(hGameData,		INVALID_FUNCTION,											DTR_CSquirrelVM_GetValue,									"L4DD::ScriptVM",													"L4D2_OnGetScriptValueVector",					true,				g_hScriptHook,		g_pScriptVM);
+		CreateDetour(hGameData,		INVALID_FUNCTION,											DTR_CSquirrelVM_GetValue,									"L4DD::ScriptVM",													"L4D2_OnGetScriptValueVoid",					true,				g_hScriptHook,		g_pScriptVM);
+
 		CreateDetour(hGameData,		DTR_CTerrorGameRules_HasConfigurableDifficultySetting,		DTR_CTerrorGameRules_HasConfigurableDifficultySetting_Post,	"L4DD::CTerrorGameRules::HasConfigurableDifficultySetting",			"L4D_OnHasConfigurableDifficulty");
 		CreateDetour(hGameData,		DTR_CTerrorGameRules_HasConfigurableDifficultySetting,		DTR_CTerrorGameRules_HasConfigurableDifficultySetting_Post,	"L4DD::CTerrorGameRules::HasConfigurableDifficultySetting",			"L4D_OnHasConfigurableDifficulty_Post",			true);
 		CreateDetour(hGameData,		DTR_CTerrorGameRules_GetSurvivorSet_Pre,					DTR_CTerrorGameRules_GetSurvivorSet,						"L4DD::CTerrorGameRules::GetSurvivorSet",							"L4D_OnGetSurvivorSet");
@@ -420,7 +470,7 @@ void SetupDetours(GameData hGameData = null)
 		CreateDetour(hGameData,		DTR_CDirectorScriptedEventManager_ChangeFinaleStage,		DTR_CDirectorScriptedEventManager_ChangeFinaleStage_Post,	"L4DD::CDirectorScriptedEventManager::ChangeFinaleStage",			"L4D2_OnChangeFinaleStage");
 		CreateDetour(hGameData,		DTR_CDirectorScriptedEventManager_ChangeFinaleStage,		DTR_CDirectorScriptedEventManager_ChangeFinaleStage_Post,	"L4DD::CDirectorScriptedEventManager::ChangeFinaleStage",			"L4D2_OnChangeFinaleStage_Post",				true);
 		CreateDetour(hGameData,		DTR_CDirectorScriptedEventManager_ChangeFinaleStage,		DTR_CDirectorScriptedEventManager_ChangeFinaleStage_Post,	"L4DD::CDirectorScriptedEventManager::ChangeFinaleStage",			"L4D2_OnChangeFinaleStage_PostHandled",			true);
-		CreateDetour(hGameData,		DTR_AddonsDisabler,											INVALID_FUNCTION,											"L4DD::CBaseServer::FillServerInfo",								"L4D2_OnClientDisableAddons",					false,				true); // Force detour to enable.
+		CreateDetour(hGameData,		DTR_AddonsDisabler,											INVALID_FUNCTION,											"L4DD::CBaseServer::FillServerInfo",								"L4D2_OnClientDisableAddons",					false,				null,				Address_Null,		true); // Force detour to enable.
 	}
 
 	// Deprecated, unused or broken.
@@ -431,7 +481,7 @@ void SetupDetours(GameData hGameData = null)
 	g_bCreatedDetours = true;
 }
 
-void CreateDetour(GameData hGameData, DHookCallback fCallback, DHookCallback fPostCallback, const char[] sName, const char[] sForward, bool useLast = false, bool forceOn = false)
+void CreateDetour(GameData hGameData, DHookCallback fCallback, DHookCallback fPostCallback, const char[] sName, const char[] sForward, bool useLast = false, DynamicHook hHook = null, Address hAddress = Address_Null, bool forceOn = false)
 {
 	if( g_bCreatedDetours == false )
 	{
@@ -450,11 +500,26 @@ void CreateDetour(GameData hGameData, DHookCallback fCallback, DHookCallback fPo
 		// Setup detours
 		if( !useLast )
 		{
-			DynamicDetour hDetour = DynamicDetour.FromConf(hGameData, sName);
-			if( !hDetour ) LogError("Failed to load detour \"%s\" signature (%s).", sName, g_sSystem);
+			// DynamicHook
+			if( hHook )
+			{
+				g_aDetourHookIDsPre.Push(INVALID_HOOK_ID);
+				g_aDetourHookIDsPost.Push(INVALID_HOOK_ID);
+				g_aDetoursHooked.Push(0);
+				g_aDetourHandles.Push(0);
+			}
+			// DynamicDetour
+			else
+			{
+				DynamicDetour hDetour = DynamicDetour.FromConf(hGameData, sName);
+				if( !hDetour ) LogError("Failed to load detour \"%s\" signature (%s).", sName, g_sSystem);
 
-			g_aDetoursHooked.Push(0);			// Default disabled
-			g_aDetourHandles.Push(hDetour);		// Store handle
+				g_aDetoursHooked.Push(0);			// Default disabled
+				g_aDetourHandles.Push(hDetour);		// Store handle
+
+				g_aDetourHookIDsPre.Push(INVALID_HOOK_ID);
+				g_aDetourHookIDsPost.Push(INVALID_HOOK_ID);
+			}
 		}
 	}
 	else
@@ -489,6 +554,60 @@ void CreateDetour(GameData hGameData, DHookCallback fCallback, DHookCallback fPo
 
 						if( fCallback != INVALID_FUNCTION && !hDetour.Disable(Hook_Pre, fCallback) ) LogError("Failed to disable detour pre \"%s\" (%s).", sName, g_sSystem);
 						if( fPostCallback != INVALID_FUNCTION && !hDetour.Disable(Hook_Post, fPostCallback) ) LogError("Failed to disable detour post \"%s\" (%s).", sName, g_sSystem);
+					}
+				}
+				else
+				{
+					if( current == -1 )
+					{
+						g_aDetoursHooked.Set(g_iSmallIndex, 1);
+						#if defined DEBUG
+						#if DEBUG
+						PrintToServer("Enabling detour hook %d %s", g_iSmallIndex, sName);
+						#endif
+						#endif
+
+						// Pre-hook
+						int hookID = INVALID_HOOK_ID;
+
+						if( fCallback != INVALID_FUNCTION )
+						{
+							hookID = hHook.HookRaw(Hook_Pre, hAddress, fPostCallback);
+						}
+
+						g_aDetourHookIDsPre.Set(g_iSmallIndex, hookID);		// Store handle
+
+						// Post-hook
+						hookID = INVALID_HOOK_ID;
+
+						if( fPostCallback != INVALID_FUNCTION )
+						{
+							hookID = hHook.HookRaw(Hook_Post, hAddress, fPostCallback);
+						}
+
+						g_aDetourHookIDsPost.Set(g_iSmallIndex, hookID);		// Store handle
+					} else {
+						g_aDetoursHooked.Set(g_iSmallIndex, 0);
+						#if defined DEBUG
+						#if DEBUG
+						PrintToServer("Disabling detour hook %d %s", g_iSmallIndex, sName);
+						#endif
+						#endif
+
+						int hookID = g_aDetourHookIDsPre.Get(g_iSmallIndex);
+						if( hookID != INVALID_HOOK_ID )
+						{
+							DynamicHook.RemoveHook(hookID);
+						}
+
+						hookID = g_aDetourHookIDsPost.Get(g_iSmallIndex);
+						if( hookID != INVALID_HOOK_ID )
+						{
+							DynamicHook.RemoveHook(hookID);
+						}
+
+						g_aDetourHookIDsPre.Set(g_iSmallIndex, INVALID_HOOK_ID);
+						g_aDetourHookIDsPost.Set(g_iSmallIndex, INVALID_HOOK_ID);
 					}
 				}
 			}
@@ -557,7 +676,7 @@ void CheckRequiredDetours(int client = 0)
 						g_vProf.Stop();
 						g_fProf += g_vProf.Time;
 
-						PrintToServer("%2d %36s> %32s (%s)", count, (i == g_iAnimationDetourIndex && g_aForceDetours.Get(g_iAnimationDetourIndex)) ? "FORCED ANIM" : "FORCED DETOUR", sForward, sName[6]);
+						PrintToServer("%3d %36s> %43s (%s)", count, (i == g_iAnimationDetourIndex && g_aForceDetours.Get(g_iAnimationDetourIndex)) ? "FORCED ANIM" : "FORCED DETOUR", sForward, sName[6]);
 						g_vProf.Start();
 					}
 					#endif
@@ -565,7 +684,7 @@ void CheckRequiredDetours(int client = 0)
 
 					if( client > 0 )
 					{
-						ReplyToCommand(client - 1, "%2d %36s> %32s (%s)", count, (i == g_iAnimationDetourIndex && g_aForceDetours.Get(g_iAnimationDetourIndex)) ? "FORCED ANIM" : "FORCED DETOUR", sForward, sName[6]);
+						ReplyToCommand(client - 1, "%3d %36s> %43s (%s)", count, (i == g_iAnimationDetourIndex && g_aForceDetours.Get(g_iAnimationDetourIndex)) ? "FORCED ANIM" : "FORCED DETOUR", sForward, sName[6]);
 					}
 				}
 				// Check if used
@@ -600,7 +719,7 @@ void CheckRequiredDetours(int client = 0)
 
 							g_vProf.Stop();
 							g_fProf += g_vProf.Time;
-							PrintToServer("%2d %36s> %32s (%s)", count, filename, sForward, sName[6]);
+							PrintToServer("%3d %36s> %43s (%s)", count, filename, sForward, sName[6]);
 							g_vProf.Start();
 						}
 						#endif
@@ -612,10 +731,10 @@ void CheckRequiredDetours(int client = 0)
 
 							#if defined DETOUR_ALL
 							#if DETOUR_ALL
-							ReplyToCommand(client - 1, "%2d %36s> %32s (%s)", count, "THIS_PLUGIN_TEST", sForward, sName[6]);
+							ReplyToCommand(client - 1, "%3d %36s> %43s (%s)", count, "THIS_PLUGIN_TEST", sForward, sName[6]);
 							#else
 							GetPluginFilename(hPlug, filename, sizeof(filename));
-							ReplyToCommand(client - 1, "%2d %36s> %32s (%s)", count, filename, sForward, sName[6]);
+							ReplyToCommand(client - 1, "%3d %36s> %43s (%s)", count, filename, sForward, sName[6]);
 							#endif
 							#endif
 						}
@@ -1187,6 +1306,67 @@ MRESReturn DTR_CDirector_OnFirstSurvivorLeftSafeArea_Post(DHookReturn hReturn, D
 	return MRES_Ignored;
 }
 
+MRESReturn DTR_CDirector_OnForceSurvivorPositions_Pre(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnForceSurvivorPositions_Pre"
+{
+	//PrintToServer("##### DTR_CDirector_OnForceSurvivorPositions_Pre");
+
+	Call_StartForward(g_hFWD_CDirector_OnForceSurvivorPositions_Pre);
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CDirector_OnForceSurvivorPositions_Post(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnForceSurvivorPositions"
+{
+	//PrintToServer("##### DTR_CDirector_OnForceSurvivorPositions_Post");
+
+	Call_StartForward(g_hFWD_CDirector_OnForceSurvivorPositions);
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CDirector_OnReleaseSurvivorPositions_Pre(DHookReturn hReturn, DHookParam hParams)
+{
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CDirector_OnReleaseSurvivorPositions(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnSpeakResponseConcept_Pre"
+{
+	//PrintToServer("##### g_hFWD_CDirector_OnReleaseSurvivorPositions");
+
+	Call_StartForward(g_hFWD_CDirector_OnReleaseSurvivorPositions);
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_SpeakResponseConceptFromEntityIO_Pre(DHookReturn hReturn, DHookParam hParams)
+{
+	//PrintToServer("##### g_hFWD_SpeakResponseConceptFromEntityIO_Pre");
+
+	int entity = hParams.Get(1);
+
+	Call_StartForward(g_hFWD_SpeakResponseConceptFromEntityIO_Pre);
+	Call_PushCell(entity);
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_SpeakResponseConceptFromEntityIO_Post(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnSpeakResponseConcept_Post"
+{
+	//PrintToServer("##### g_hFWD_SpeakResponseConceptFromEntityIO_Post");
+
+	int entity = hParams.Get(1);
+
+	Call_StartForward(g_hFWD_SpeakResponseConceptFromEntityIO_Post);
+	Call_PushCell(entity);
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
 bool g_bBlock_CDirector_MobRushStart;
 MRESReturn DTR_CDirector_MobRushStart(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnMobRushStart"
 {
@@ -1406,83 +1586,6 @@ MRESReturn GetSpeed(int pThis, Handle hForward, DHookReturn hReturn)
 	{
 		hReturn.Value = a2;
 		return MRES_Supercede;
-	}
-
-	return MRES_Ignored;
-}
-
-MRESReturn DTR_CDirector_GetScriptValueInt(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueInt"
-{
-	//PrintToServer("##### DTR_CDirector_GetScriptValueInt");
-	static char key[64];
-	hParams.GetString(1, key, sizeof(key));
-	int a2 = hParams.Get(2);
-
-	Action aResult = Plugin_Continue;
-	Call_StartForward(g_hFWD_CDirector_GetScriptValueInt);
-	Call_PushString(key);
-	Call_PushCellRef(a2);
-	Call_Finish(aResult);
-
-	if( aResult == Plugin_Handled )
-	{
-		hParams.Set(2, a2);
-		hReturn.Value = a2;
-		return MRES_ChangedOverride;
-	}
-
-	return MRES_Ignored;
-}
-
-MRESReturn DTR_CDirector_GetScriptValueFloat(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueFloat"
-{
-	//PrintToServer("##### DTR_CDirector_GetScriptValueFloat");
-	static char key[64];
-	hParams.GetString(1, key, sizeof(key));
-	float a2 = hParams.Get(2);
-
-	Action aResult = Plugin_Continue;
-	Call_StartForward(g_hFWD_CDirector_GetScriptValueFloat);
-	Call_PushString(key);
-	Call_PushFloatRef(a2);
-	Call_Finish(aResult);
-
-	if( aResult == Plugin_Handled )
-	{
-		hParams.Set(2, a2);
-		hReturn.Value = a2;
-		return MRES_ChangedOverride;
-	}
-
-	return MRES_Ignored;
-}
-
-MRESReturn DTR_CDirector_GetScriptValueString(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueString"
-{
-	//PrintToServer("##### DTR_CDirector_GetScriptValueString");
-	static char a1[128], a2[128], a3[128]; // Don't know how long they should be
-
-	hParams.GetString(1, a1, sizeof(a1));
-
-	if( !hParams.IsNull(2) )
-		hParams.GetString(2, a2, sizeof(a2));
-
-	if( !hParams.IsNull(3) )
-		hParams.GetString(3, a3, sizeof(a3));
-
-	Action aResult = Plugin_Continue;
-	Call_StartForward(g_hFWD_CDirector_GetScriptValueString);
-	Call_PushString(a1);
-	Call_PushString(a2);
-	Call_PushString(a3);
-	Call_Finish(aResult);
-
-	// UNKNOWN - UNABLE TO TRIGGER FOR TEST
-	if( aResult == Plugin_Handled )
-	{
-		hParams.SetString(3, a3);
-		hReturn.SetString(a3);
-		return MRES_ChangedOverride;
 	}
 
 	return MRES_Ignored;
@@ -2870,6 +2973,50 @@ MRESReturn DTR_CTerrorPlayer_OnFalling_Post(int pThis, DHookReturn hReturn) // F
 	return MRES_Ignored;
 }
 
+bool g_bBlock_CTerrorPlayer_Cough;
+MRESReturn DTR_CTerrorPlayer_Cough(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnPlayerCough"
+{
+	//PrintToServer("##### DTR_CTerrorPlayer_Cough");
+
+	int attacker;
+
+	if( !hParams.IsNull(1) )
+		attacker = hParams.Get(1);
+
+	Action aResult = Plugin_Continue;
+	Call_StartForward(g_hFWD_CTerrorPlayer_Cough);
+	Call_PushCell(pThis);
+	Call_PushCell(attacker);
+	Call_Finish(aResult);
+
+	if( aResult == Plugin_Handled )
+	{
+		g_bBlock_CTerrorPlayer_Cough = true;
+
+		hReturn.Value = 0;
+		return MRES_Supercede;
+	}
+
+	g_bBlock_CTerrorPlayer_Cough = false;
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CTerrorPlayer_Cough_Post(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnPlayerCough_Post" abd "L4D_OnPlayerCough_PostHandled"
+{
+	int attacker;
+
+	if( !hParams.IsNull(1) )
+		attacker = hParams.Get(1);
+
+	Call_StartForward(g_bBlock_CTerrorPlayer_Cough ? g_hFWD_CTerrorPlayer_Cough_PostHandled : g_hFWD_CTerrorPlayer_Cough_Post);
+	Call_PushCell(pThis);
+	Call_PushCell(attacker);
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
 MRESReturn DTR_Witch_SetHarasser(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnWitchSetHarasser"
 {
 	//PrintToServer("##### DTR_Witch_SetHarasser");
@@ -3153,6 +3300,126 @@ MRESReturn DTR_CPipeBombProjectile_Create_Post(DHookReturn hReturn, DHookParam h
 	Call_PushArray(v2, sizeof(v2));
 	Call_PushArray(v3, sizeof(v3));
 	Call_PushArray(v4, sizeof(v4));
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
+bool g_bBlock_CMolotovProjectile_Detonate;
+MRESReturn DTR_CMolotovProjectile_Detonate_Pre(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D_Molotov_Detonate"
+{
+	//PrintToServer("##### DTR_CMolotovProjectile_Detonate_Pre");
+
+	int client = GetEntPropEnt(pThis, Prop_Send, "m_hOwnerEntity");
+
+	Action aResult = Plugin_Continue;
+	Call_StartForward(g_hFWD_CMolotovProjectile_Detonate);
+	Call_PushCell(pThis);
+	Call_PushCell(client);
+	Call_Finish(aResult);
+
+	if( aResult == Plugin_Handled )
+	{
+		g_bBlock_CMolotovProjectile_Detonate = true;
+
+		hReturn.Value = 0;
+		return MRES_Supercede;
+	}
+
+	g_bBlock_CMolotovProjectile_Detonate = false;
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CMolotovProjectile_Detonate(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D_Molotov_Detonate"
+{
+	//PrintToServer("##### DTR_CMolotovProjectile_Detonate");
+
+	int client = GetEntPropEnt(pThis, Prop_Send, "m_hOwnerEntity");
+
+	Call_StartForward(g_bBlock_CMolotovProjectile_Detonate ? g_hFWD_CMolotovProjectile_Detonate_PostHandled : g_hFWD_CMolotovProjectile_Detonate_Post);
+	Call_PushCell(pThis);
+	Call_PushCell(client);
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
+bool g_bBlock_CPipeBombProjectile_Detonate;
+MRESReturn DTR_CPipeBombProjectile_Detonate_Pre(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D_PipeBomb_Detonate"
+{
+	//PrintToServer("##### DTR_CPipeBombProjectile_Detonate_Pre");
+
+	int client = GetEntPropEnt(pThis, Prop_Send, "m_hOwnerEntity");
+
+	Action aResult = Plugin_Continue;
+	Call_StartForward(g_hFWD_CPipeBombProjectile_Detonate);
+	Call_PushCell(pThis);
+	Call_PushCell(client);
+	Call_Finish(aResult);
+
+	if( aResult == Plugin_Handled )
+	{
+		g_bBlock_CPipeBombProjectile_Detonate = true;
+
+		hReturn.Value = 0;
+		return MRES_Supercede;
+	}
+
+	g_bBlock_CPipeBombProjectile_Detonate = false;
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CPipeBombProjectile_Detonate(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D_PipeBomb_Detonate"
+{
+	//PrintToServer("##### DTR_CPipeBombProjectile_Detonate");
+
+	int client = GetEntPropEnt(pThis, Prop_Send, "m_hOwnerEntity");
+
+	Call_StartForward(g_bBlock_CPipeBombProjectile_Detonate ? g_hFWD_CPipeBombProjectile_Detonate_PostHandled : g_hFWD_CPipeBombProjectile_Detonate_Post);
+	Call_PushCell(pThis);
+	Call_PushCell(client);
+	Call_Finish();
+
+	return MRES_Ignored;
+}
+
+bool g_bBlock_CVomitJarProjectile_Detonate;
+MRESReturn DTR_CVomitJarProjectile_Detonate_Pre(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D2_VomitJar_Detonate"
+{
+	//PrintToServer("##### DTR_CVomitJarProjectile_Detonate_Pre");
+
+	int client = GetEntPropEnt(pThis, Prop_Send, "m_hOwnerEntity");
+
+	Action aResult = Plugin_Continue;
+	Call_StartForward(g_hFWD_CVomitJarProjectile_Detonate);
+	Call_PushCell(pThis);
+	Call_PushCell(client);
+	Call_Finish(aResult);
+
+	if( aResult == Plugin_Handled )
+	{
+		g_bBlock_CVomitJarProjectile_Detonate = true;
+
+		hReturn.Value = -1;
+		return MRES_Supercede;
+	}
+
+	g_bBlock_CVomitJarProjectile_Detonate = false;
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CVomitJarProjectile_Detonate(int pThis, DHookReturn hReturn, DHookParam hParams) // Forward "L4D2_VomitJar_Detonate"
+{
+	//PrintToServer("##### DTR_CVomitJarProjectile_Detonate");
+
+	int client = GetEntPropEnt(pThis, Prop_Send, "m_hOwnerEntity");
+
+	Call_StartForward(g_bBlock_CVomitJarProjectile_Detonate ? g_hFWD_CVomitJarProjectile_Detonate_PostHandled : g_hFWD_CVomitJarProjectile_Detonate_Post);
+	Call_PushCell(pThis);
+	Call_PushCell(client);
 	Call_Finish();
 
 	return MRES_Ignored;
@@ -3762,14 +4029,412 @@ MRESReturn DTR_CBasePlayer_WaterMove_Post(int pThis, DHookReturn hReturn, DHookP
 	int a1 = hReturn.Value;
 	if( a1 )
 	{
-		Action aResult = Plugin_Continue;
 		Call_StartForward(g_hFWD_OnWaterMove);
 		Call_PushCell(pThis);
-		Call_Finish(aResult);
-
-		if( aResult == Plugin_Handled ) return MRES_Supercede;
+		Call_Finish();
 	}
 
 	return MRES_Ignored;
 }
 // */
+
+
+
+
+// ====================================================================================================
+// VSCRIPT DIRECTOR - GetScriptValue*
+// ====================================================================================================
+MRESReturn DTR_CDirector_GetScriptValueInt_Pre(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueInt"
+{
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CDirector_GetScriptValueInt(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueInt"
+{
+	//PrintToServer("##### DTR_CDirector_GetScriptValueInt");
+	static char key[64];
+	hParams.GetString(1, key, sizeof(key));
+	int a2 = hReturn.Value;
+
+	Action aResult = Plugin_Continue;
+	Call_StartForward(g_hFWD_CDirector_GetScriptValueInt);
+	Call_PushString(key);
+	Call_PushCellRef(a2);
+	Call_Finish(aResult);
+
+	if( aResult == Plugin_Handled )
+	{
+		hReturn.Value = a2;
+		return MRES_Supercede;
+	}
+
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CDirector_GetScriptValueFloat_Pre(DHookReturn hReturn, DHookParam hParams)
+{
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CDirector_GetScriptValueFloat(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueFloat"
+{
+	//PrintToServer("##### DTR_CDirector_GetScriptValueFloat");
+	static char key[64];
+	hParams.GetString(1, key, sizeof(key));
+	float a2 = hReturn.Value;
+
+	Action aResult = Plugin_Continue;
+	Call_StartForward(g_hFWD_CDirector_GetScriptValueFloat);
+	Call_PushString(key);
+	Call_PushFloatRef(a2);
+	Call_Finish(aResult);
+
+	if( aResult == Plugin_Handled )
+	{
+		hReturn.Value = a2;
+		return MRES_Supercede;
+	}
+
+	return MRES_Ignored;
+}
+
+/*
+MRESReturn DTR_CDirector_GetScriptValueVector_Pre(DHookReturn hReturn, DHookParam hParams)
+{
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CDirector_GetScriptValueVector(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueVector"
+{
+	//PrintToServer("##### DTR_CDirector_GetScriptValueVector");
+	static char key[64];
+	hParams.GetString(2, key, sizeof(key));
+
+	float vVec[3];
+	hReturn.GetVector(vVec);
+
+	Action aResult = Plugin_Continue;
+	Call_StartForward(g_hFWD_CDirector_GetScriptValueVector);
+	Call_PushString(key);
+	Call_PushArrayEx(vVec, sizeof(vVec), SM_PARAM_COPYBACK);
+	Call_Finish(aResult);
+
+	if( aResult == Plugin_Handled )
+	{
+		hParams.Set(3, vVec[0]);
+		hParams.Set(4, vVec[1]);
+		hParams.Set(5, vVec[2]);
+		hReturn.SetVector(vVec);
+		hParams.SetVector(1, vVec);
+		return MRES_Supercede;
+	}
+
+	return MRES_Ignored;
+}
+*/
+
+MRESReturn DTR_CDirector_GetScriptValueString_Pre(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueString"
+{
+	return MRES_Ignored;
+}
+
+MRESReturn DTR_CDirector_GetScriptValueString(DHookReturn hReturn, DHookParam hParams) // Forward "L4D_OnGetScriptValueString"
+{
+	//PrintToServer("##### DTR_CDirector_GetScriptValueString");
+	static char a1[128], a2[128], a3[128]; // Don't know how long they should be
+
+	hParams.GetString(1, a1, sizeof(a1));
+
+	if( !hParams.IsNull(2) )
+		hParams.GetString(2, a2, sizeof(a2));
+
+	if( !hParams.IsNull(3) )
+		hParams.GetString(3, a3, sizeof(a3));
+
+	Action aResult = Plugin_Continue;
+	Call_StartForward(g_hFWD_CDirector_GetScriptValueString);
+	Call_PushString(a1);
+	Call_PushString(a2);
+	Call_PushStringEx(a3, sizeof(a3), SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+	Call_Finish(aResult);
+
+	// UNKNOWN
+	if( aResult == Plugin_Handled )
+	{
+		hReturn.SetString(a3);
+		return MRES_Supercede;
+	}
+
+	return MRES_Ignored;
+}
+
+
+
+// ====================================================================================================
+// VSCRIPT DIRECTOR - CSquirrelVM_GetValue - Thanks to "Forgetest" for writing:
+// ====================================================================================================
+methodmap ScriptVariant
+{
+	public ScriptVariant(Address ptr)
+	{
+		return view_as<ScriptVariant>(ptr);
+	}
+
+	public bool AssignToInt( int& dest )
+	{
+		switch ( this.m_type )
+		{
+			case FIELD_VOID: { dest = 0; return false; }
+			case FIELD_INTEGER, FIELD_UNSIGNED: { dest = this.m_int; return true; }
+			case FIELD_FLOAT: { dest = RoundToFloor(this.m_float); return true; }
+			case FIELD_BOOLEAN, FIELD_CHARACTER: { dest = this.m_bool; return true; }
+			case FIELD_CSTRING: { char buffer[20]; this.GetString(buffer, sizeof(buffer)); dest = StringToInt(buffer); return true; }
+		}
+
+		return false;
+	}
+
+	public bool AssignToFloat( float& dest )
+	{
+		switch ( this.m_type )
+		{
+			case FIELD_VOID: { dest = 0.0; return false; }
+			case FIELD_INTEGER, FIELD_UNSIGNED: { dest = float(this.m_int); return true; }
+			case FIELD_FLOAT: { dest = this.m_float; return true; }
+			case FIELD_BOOLEAN: { dest = float(this.m_bool); return true; }
+			case FIELD_CSTRING: { char buffer[20]; this.GetString(buffer, sizeof(buffer)); dest = StringToFloat(buffer); return true; }
+		}
+
+		return false;
+	}
+
+	public bool AssignToVector( float dest[3] )
+	{
+		switch ( this.m_type )
+		{
+			case FIELD_VOID: { dest = NULL_VECTOR; return false; }
+			case FIELD_VECTOR, FIELD_QANGLE: { this.GetVector(dest); return true; }
+			case FIELD_CSTRING: { char buffer[64]; this.GetString(buffer, sizeof(buffer)); StringToVector(buffer, " ", dest); return true; }
+		}
+
+		return false;
+	}
+
+	public bool AssignToString( char[] dest, int maxlen )
+	{
+		switch ( this.m_type )
+		{
+			case FIELD_VOID: { dest[0] = '\0'; return false; }
+			case FIELD_INTEGER, FIELD_UNSIGNED: { IntToString(this.m_int, dest, maxlen); return true; }
+			case FIELD_FLOAT: { FormatEx(dest, maxlen, "%f", this.m_float); return true; }
+			case FIELD_VECTOR, FIELD_QANGLE: { float vec[3]; this.GetVector(vec); FormatEx(dest, maxlen, "%f %f %f", vec[0], vec[1], vec[2]); return true; }
+			case FIELD_CSTRING, FIELD_CHARACTER: { this.GetString(dest, maxlen); return true; }
+		}
+
+		return false;
+	}
+
+	property fieldtype_t m_type
+	{
+		public get() { return LoadFromAddress(this.m_pType, NumberType_Int16); }
+		public set(fieldtype_t type) { StoreToAddress(this.m_pType, type, NumberType_Int16); }
+	}
+
+	property int m_int
+	{
+		public get() { return LoadFromAddress(this.m_pValue, NumberType_Int32); }
+	}
+
+	property float m_float
+	{
+		public get() { return LoadFromAddress(this.m_pValue, NumberType_Int32); }
+	}
+
+	public void GetString(char[] str, int maxlen)
+	{
+		ReadMemoryString(this.m_pValue, str, maxlen);
+	}
+
+	public void GetVector(float vec[3])
+	{
+		Address ptr = LoadFromAddress(this.m_pValue, NumberType_Int32);
+		vec[0] = LoadFromAddress(ptr, NumberType_Int32);
+		vec[1] = LoadFromAddress(ptr + view_as<Address>(4), NumberType_Int32);
+		vec[2] = LoadFromAddress(ptr + view_as<Address>(8), NumberType_Int32);
+	}
+
+	property char m_char
+	{
+		public get() { return LoadFromAddress(this.m_pValue, NumberType_Int8); }
+	}
+
+	property bool m_bool
+	{
+		public get() { return LoadFromAddress(this.m_pValue, NumberType_Int8); }
+	}
+
+	property Address m_pValue
+	{
+		public get() { return view_as<Address>(this); }
+	}
+
+	property Address m_pType
+	{
+		public get() { return view_as<Address>(this) + view_as<Address>(8); }
+	}
+}
+
+Action DispatchScriptGetValueForwards(const char[] key, fieldtype_t &type, ScriptVariant pVar, VariantBuffer varBuf, int m_iszScriptId)
+{
+	Action aResult = Plugin_Continue;
+
+	switch ( type )
+	{
+		case FIELD_VOID:
+		{
+			Call_StartForward(g_hFWD_CSquirrelVM_GetValue_Void);
+			Call_PushString(key);
+			Call_PushCellRef(type);
+			Call_PushArrayEx(varBuf, sizeof(varBuf), SM_PARAM_COPYBACK);
+			Call_PushCell(m_iszScriptId);
+			Call_Finish(aResult);
+		}
+		case FIELD_INTEGER, FIELD_UNSIGNED, FIELD_BOOLEAN:
+		{
+			if( pVar.AssignToInt(varBuf.m_int) )
+			{
+				//PrintToServer("%s : %d (type %i)", key, varBuf.m_int, type);
+				Call_StartForward(g_hFWD_CSquirrelVM_GetValue_Int);
+				Call_PushString(key);
+				Call_PushCellRef(varBuf.m_int);
+				Call_PushCell(m_iszScriptId);
+				Call_Finish(aResult);
+			}
+		}
+		case FIELD_FLOAT:
+		{
+			if( pVar.AssignToFloat(varBuf.m_float) )
+			{
+				//PrintToServer("%s : %f (type %i)", key, varBuf.m_float, type);
+				Call_StartForward(g_hFWD_CSquirrelVM_GetValue_Float);
+				Call_PushString(key);
+				Call_PushFloatRef(varBuf.m_float);
+				Call_PushCell(m_iszScriptId);
+				Call_Finish(aResult);
+			}
+		}
+		case FIELD_VECTOR, FIELD_QANGLE:
+		{
+			if( pVar.AssignToVector(varBuf.m_vector) )
+			{
+				//PrintToServer("%s : [%f %f %f] (type %i)", key, varBuf.m_vector[0], varBuf.m_vector[1], varBuf.m_vector[2], type);
+				Call_StartForward(g_hFWD_CSquirrelVM_GetValue_Vector);
+				Call_PushString(key);
+				Call_PushArrayEx(varBuf.m_vector, sizeof(varBuf.m_vector), SM_PARAM_COPYBACK);
+				Call_PushCell(m_iszScriptId);
+				Call_Finish(aResult);
+			}
+		}
+		/*case FIELD_CHARACTER, FIELD_CSTRING:
+		{
+			if( pVar.AssignToString(varBuf.m_string) )
+			{
+				//PrintToServer("%s : %s (type %i)", key, varBuf.m_string, type);
+				Call_StartForward(g_hFWD_CDirector_GetScriptValueString);
+				Call_PushString(key);
+				Call_PushArrayEx(varBuf.m_string, sizeof(varBuf.m_string), SM_PARAM_COPYBACK);
+				Call_Finish(aResult);
+			}
+		}*/
+	}
+	
+	return aResult;
+}
+
+MRESReturn DTR_CSquirrelVM_GetValue(DHookReturn hReturn, DHookParam hParams) // Forward "L4D2_OnGetScriptValueInt", "L4D2_OnGetScriptValueFloat", "L4D2_OnGetScriptValueVector" and "L4D2_OnGetScriptValueVoid"
+{
+	//PrintToServer("##### DTR_CSquirrelVM_GetValue");
+
+	// Get key
+	static char key[64];
+	hParams.GetString(2, key, sizeof(key));
+
+	// Setup methodmap
+	ScriptVariant pVar = ScriptVariant(hParams.GetAddress(3));
+	fieldtype_t type = pVar.m_type;
+
+	// Forwards
+	static VariantBuffer varBuf;
+
+	switch( type )
+	{
+		case FIELD_VOID:
+		{
+			varBuf.m_int = 0;
+			varBuf.m_float = 0.0;
+			varBuf.m_string[0] = '\x0';
+			varBuf.m_vector = view_as<float>({0.0, 0.0, 0.0});
+		}
+		case FIELD_INTEGER, FIELD_UNSIGNED, FIELD_BOOLEAN:
+		{
+			varBuf.m_int = hParams.GetObjectVar(3, 0, ObjectValueType_Int);
+		}
+		case FIELD_FLOAT:
+		{
+			varBuf.m_float = hParams.GetObjectVar(3, 0, ObjectValueType_Float);
+		}
+		case FIELD_VECTOR, FIELD_QANGLE:
+		{
+			hParams.GetObjectVarVector(3, 0, ObjectValueType_VectorPtr, varBuf.m_vector);
+		}
+		/*case FIELD_CHARACTER, FIELD_CSTRING:
+		{
+			// TODO
+		}*/
+	}
+
+	if( DispatchScriptGetValueForwards(key, type, pVar, varBuf, hParams.Get(1)) == Plugin_Handled )
+	{
+		switch( type )
+		{
+			case FIELD_INTEGER, FIELD_UNSIGNED, FIELD_BOOLEAN:
+			{
+				hParams.SetObjectVar(3, 0, ObjectValueType_Int, varBuf.m_int);
+			}
+			case FIELD_FLOAT:
+			{
+				hParams.SetObjectVar(3, 0, ObjectValueType_Float, varBuf.m_float);
+			}
+			case FIELD_VECTOR, FIELD_QANGLE:
+			{
+				if( pVar.m_type != FIELD_VECTOR && pVar.m_type != FIELD_QANGLE )
+					return MRES_Ignored;
+
+				hParams.SetObjectVarVector(3, 0, ObjectValueType_VectorPtr, varBuf.m_vector);
+			}
+			/*case FIELD_CHARACTER, FIELD_CSTRING:
+			{
+				// TODO
+			}*/
+		}
+
+		pVar.m_type = type;
+
+		hReturn.Value = 1;
+		return MRES_Supercede;
+	}
+
+	return MRES_Ignored;
+}
+
+bool StringToVector(const char[] str, const char[] spilt, float vec[3])
+{
+	char buffers[3][20];
+	if( 3 > ExplodeString(str, spilt, buffers, sizeof(buffers[]), sizeof(buffers[][]), true) )
+		return false;
+
+	for( int i = 0; i < 3; ++i )
+		vec[i] = StringToFloat(buffers[i]);
+
+	return true;
+}

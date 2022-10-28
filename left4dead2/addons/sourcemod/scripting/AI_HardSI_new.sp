@@ -65,7 +65,7 @@ int g_iState[MAXPLAYERS + 1][8];
 // Floats
 float g_fPlayBackRate, g_fDelay[MAXPLAYERS + 1][8], g_fMoveGrad[MAXPLAYERS + 1][3], g_fMoveSpeed[MAXPLAYERS + 1], g_fPos[MAXPLAYERS + 1][3];
 // Bools
-bool g_bAiEnable[MAXPLAYERS + 1];
+bool g_bAiEnable[MAXPLAYERS + 1], g_bTankDelay[MAXPLAYERS + 1] = false;
 
 public Plugin myinfo = 
 {
@@ -144,6 +144,7 @@ public void evt_TankSpawn(Event event, const char[] name, bool dontBroadcast)
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	if (IsInfectedBot(client) && IsPlayerAlive(client) && GetEntProp(client, Prop_Send, "m_zombieClass") == ZC_TANK)
 	{
+		g_bTankDelay[client] = false;
 		SDKHook(client, SDKHook_PostThinkPost, UpdateThink);
 	}
 }
@@ -195,6 +196,10 @@ public void UpdateThink(int client)
 {
 	switch (GetEntProp(client, Prop_Send, "m_nSequence"))
 	{
+		case 15,16,17:
+		{
+			SetEntPropFloat(client, Prop_Send, "m_flPlaybackRate", 1.6);
+		}
 		case 18, 19, 20, 21, 22, 23:
 		{
 			SetEntPropFloat(client, Prop_Send, "m_flPlaybackRate", g_fPlayBackRate);
@@ -251,10 +256,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					{
 						react = OnJockeyRunCmd(client, buttons, vel, angles);
 					}
-					case ZC_CHARGER:
-					{
-						react = OnChargerRunCmd(client, buttons, vel, angles);
-					}
 				}
 			}
 
@@ -306,17 +307,6 @@ public Action OnJockeyRunCmd(int client, int &buttons, float vel[3], float angle
 			SetState(client, 0, IN_JUMP);
 		}
 		DelayStart(client, 0);
-		return Plugin_Changed;
-	}
-	return Plugin_Continue;
-}
-
-public Action OnChargerRunCmd(int client, int &buttons, float vel[3], float angles[3])
-{
-	if (!(buttons & IN_ATTACK) && GetEntityMoveType(client) != MOVETYPE_LADDER && (GetEntityFlags(client) & FL_ONGROUND) && DelayExpired(client, 0, CHARGERMELEEDELAY) && NearestSurvivorDistance(client) < CHARGERMELEERANGE)
-	{
-		DelayStart(client, 0);
-		buttons |= IN_ATTACK2;
 		return Plugin_Changed;
 	}
 	return Plugin_Continue;
@@ -428,7 +418,24 @@ public Action OnTankRunCmd(int client, int &buttons, float vel[3], float angles[
 		{
 			DelayStart(client, 3);
 			DelayStart(client, 4);
+			g_bTankDelay[client] = false;
 			SetConVarString(FindConVar("z_tank_throw_force"), "1000");
+		}
+		// 0.25 + 2.5s 后，坦克可能继续锁定视角在扔石头位置，则继续锁定 5s 在最近生还身上
+		if (DelayExpired(client, 3, TANKROCKAIMTIME) && !g_bTankDelay[client])
+		{
+			DelayStart(client, 5);
+			g_bTankDelay[client] = true;
+		}
+		if (!DelayExpired(client, 5, TANKAFTERTHROW))
+		{
+			float aimangles[3] = {0.0};
+			int nearesttarget = GetNearestSurvivorTank(client);
+			if (IsValidSurvivor(nearesttarget))
+			{
+				ComputeAimAngles(client, nearesttarget, aimangles, AimChest);
+				TeleportEntity(client, NULL_VECTOR, aimangles, NULL_VECTOR);
+			}
 		}
 		// 按了右键之后 0.25s 并在 0.25 + 2.5s内，锁定视野
 		if (DelayExpired(client, 4, TANKROCKAIMDELAY) && !DelayExpired(client, 3, TANKROCKAIMTIME))
@@ -736,7 +743,6 @@ float GetMoveSpeed(int client)
 {
 	return view_as<float>(g_fMoveSpeed[client]);
 }
-
 
 
 bool IsIncapped(int client)

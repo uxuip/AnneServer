@@ -38,6 +38,16 @@ void LoadGameDataRules(GameData hGameData)
 	// Map changes can modify the address
 	g_pGameRules = hGameData.GetAddress("GameRules");
 	ValidateAddress(g_pGameRules, "g_pGameRules", true);
+
+	if( g_bLeft4Dead2 )
+	{
+		if( g_iScriptVMDetourIndex )
+			g_aDetoursHooked.Set(g_iScriptVMDetourIndex, 0);
+
+		g_pScriptVM = hGameData.GetAddress("L4DD::ScriptVM");
+
+		ValidateAddress(g_pScriptVM, "g_pScriptVM", true);
+	}
 }
 
 void LoadGameData()
@@ -219,7 +229,7 @@ void LoadGameData()
 		PrepSDKCall_AddParameter(SDKType_Float, SDKPass_Plain);
 		PrepSDKCall_AddParameter(SDKType_Bool, SDKPass_Plain);
 		PrepSDKCall_AddParameter(SDKType_Bool, SDKPass_Plain);
-		PrepSDKCall_AddParameter(SDKType_Bool, SDKPass_Plain);
+		PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
 		PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
 		g_hSDK_CNavMesh_GetNearestNavArea = EndPrepSDKCall();
 		if( g_hSDK_CNavMesh_GetNearestNavArea == null )
@@ -235,6 +245,25 @@ void LoadGameData()
 		g_hSDK_TerrorNavArea_FindRandomSpot = EndPrepSDKCall();
 		if( g_hSDK_TerrorNavArea_FindRandomSpot == null )
 			LogError("Failed to create SDKCall: \"TerrorNavArea::FindRandomSpot\" (%s)", g_sSystem);
+	}
+
+	StartPrepSDKCall(SDKCall_Static);
+	if( !PrepSDKCall_SetFromConf(hGameData, SDKConf_Signature, "IsVisibleToPlayer") )
+	{
+		LogError("Failed to find signature: \"IsVisibleToPlayer\" (%s)", g_sSystem);
+	} else {
+		PrepSDKCall_AddParameter(SDKType_Vector, SDKPass_ByRef);
+		PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
+		PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
+		PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
+		PrepSDKCall_AddParameter(SDKType_Float, SDKPass_Plain);
+		PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
+		PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Pointer);
+		PrepSDKCall_AddParameter(SDKType_Bool, SDKPass_Pointer);
+		PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
+		g_hSDK_IsVisibleToPlayer = EndPrepSDKCall();
+		if( g_hSDK_IsVisibleToPlayer == null)
+				LogError("Failed to create SDKCall: \"IsVisibleToPlayer\" (%s)", g_sSystem);
 	}
 
 	StartPrepSDKCall(SDKCall_Raw);
@@ -810,8 +839,6 @@ void LoadGameData()
 					LogError("Failed to create SDKCall: \"CDirector::GetScriptValueInt\" (%s)", g_sSystem);
 		}
 
-		/*
-		// Only returns default value provided.
 		StartPrepSDKCall(SDKCall_Raw);
 		if( PrepSDKCall_SetFromConf(hGameData, SDKConf_Signature, "CDirector::GetScriptValueFloat") == false )
 		{
@@ -825,7 +852,8 @@ void LoadGameData()
 					LogError("Failed to create SDKCall: \"CDirector::GetScriptValueFloat\" (%s)", g_sSystem);
 		}
 
-		// Not implemented, request if really required.
+		// Crashes when the key has not been set
+		/*
 		StartPrepSDKCall(SDKCall_Raw);
 		if( PrepSDKCall_SetFromConf(hGameData, SDKConf_Signature, "CDirector::GetScriptValueString") == false )
 		{
@@ -833,7 +861,10 @@ void LoadGameData()
 		} else {
 			PrepSDKCall_AddParameter(SDKType_String, SDKPass_Pointer);
 			PrepSDKCall_AddParameter(SDKType_String, SDKPass_Pointer);
+			PrepSDKCall_AddParameter(SDKType_String, SDKPass_Pointer);
+			PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
 			PrepSDKCall_SetReturnInfo(SDKType_String, SDKPass_Pointer);
+			// PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
 			g_hSDK_CDirector_GetScriptValueString = EndPrepSDKCall();
 			if( g_hSDK_CDirector_GetScriptValueString == null )
 					LogError("Failed to create SDKCall: \"CDirector::GetScriptValueString\" (%s)", g_sSystem);
@@ -1074,6 +1105,17 @@ void LoadGameData()
 			LogError("Failed to create SDKCall: \"CTerrorPlayer::CanBecomeGhost\" (%s)", g_sSystem);
 	}
 
+	StartPrepSDKCall(SDKCall_Player);
+	if( PrepSDKCall_SetFromConf(hGameData, SDKConf_Signature, "CTerrorPlayer::GoAwayFromKeyboard") == false )
+	{
+		LogError("Failed to find signature: \"CTerrorPlayer::GoAwayFromKeyboard\" (%s)", g_sSystem);
+	} else {
+		PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
+		g_hSDK_CTerrorPlayer_GoAwayFromKeyboard = EndPrepSDKCall();
+		if( g_hSDK_CTerrorPlayer_GoAwayFromKeyboard == null )
+			LogError("Failed to create SDKCall: \"CTerrorPlayer::GoAwayFromKeyboard\" (%s)", g_sSystem);
+	}
+
 	StartPrepSDKCall(SDKCall_Raw);
 	if( PrepSDKCall_SetFromConf(hGameData, SDKConf_Signature, "CDirector::TryOfferingTankBot") == false )
 	{
@@ -1119,7 +1161,6 @@ void LoadGameData()
 	} else {
 		PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
 		PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
-		
 		g_hSDK_CTerrorPlayer_SetShovePenalty = EndPrepSDKCall();
 		if( g_hSDK_CTerrorPlayer_SetShovePenalty == null )
 			LogError("Failed to create SDKCall: \"CTerrorPlayer::SetShovePenalty\" (%s)", g_sSystem);
@@ -1132,7 +1173,6 @@ void LoadGameData()
 	} else {
 		PrepSDKCall_AddParameter(SDKType_Float, SDKPass_Plain);
 		PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
-		
 		g_hSDK_CTerrorPlayer_SetNextShoveTime = EndPrepSDKCall();
 		if( g_hSDK_CTerrorPlayer_SetNextShoveTime == null )
 			LogError("Failed to create SDKCall: \"CTerrorPlayer::SetNextShoveTime\" (%s)", g_sSystem);
@@ -1441,6 +1481,16 @@ void LoadGameData()
 		g_hSDK_CTerrorPlayer_CullZombie = EndPrepSDKCall();
 		if( g_hSDK_CTerrorPlayer_CullZombie == null )
 			LogError("Failed to create SDKCall: \"CTerrorPlayer::CullZombie\" (%s)", g_sSystem);
+	}
+
+	StartPrepSDKCall(SDKCall_Player);
+	if( PrepSDKCall_SetFromConf(hGameData, SDKConf_Signature, "CTerrorPlayer::CleanupPlayerState") == false )
+	{
+		LogError("Failed to find signature: \"CTerrorPlayer::CleanupPlayerState\" (%s)", g_sSystem);
+	} else {
+		g_hSDK_CTerrorPlayer_CleanupPlayerState = EndPrepSDKCall();
+		if( g_hSDK_CTerrorPlayer_CleanupPlayerState == null )
+			LogError("Failed to create SDKCall: \"CTerrorPlayer::CleanupPlayerState\" (%s)", g_sSystem);
 	}
 
 	StartPrepSDKCall(SDKCall_Player);
@@ -1780,6 +1830,8 @@ void LoadGameData()
 
 	if( g_bLeft4Dead2 )
 	{
+		g_hScriptHook = DynamicHook.FromConf(hGameData, "CSquirrelVM::GetValue");
+
 		g_pMeleeWeaponInfoStore = hGameData.GetAddress("MeleeWeaponInfoStore");
 		ValidateAddress(g_pMeleeWeaponInfoStore, "g_pMeleeWeaponInfoStore", true);
 
@@ -1872,6 +1924,12 @@ void LoadGameData()
 	g_iOff_m_chapter = hGameData.GetOffset("m_chapter");
 	ValidateOffset(g_iOff_m_chapter, "m_chapter");
 
+	g_iOff_m_attributeFlags = hGameData.GetOffset("m_attributeFlags");
+	ValidateOffset(g_iOff_m_attributeFlags, "m_attributeFlags");
+
+	g_iOff_m_spawnAttributes = hGameData.GetOffset("m_spawnAttributes");
+	ValidateOffset(g_iOff_m_spawnAttributes, "m_spawnAttributes");
+
 	g_iOff_m_PendingMobCount = hGameData.GetOffset("m_PendingMobCount");
 	ValidateOffset(g_iOff_m_PendingMobCount, "m_PendingMobCount");
 
@@ -1898,6 +1956,9 @@ void LoadGameData()
 		ValidateOffset(g_iOff_AddonEclipse1, "AddonEclipse1");
 		g_iOff_AddonEclipse2 = hGameData.GetOffset("AddonEclipse2");
 		ValidateOffset(g_iOff_AddonEclipse2, "AddonEclipse2");
+
+		g_iOff_m_iszScriptId = hGameData.GetOffset("m_iszScriptId");
+		ValidateOffset(g_iOff_m_iszScriptId, "m_iszScriptId");
 
 		g_iOff_SpawnTimer = hGameData.GetOffset("SpawnTimer");
 		ValidateOffset(g_iOff_SpawnTimer, "SpawnTimer");
@@ -2024,6 +2085,7 @@ void LoadGameData()
 		PrintToServer("AddonEclipse1 = %d", g_iOff_AddonEclipse1);
 		PrintToServer("AddonEclipse2 = %d", g_iOff_AddonEclipse2);
 		PrintToServer("SpawnTimer = %d", g_iOff_SpawnTimer);
+		PrintToServer("iszScriptId = %d", g_iOff_m_iszScriptId);
 		PrintToServer("OnBeginRoundSetupTime = %d", g_iOff_OnBeginRoundSetupTime);
 		PrintToServer("m_iWitchCount = %d", g_iOff_m_iWitchCount);
 		PrintToServer("OvertimeGraceTimer = %d", g_iOff_OvertimeGraceTimer);
@@ -2036,13 +2098,6 @@ void LoadGameData()
 	}
 	#endif
 	#endif
-
-
-
-	// ====================================================================================================
-	//									DETOURS
-	// ====================================================================================================
-	SetupDetours(hGameData);
 
 
 

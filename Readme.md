@@ -1,4 +1,23 @@
 > 因为Caibiii目前比较忙，很难一个人进行维护，商量后觉得闭源很难进行长时间的维护，所以接下来会陆陆续续将部分代码开源，希望有代码能力可以一起参与这个项目，没有代码能力的服主可以提交issues来反馈测试分支碰到的bug，测试版本稳定后会合并到主分支。
+## 11月修改介绍
+> 11月份的刷特插件修改特别大，4个模式的3个刷特插件合并为infected_control.smx一个插件，而且需要leftdhooks更新为1.120版本以上。其次每个模式的shared_setting需要正确的增加刷特参数的设置才能够正常玩耍
+- ai_tank2.sp 增加了梯子检测功能，并且删除了tank后退动作的连跳处理，修复了tank可能会纵云梯大跳的问题
+- ai_jockey_new.sp 修复了猴子被推后马上就能通过使用跳跃功能来恢复重新使用技能导致的问题
+- infected_control.smx 将5种模式的4种刷特合并为1个插件处理，
+					   适配目标选择插件，选择生还者构建刷特坐标系的时候不能选目标已满的玩家
+					   特感的生成顺序改为由队列进行处理，解决一波可能刷同样的特感[主要是boomer和spitter]的问题
+					   原来的射线刷特方法取消，改为获取"logic_script"的值来判断[也还是射线处理，但是效率比原来快，而且效果更好]
+					   检测env_physics_blocker的阻拦属性，原来不能生成的地方现在很大可能也能生成了
+					   射线类型改变，由MASK_NPCSOLID_BRUSHONLY类型更改为MASK_PLAYERSOLID，能最大程度上增加可刷特位置
+					   修复原来刷特IsPlayerStuck的射线过滤器的bug，会导致新版插件把射线改为MASK_PLAYERSOLID后导致的卡在新加的物件上
+					   倒地玩家的视线不会影响特感的传送(相当于倒地生还视线不如狗）
+					   增加最大刷特距离的控制
+- l4d_target_override.smx 升级为最新版本，增加了targeted功能，能限制生还者被选为目标的数量
+- SI_Target_limit.smx 目标选择插件适配新版l4d_target_override插件，自动控制控制型特感选相同生还者为目标的数量
+- l4d2_Anne_stuck_tank_teleport.smx 救援关不启用跑男惩罚
+- text.smx插件会进行Cvar的检测，一次来避免插件加载顺序导致的无法启动的问题
+- 建议安装新加的hunter_patch和air_abiity
+
 ## 9月修改介绍
 - ai_hunter_new 放宽了点垂直高度限制
 
@@ -40,7 +59,7 @@
 
 - 刷特再次大幅优化，而且刷特的spawnpos小幅修改，让特感生成位置更加多样，L4D2_VScriptWrapper_NavAreaBuildPath改为L4D2_NavAreaBuildPath检测由vscript脚本模式改为sdkcalls模式，检测更加严格且准确。[left4dhooks版本需要大于1.110，谢谢Silvers大佬帮忙实现了东的request，感谢他的支持和帮助]
 
-- 由于test分支东和Caibiii都已经不再维护整个架构结构，所以以后将只会提供下面自动更新插件的源码和插件，需要你自己将test分支的插件替换掉[Caibiii维护分支](https://github.com/Caibiii/AnneServer)的对应插件或直接使用[东维护分支](https://github.com/fantasylidong/AnneZonemod)
+- 由于test分支东和Caibiii都已经不再维护整个架构结构，所以以后将只会提供下面自动更新插件的源码和插件，需要你自己将test分支的插件替换掉[Caibiii维护分支](https://github.com/Caibiii/AnneServer)的对应插件或直接使用[东维护分支](https://github.com/fantasylidong/CompetitiveWithAnne)
 
 ### 自动更新的插件
 

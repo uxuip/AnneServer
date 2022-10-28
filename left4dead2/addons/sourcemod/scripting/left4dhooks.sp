@@ -18,7 +18,7 @@
 
 
 
-#define PLUGIN_VERSION		"1.114"
+#define PLUGIN_VERSION		"1.120"
 
 #define DEBUG				0
 // #define DEBUG			1	// Prints addresses + detour info (only use for debugging, slows server down)
@@ -114,7 +114,7 @@
 
 // ====================================================================================================
 // UPDATER
-#define UPDATE_URL  					  "https://raw.githubusercontent.com/SilvDev/Left4DHooks/main/sourcemod/updater.txt"
+#define UPDATE_URL					"https://raw.githubusercontent.com/SilvDev/Left4DHooks/main/sourcemod/updater.txt"
 
 native void Updater_AddPlugin(const char[] url);
 // ====================================================================================================
@@ -211,12 +211,15 @@ ArrayList g_aForwardNames;					// Stores Forward names
 ArrayList g_aUseLastIndex;					// Use last index
 ArrayList g_aForwardIndex;					// Stores Detour indexes
 ArrayList g_aForceDetours;					// Determines if a detour should be forced on without any forward using it
+ArrayList g_aDetourHookIDsPre;				// Hook IDs created by DynamicHook type detours
+ArrayList g_aDetourHookIDsPost;				// Hook IDs created by DynamicHook type detours
 int g_iSmallIndex;							// Index for each detour while created
 int g_iLargeIndex;							// Index for each detour while created
 bool g_bCreatedDetours;						// To determine first time creation of detours, or if enabling or disabling
 float g_fLoadTime;							// When the plugin was loaded, to ignore when "AP_OnPluginUpdate" fires
 Handle g_hThisPlugin;						// Ignore checking this plugin
 GameData g_hGameData;						// GameData file - to speed up loading
+int g_iScriptVMDetourIndex;
 
 
 
@@ -249,6 +252,7 @@ Address g_pVanillaModeAddress;
 int g_iOff_LobbyReservation;
 int g_iOff_VersusStartTimer;
 int g_iOff_m_rescueCheckTimer;
+int g_iOff_m_iszScriptId;
 int g_iOff_SpawnTimer;
 int g_iOff_MobSpawnTimer;
 int g_iOff_VersusMaxCompletionScore;
@@ -306,10 +310,12 @@ Address g_pNavMesh;
 Address g_pZombieManager;
 Address g_pMeleeWeaponInfoStore;
 Address g_pWeaponInfoDatabase;
+Address g_pScriptVM;
 
 
 
 // Other
+Address g_pScriptId;
 int g_iAttackTimer;
 int g_iOffsetAmmo;
 int g_iPrimaryAmmoType;
@@ -326,9 +332,27 @@ ConVar g_hCvar_VScriptBuffer;
 ConVar g_hCvar_AddonsEclipse;
 ConVar g_hCvar_RescueDeadTime;
 ConVar g_hCvar_PillsDecay;
-ConVar g_hCvar_PillsHealth;
+ConVar g_hCvar_Adrenaline;
 ConVar g_hCvar_Revives;
 ConVar g_hCvar_MPGameMode;
+DynamicHook g_hScriptHook;
+
+
+// Spitter acid projectile damage
+bool g_bAcidWatch;
+int g_iAcidEntity[2048];
+
+char g_sAcidSounds[6][] =
+{
+	"player/PZ/hit/zombie_slice_1.wav",
+	"player/PZ/hit/zombie_slice_2.wav",
+	"player/PZ/hit/zombie_slice_3.wav",
+	"player/PZ/hit/zombie_slice_4.wav",
+	"player/PZ/hit/zombie_slice_5.wav",
+	"player/PZ/hit/zombie_slice_6.wav"
+};
+
+
 
 #if DEBUG
 bool g_bLateLoad;
@@ -479,7 +503,6 @@ public void OnPluginStart()
 		g_iAttackTimer = FindSendPropInfo("CTerrorWeapon", "m_attackTimer");
 	g_iOffsetAmmo = FindSendPropInfo("CTerrorPlayer", "m_iAmmo");
 	g_iPrimaryAmmoType = FindSendPropInfo("CBaseCombatWeapon", "m_iPrimaryAmmoType");
-
 
 
 	// NULL PTR - METHOD (kept for demonstration)
@@ -644,7 +667,7 @@ public void OnPluginStart()
 		AutoExecConfig(true, "left4dhooks");
 		g_hCvar_AddonsEclipse.AddChangeHook(ConVarChanged_Cvars);
 
-		g_hCvar_PillsHealth = FindConVar("pain_pills_health_value");
+		g_hCvar_Adrenaline = FindConVar("adrenaline_health_buffer");
 	} else {
 		g_hCvar_Revives = FindConVar("survivor_max_incapacitated_count");
 	}
@@ -1251,6 +1274,16 @@ public void OnMapStart()
 
 
 
+	// Load detours, first load from plugin start
+	if( !g_bCreatedDetours )
+	{
+		g_pScriptId = view_as<Address>(FindDataMapInfo(0, "m_iszScriptId") - 16);
+
+		SetupDetours(g_hGameData);
+	}
+
+
+
 	// Benchmark
 	#if DEBUG
 	g_vProf = new Profiler();
@@ -1281,17 +1314,25 @@ public void OnMapStart()
 
 		GetGameMode(); // Get current game mode
 
+
+
 		// Precache Models, prevent crashing when spawning with SpawnSpecial()
 		for( int i = 0; i < sizeof(g_sModels1); i++ )
 			PrecacheModel(g_sModels1[i]);
+
+		PrecacheModel(SPRITE_GLOW, true); // Dissolver
 
 		if( g_bLeft4Dead2 )
 		{
 			for( int i = 0; i < sizeof(g_sModels2); i++ )
 				PrecacheModel(g_sModels2[i]);
-		}
 
-		PrecacheModel(SPRITE_GLOW, true); // Dissolver
+			for( int i = 0; i < sizeof(g_sAcidSounds); i++ )
+				PrecacheSound(g_sAcidSounds[i]);
+
+			for( int i = 0; i < 2048; i++ )
+				g_iAcidEntity[i] = 0;
+		}
 
 
 
@@ -1340,6 +1381,8 @@ public void OnMapStart()
 			SDKCall(g_hSDK_CDirector_GetScriptValueInt, g_pDirector, "TotalJockey",			1);
 			SDKCall(g_hSDK_CDirector_GetScriptValueInt, g_pDirector, "TotalCharger",		1);
 		}
+
+
 
 		// Melee weapon IDs - They can change when switching map depending on what melee weapons are enabled
 		if( g_bLeft4Dead2 )

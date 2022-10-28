@@ -1,9 +1,134 @@
+1.120 (20-Oct-2022)
+	- Update for L4D2.
+
+	- Added native "L4D2_CommandABot" to command a bots actions.
+	- Added native "L4D2_GetScriptScope" to get an entities script ID.
+	- Added native "L4D2_GetVScriptEntity" to get a VScript "logic_script" entity index.
+	- Added native "L4D2_IsVisibleToPlayer" to get a VScript "logic_script" entity index. Requested by "morzlee", thanks to "fdxx" and "Psyk0tik" for the code and gamedata.
+	- Fixed native "ITimer_GetTimestamp" using the wrong stock and returning the wrong values. Thanks to "Forgetest" for reporting.
+	- L4D2: Fixed forward "L4D2_OnGetScriptValueVector" not returning a vector value and not setting the value when changed.
+	- Fixed forwards "L4D2_OnGetScriptValue*" not working after map change. Thanks to "Forgetest" for reporting.
+
+	- Updated: Plugin and test plugin.
+	- Updated: "left4dhooks.inc" Include file.
+	- Updated: "left4dhooks.l4d2.txt" GameData file.
+	- Updated: "/scripting/l4dd/l4dd_forwards.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_gamedata.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_natives.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_setup.sp" project file.
+
+1.119 (15-Oct-2022)
+	- L4D2: Added a new pointer "POINTER_SCRIPTVM" to the "L4D_GetPointer" native.
+	- L4D2: Added native "L4D2_GetDirectorScriptScope" to get the directors script scope.
+	- L4D2: Added forwards "L4D2_OnGetScriptValueInt", "L4D2_OnGetScriptValueFloat", "L4D2_OnGetScriptValueVector" and "L4D2_OnGetScriptValueVoid" to use a new system of detecting script values. Thanks to "Forgetest" for coding.
+	- L4D2: Added forward "L4D_OnForceSurvivorPositions_Pre" - pre relative to "L4D_OnForceSurvivorPositions" forward. Requested by "gabuch2".
+	- L4D2: Changed native "L4D2_UseAdrenaline" to fire the event even when not healing. Thanks to "HarryPotter" for reporting.
+	- L4D1 Linux: fixed forward "L4D_OnReleaseSurvivorPositions" using the wrong signature. Thanks to "HarryPotter" for reporting.
+	- Added stocks "IsUsingMinigun" and "StopUsingMinigun" in the "left4dhooks_silver.inc" include file. Requested by "knifeeeee".
+	- Added native "L4D_CleanupPlayerState" to clean up a players state. Requested by "knifeeeee".
+
+	- Updated: Plugin and test plugin.
+	- Updated: "left4dhooks.inc" Include file.
+	- Updated: "left4dhooks_silver.inc" Include file.
+	- Updated: "left4dhooks.l4d1.txt" GameData file.
+	- Updated: "left4dhooks.l4d2.txt" GameData file.
+	- Updated: "/scripting/l4dd/l4dd_forwards.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_gamedata.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_natives.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_setup.sp" project file.
+
+1.118 (03-Oct-2022)
+	- Fixed forward "L4D_OnReleaseSurvivorPositions" not being detected when used. Thanks to "gabuch2" for reporting.
+
+	- Updated: Plugin and test plugin.
+	- Updated: "/scripting/l4dd/l4dd_forwards.sp" project file.
+
+1.117 (30-Sep-2022)
+	- Added forward "L4D_OnReleaseSurvivorPositions" to trigger after round start when Survivors are released from starting positions, usually first map and finale escape start, not all maps. Requested by "gabuch2".
+	- Added forwards "L4D_OnSpeakResponseConcept_Pre" and "L4D_OnSpeakResponseConcept_Post" to trigger when a talker response is triggered. Requested by "gabuch2".
+	- Added some details for the "*_Detonate*" forwards in the "left4dhooks.inc" include file
+
+	- Updated: Plugin and test plugin.
+	- Updated: "left4dhooks.inc" Include file.
+	- Updated: "left4dhooks.l4d1.txt" GameData file.
+	- Updated: "left4dhooks.l4d2.txt" GameData file.
+	- Updated: "/scripting/l4dd/l4dd_forwards.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_setup.sp" project file.
+
+1.116 (21-Sep-2022)
+	- L4D1: Fixed GameData missing the "L4D_Molotov_Detonate" and "L4D_PipeBomb_Detonate" forwards data.
+	- L4D2: Fixed native "L4D2_SpitterPrj" crashing the server when playing damage sounds. Thanks to "Marttt" for fixing.
+
+	- Updated: Plugin.
+	- Updated: "left4dhooks.l4d1.txt" GameData file.
+	- Updated: "/scripting/l4dd/l4dd_natives.sp" project file.
+
+1.115 (20-Sep-2022)
+	- Added forward "L4D_OnForceSurvivorPositions" Triggers after round start when Survivors are forced into starting positions, usually first map and finale escape start, not all maps. Requested by "gabuch2".
+	- Added forwards "L4D_Molotov_Detonate", "L4D_PipeBomb_Detonate" and "L4D2_VomitJar_Detonate" with their relative "_Post" and "_PostHandled" forwards to trigger when a grenade projectile is about to explode.
+	- L4D2: Fixed native "L4D2_SpitterPrj" not causing damage sounds when the projectile is not connected with a player from the Special Infected team. Thanks to "Marttt" for reporting.
+	- L4D2: Fixed native "L4D2_UseAdrenaline" to use the "adrenaline_health_buffer" cvar value instead of "pain_pills_health_value" for healing and prevent over-healing. Thanks to "HarryPotter" for fixing.
+	- Fixed stock "L4D_StopReviveAction" from "left4dhooks_silver.inc" include file from throwing errors. Thanks to "Red Flame" for reporting.
+
+	- Updated: Plugin and test plugin.
+	- Updated: "left4dhooks.inc" Include file.
+	- Updated: "left4dhooks_silver.inc" Include file.
+	- Updated: "left4dhooks.l4d1.txt" GameData file.
+	- Updated: "left4dhooks.l4d2.txt" GameData file.
+	- Updated: "/scripting/l4dd/l4dd_natives.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_forwards.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_natives.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_setup.sp" project file.
+
+1.114 (01-Sep-2022)
+	- Added forwards "L4D_OnPlayerCough", "L4D_OnPlayerCough_Post" and "L4D_OnPlayerCough_PostHandled" when a player is coughing from a Smoker Cloud.
+	- Added native "L4D_GoAwayFromKeyboard" to set a client as idle. Requested by "knifeeeee".
+	- Added natives "L4D_GetNavArea_AttributeFlags" and "L4D_SetNavArea_AttributeFlags" to get and set a nav areas attribute flags.
+	- Added natives "L4D_GetNavArea_SpawnAttributes" and "L4D_SetNavArea_SpawnAttributes" to get and set a nav areas spawn attribute flags.
+	- Initial adding of native "L4D2_GetScriptValueString" to return the directors string key values. This crashes when the key has not been set.
+	- Fixed forward "L4D_OnGetScriptValueString" throwing errors.
+
+	- Added missing forwards "L4D2_CInsectSwarm_CanHarm_PostHandled" and "L4D2_OnSpawnWitchBride_PostHandled" to the include file.
+	- Changes to some forwards information in the include file.
+	- Changes to prevent errors throwing from some forwards in the test plugin.
+
+	- Updated: Plugin and test plugin.
+	- Updated: "left4dhooks.inc" Include file.
+	- Updated: "left4dhooks.l4d1.txt" GameData file.
+	- Updated: "left4dhooks.l4d2.txt" GameData file.
+	- Updated: "/scripting/l4dd/l4dd_forwards.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_natives.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_gamedata.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_setup.sp" project file.
+
+1.113 (16-Aug-2022)
+	- Fixed the natives "L4D_GetCheckpointFirst" and "L4D_GetCheckpointLast" not always finding the saferoom door. Thanks to "azureblue" for reporting.
+
+1.112 (15-Aug-2022)
+	- Added native "L4D2_GetScriptValueFloat" to return the directors float key values. See the left4dhooks.inc include file for details.
+	- Changed forwards "L4D_OnGetScriptValueInt" to read and modify the post hook values.
+	- Probably fixed forward "L4D_OnGetScriptValueString" not modifying the return value when changed.
+	- Initial adding of forward "L4D_OnGetScriptValueVector" to return the directors vector key values. This is unused and commented out in code due to not being tested.
+	- Thanks to "Forgetest" for help coding and testing.
+	- Wildcarded the "SurvivorBot::UseHealingItems" signature to prevent conflicts with other plugins.
+
+	- Updated: Plugin and test plugin.
+	- Updated: "left4dhooks.inc" Include file.
+	- Updated: "left4dhooks.l4d1.txt" GameData file.
+	- Updated: "left4dhooks.l4d2.txt" GameData file.
+	- Updated: "/scripting/l4dd/l4dd_forwards.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_natives.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_gamedata.sp" project file.
+	- Updated: "/scripting/l4dd/l4dd_setup.sp" project file.
+
+1.111 (30-Jul-2022)
+	- Fixed native "L4D_GetNearestNavArea" additional params not being backwards compatible with plugins compiled against older versions of left4dhooks. Thanks to "Mr. Man" for reporting.
+
 1.110 (15-Jul-2022)
 	- Added L4D2 native "L4D2_NavAreaBuildPath" to replace the "L4D2_VScriptWrapper_NavAreaBuildPath" native VScript wrapper. Requested by "morzlee". Thanks to "Forgetest" for helping.
 	- Changed native "L4D_GetNearestNavArea" to accept some more parameters. Suggested by "Forgetest".
 
 	- Various minor code changes to adjust for splitting the project (cleaner comments and better error handling when compiling the split project files). Thanks to "Psyk0tik" for some help.
-	- Since adding this native proved how difficult it is jumping around files, I may merge the project again. Or maybe privately and split for release with the batch script I wrote to package the plugin.
 
 	- Updated: Plugin and test plugin.
 	- Updated: "left4dhooks.inc" Include file.

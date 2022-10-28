@@ -68,7 +68,7 @@ public int Native_GetSmokerStatus(Handle plugin, int numParams)
 public void OnPluginStart()
 {
 	g_hSmokerBhop = CreateConVar("ai_SmokerBhop", "1", "是否开启Smoker连跳", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-	g_hSmokerBhopSpeed = CreateConVar("ai_SmokerBhopSpeed", "80.0", "Smoker连跳的速度", FCVAR_NOTIFY, true, 0.0);
+	g_hSmokerBhopSpeed = CreateConVar("ai_SmokerBhopSpeed", "90.0", "Smoker连跳的速度", FCVAR_NOTIFY, true, 0.0);
 	g_hTargetChoose = CreateConVar("ai_SmokerTarget", "1", "Smoker优先选择的目标：1=距离最近，2=手持喷子的人（无则最近），3=落单者或超前者（无则最近），4=正在换弹的人（无则最近）", FCVAR_NOTIFY, true, 1.0, true, 4.0);
 	g_hMeleeAvoid = CreateConVar("ai_SmokerMeleeAvoid", "0", "Smoker的目标如果手持近战则切换目标", FCVAR_NOTIFY, true, 0.0, true, 1.0);
 	g_hSmokerInterval = FindConVar("tongue_hit_delay");
