@@ -1,4 +1,5 @@
 > 因为Caibiii目前比较忙，很难一个人进行维护，商量后觉得闭源很难进行长时间的维护，所以接下来会陆陆续续将部分代码开源，希望有代码能力可以一起参与这个项目，没有代码能力的服主可以提交issues来反馈测试分支碰到的bug，测试版本稳定后会合并到主分支。
+> 由于test分支东和Caibiii都已经不再维护整个架构结构，所以以后将只会提供下面自动更新插件的源码和插件，需要你自己将test分支的插件替换掉[Caibiii维护分支](https://github.com/Caibiii/AnneServer)的对应插件或直接使用[东维护分支](https://github.com/fantasylidong/CompetitiveWithAnne)
 ## 11月修改介绍
 > 11月份的刷特插件修改特别大，4个模式的3个刷特插件合并为infected_control.smx一个插件，而且需要leftdhooks更新为1.120版本以上。其次每个模式的shared_setting需要正确的增加刷特参数的设置才能够正常玩耍
 - ai_tank2.sp 增加了梯子检测功能，并且删除了tank后退动作的连跳处理，修复了tank可能会纵云梯大跳的问题
